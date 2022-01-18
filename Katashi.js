@@ -5880,7 +5880,7 @@ if (args.length < 1) return reply("Nyari apa?");
                     ini_url = await fetchJson(`https://viko-api.herokuapp.com/api/pinterest?query=${query}&apikey=katashi`)
                     ini_url = ini_url.url_download
                     ini_buffer = await getBuffer(ini_url)
-                    await dha.sendMessage(from, ini_buffer, image, { quoted: mek })
+                    await Katashi.sendMessage(from, ini_buffer, image, { quoted: mek })
                     reply(mess.success)
 break
 case 'memes':
@@ -5889,7 +5889,7 @@ case 'memes':
 x = await fetchJson(`https://some-random-api.ml/meme`)
 ini_txt = `Caption : ${x.caption}\n`
 im = await getBuffer(x.image)
-dha.sendMessage(from, im, image, {quoted: mek, caption: ini_txt})
+Katashi.sendMessage(from, im, image, {quoted: mek, caption: ini_txt})
 break
 case 'meme':
 					        if (!isGroup) return reply(mess.only.group);
@@ -5897,8 +5897,18 @@ x = await fetchJson(`https://candaan-api.vercel.app/api/image/random`)
 x = x.data
 ini_txt = `Source : ${x.source}\n`
 im = await getBuffer(x.url)
-dha.sendMessage(from, im, image, {quoted: mek, caption: ini_txt})
+Katashi.sendMessage(from, im, image, {quoted: mek, caption: ini_txt})
 break
+case 'cekbapak': //             
+		    const bapak = ['Wah Mantap Lu Masih Punya Bapack\nPasti Bapack Nya Kuli :v\nAwowkwokwwok\n#Candabos', 'Aowkwwo Disini Ada Yteam :v\nLu Yteam Bro? Awowkwowk\nSabar Bro Ga Punya Bapack\n#Canda', 'Bjir Bapack Mu Ternyata Sudah Cemrai\nSedih Bro Gua Liatnya\nTapi Nih Tapi :v\nTetep Ae Lu Yteam Aowkwowkw Ngakak :v', 'Jangan #cekbapak Mulu Broo :v\nKasian Yang Yteam\nNtar Tersinggung Kan\nYahahaha Hayyuk']
+		    const tai = bapak[Math.floor(Math.random() * bapak.length)]
+		    Katashi.sendMessage(from, tai, text, { quoted: mek })
+			break
+		case 'cekemak': //             
+		    const emak = ['Wah Mantap Lu Masih Punya Emak\nPasti Emaknya Nya Open Bo :v\nAwowkwokwwok\n#Candabos', 'Aowkwwo Disini Ada Piatu :v\nLu Piatu Bro? Awowkwowk\nSabar Bro Ga Punya Emak\n#Canda', 'Bjir Emak Mu Ternyata Sudah Cemrai\nSedih Bro Gua Liatnya\nTapi Nih Tapi :v\nTetep Ae Lu Piatu Aowkwowkw Ngakak :v', 'Jangan CekEmak Mulu Broo :v\nKasian Yang Piatu\nNtar Tersinggung Kan\nYahahaha Hayyuk']
+		    const tahu = emak[Math.floor(Math.random() * emak.length)]
+		    Katashi.sendMessage(from, tahu, text, { quoted: mek })
+			break
 
 
 default:
