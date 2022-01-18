@@ -615,7 +615,7 @@ Katashi.on('CB:action,,call', async json => {
 		const isQuotedSticker = type === 'extendedTextMessage' && content.includes('stickerMessage')
         const troli =  {key: { fromMe: false,remoteJid: "status@broadcast", participant: '0@s.whatsapp.net'}, message: {orderMessage: {itemCount: 300, status: 200, thumbnail: fakeimage, surface: 200, message: fake, orderTitle: 'Katashi', sellerJid: '0@s.whatsapp.net'} } }
         const ftext = {key: {fromMe: false,participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "16505434800@s.whatsapp.net" } : {})},message: { "extendedTextMessage": {"text": `*Hai ${pushname}👋*\n  ${moment().utcOffset('+0700').format('HH:mm:ss')} ${moment.tz('Asia/Jakarta').format('DD/MM/YYYY')}`,"title": `Hmm`,'jpegThumbnail': fs.readFileSync('./media/Katashi3.jpg')}}}
-        const ftoko = {key: {fromMe: false,participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "16505434800@s.whatsapp.net" } : {})},message: {"productMessage": {"product": {"productImage":{"mimetype": "image/jpeg","jpegThumbnail": fs.readFileSync(`./media/Katashi3.jpg`)},"title": `© Zero YT7`,"description": "ℭ𝔯𝔢𝔞𝔱𝔬𝔯 Zero YT7", "currencyCode": "IDR","priceAmount1000": "999999","retailerId": "Zero YT7","productImageCount": 1},"businessOwnerJid": `0@s.whatsapp.net`}}}
+        const ftoko = {key: {fromMe: false,participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "16505434800@s.whatsapp.net" } : {})},message: {"productMessage": {"product": {"productImage":{"mimetype": "image/jpeg","jpegThumbnail": fs.readFileSync(`./media/Katashi3.jpg`)},"title": `© Katashi Hana`,"description": "ℭ𝔯𝔢𝔞𝔱𝔬𝔯 Katashi Hana", "currencyCode": "IDR","priceAmount1000": "999999","retailerId": "Katashi Hana","productImageCount": 1},"businessOwnerJid": `0@s.whatsapp.net`}}}
 
       // Anti link
         if (isGroup && isAntiLink && !isOwner && !isGroupAdmins && isBotGroupAdmins){
@@ -2472,14 +2472,6 @@ Source : ${anu.result.source}
                reply(lirik)
 })
                break
-        case 'pinterest':
-                    if (args.length == 0) return reply(`Example: ${prefix + command} loli kawaii`)
-                    query = args.join(" ")
-                    ini_url = await fetchJson(`https://api.lolhuman.xyz/api/pinterest?apikey=${setting.lolkey}&query=${query}`)
-                    ini_url = ini_url.result
-                    ini_buffer = await getBuffer(ini_url)
-                    await Katashi.sendMessage(from, ini_buffer, image, { quoted: mek })
-                    break      
         case 'shopee':
                try {
                if (args.length == 0) return reply(`Kirim perintah *${prefix}shopee [ query ]*\nContoh : ${prefix}shopee sepatu`)
@@ -2598,7 +2590,7 @@ a += `\`\`\`• Title : ${i.title}\`\`\`
               .then(async (body) => {
                asupann = body.split('\n')
                asupanx = asupann[Math.floor(Math.random() * asupann.length)]
-               sendMediaURL(from, `http://sansekai.my.id/ptl_repost/${asupanx}`, '\`\`\`ASUPAN BRO GUA DAPAT DARI ZERO YT7\`\`\`')
+               sendMediaURL(from, `http://sansekai.my.id/ptl_repost/${asupanx}`, '\`\`\`ASUPAN BRO GUA DAPAT DARI Katashi Hana\`\`\`')
                console.log('Success sending video!')
 })
               .catch(async (err) => {
@@ -3268,7 +3260,7 @@ case 'asupan2':
  case 'pvp':
 if (!mek.key.fromMe && !isOwner) return
 tapib1 = fs.readFileSync('./media/audio/numayei.mp3')
-Katashi.sendMessage(from, tapib1, document, { quoted: mek, filename:`Zero YT7 ~ 404 ${vipi}.mp3`, mimetype: 'audio/application' })
+Katashi.sendMessage(from, tapib1, document, { quoted: mek, filename:`Katashi Hana ~ 404 ${vipi}.mp3`, mimetype: 'audio/application' })
 await reply('Bang mau nanya')
 break  
 case 'pgp':
@@ -5843,7 +5835,7 @@ case 'Infogempa':
                     ini_txt += `Kordinat : ${ini_result.koordinat}\n`
                     ini_txt += `Lokasi : ${ini_result.lokasi}\n`
                     ini_txt += `Potensi : ${ini_result.potensi}`
-                    dha.sendMessage(from, ini_buffer, image, { caption: ini_txt })
+                    Katashi.sendMessage(from, ini_buffer, image, { caption: ini_txt })
 break
 case 'wiki': 
 case 'wikipedia':
@@ -5860,28 +5852,54 @@ sendMediaURL(res[0].thumb, image, {quoted: mek, caption: result}).catch(e => {
 reply(result)
 })
 break
-case "joox":
-        case "jooxdl":
-case "jooxdownload":
-try{
-if (!isGroup) return reply(mess.only.group);
+case "fb":
+        case "facebook":
+case "fbdownload":
+					        if (!isGroup) return reply(mess.only.group);
+if (!isPremium) return reply(`Only Prem`)
 if (args.length < 1) return reply("Nyari apa?");
         query = args.join(" ");
-        teks = '*「 _tiktok_  」*'
-        scrapp.joox(`${query}`).then((res) => {
+        teks = '*「 _FACEBOOK_  」*'
+        fbdownl.getVideoUrl(`${query}`).then((res) => {
         	console.log(res);
-        teks += `*➸ Title:* ${res.data.lagu}\n*➸ Album* : ${res.data.album}\n*➸ Penyanyi* : ${res.data.penyanyi}\n*➸ Publish* : ${res.data.publish}\n*➸ Audio* : ${res.data.audio}\n\n`
-                    aud1 = `${res.data.audio}`
-                    sendMediaURL(from, aud1);
+        teks += `*➸ Hd:* ${res.hd}\n*➸ Sd* : ${res.sd}\n\n`
+                    vid1 = `${res.hd}`
+                    vid2 = `${res.sd}`
+                    sendMediaURL(from, vid1);
+                    sendMediaURL(from, vid2);
           Katashi.sendMessage(from, teks, text, {
             quoted: mek,
             detectLinks: false,
           });
         });
-        } catch (e){
-	reply(mess.error.api)
-}
         break;
+        case 'pinterest':
+					        if (!isGroup) return reply(mess.only.group);
+                    if (args.length == 0) return reply(`Example: ${prefix + command} loli kawaii`)
+                    query = args.join(" ")
+                    ini_url = await fetchJson(`https://viko-api.herokuapp.com/api/pinterest?query=${query}&apikey=katashi`)
+                    ini_url = ini_url.url_download
+                    ini_buffer = await getBuffer(ini_url)
+                    await dha.sendMessage(from, ini_buffer, image, { quoted: mek })
+                    reply(mess.success)
+break
+case 'memes':
+case 'memes':
+					        if (!isGroup) return reply(mess.only.group);
+x = await fetchJson(`https://some-random-api.ml/meme`)
+ini_txt = `Caption : ${x.caption}\n`
+im = await getBuffer(x.image)
+dha.sendMessage(from, im, image, {quoted: mek, caption: ini_txt})
+break
+case 'meme':
+					        if (!isGroup) return reply(mess.only.group);
+x = await fetchJson(`https://candaan-api.vercel.app/api/image/random`)
+x = x.data
+ini_txt = `Source : ${x.source}\n`
+im = await getBuffer(x.url)
+dha.sendMessage(from, im, image, {quoted: mek, caption: ini_txt})
+break
+
 
 default:
 
