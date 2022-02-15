@@ -76,7 +76,9 @@ const scrapp = require('./lib/scrape21.js');
 const igg = require("./lib/indexx.js");
 const hx = require('./lib/downloadig2.js');
 const allinone = require('./lib/aiovideodl.js');
-const reminder = require("./lib/reminder")
+const reminder = require("./lib/reminder.js")
+const fbdl = require("./lib/fbdl.js")
+const spamwa = require("./lib/spamwa.js")
 
 var kuis = false
 hit_today = []
@@ -1555,7 +1557,7 @@ teksnya = `*[ PAYMENT ]*
 case 'buttonstik':
               buttons = [{buttonId: `${prefix}menu ${q}`,buttonText:{displayText: `MENU`},type:1},{buttonId:`${prefix}owner ${q}`,buttonText:{displayText:'ORANG TAMVAN'},type:1}]
               imageMsg = (await Katashi.prepareMessageMedia(fs.readFileSync(`./media/Katashi2.jpg`), 'imageMessage', {thumbnail: fs.readFileSync(`./media/Katashi2.jpg`)})).imageMessage
-              buttonsMessage = {footerText:'*• ${prefix}attp* _teks_\n*• ${prefix}ttp* _teks_\n*• ${prefix}dadu*\n*• ${prefix}doge*\n*• ${prefix}doge*\n*• ${prefix}patrick*\n*• ${prefix}gura*\n*• ${prefix}sticker* _reply foto/video_\n*• ${prefix}smeme* _teks|teks_\n*• ${prefix}swm* _pack|author_\n*• ${prefix}take* _pack|author_\n', imageMessage: imageMsg,
+              buttonsMessage = {footerText:'*• !attp* _teks_\n*• !ttp* _teks_\n*• !dadu*\n*• !doge*\n*• !doge*\n*• !patrick*\n*• !gura*\n*• !sticker* _reply foto/video_\n*• !smeme* _teks|teks_\n*• !swm* _pack|author_\n*• !take* _pack|author_\n', imageMessage: imageMsg,
               contentText:`Silahkan Pilih Menu Yg Akan Di Gunakan kak`,buttons,headerType:4}
               prep = await Katashi.prepareMessageFromContent(from,{buttonsMessage},{quoted: mek})
               Katashi.relayWAMessage(prep)
@@ -1563,7 +1565,7 @@ case 'buttonstik':
  case 'buttondl':
  buttons = [{buttonId: `${prefix}menu ${q}`,buttonText:{displayText: `MENU`},type:1},{buttonId:`${prefix}owner ${q}`,buttonText:{displayText:'ORANG TAMVAN'},type:1}]
               imageMsg = (await Katashi.prepareMessageMedia(fs.readFileSync(`./media/Katashi2.jpg`), 'imageMessage', {thumbnail: fs.readFileSync(`./media/Katashi2.jpg`)})).imageMessage
-              buttonsMessage = {footerText:'*• ${prefix}instagram*\n*• ${prefix}zippyshare*\n*• ${prefix}twitter*\n*• ${prefix}tiktok*\n*• ${prefix}play*\n*• ${prefix}ythd*\n*• ${prefix}soundcloud*\n*• ${prefix}splay*\n*• ${prefix}tiktok*\n*• ${prefix}joox*\n*• ${prefix}mediafire*\n', imageMessage: imageMsg,
+              buttonsMessage = {footerText:'*• !instagram*\n*• !zippyshare*\n*• !twitter*\n*• !tiktok*\n*• !play*\n*• !ythd*\n*• !soundcloud*\n*• !splay*\n*• !tiktok*\n*• !joox*\n*• !mediafire*\n', imageMessage: imageMsg,
               contentText:`Silahkan Pilih Menu Yg Akan Di Gunakan kak`,buttons,headerType:4}
               prep = await Katashi.prepareMessageFromContent(from,{buttonsMessage},{quoted: mek})
               Katashi.relayWAMessage(prep)
@@ -1571,7 +1573,7 @@ case 'buttonstik':
 case 'buttonpen':
 buttons = [{buttonId: `${prefix}menu ${q}`,buttonText:{displayText: `MENU`},type:1},{buttonId:`${prefix}owner ${q}`,buttonText:{displayText:'ORANG TAMVAN'},type:1}]
               imageMsg = (await Katashi.prepareMessageMedia(fs.readFileSync(`./media/Katashi2.jpg`), 'imageMessage', {thumbnail: fs.readFileSync(`./media/Katashi2.jpg`)})).imageMessage
-              buttonsMessage = {footerText:'*• ${prefix}nulis*\nKatashi 𝐶ℎ𝑎𝑛𝑒𝑙᭄𓅂', imageMessage: imageMsg,
+              buttonsMessage = {footerText:'*• !nulis*\nKatashi 𝐶ℎ𝑎𝑛𝑒𝑙᭄𓅂', imageMessage: imageMsg,
               contentText:`Silahkan Pilih Menu Yg Akan Di Gunakan kak`,buttons,headerType:4}
               prep = await Katashi.prepareMessageFromContent(from,{buttonsMessage},{quoted: mek})
               Katashi.relayWAMessage(prep)
@@ -1579,7 +1581,7 @@ buttons = [{buttonId: `${prefix}menu ${q}`,buttonText:{displayText: `MENU`},type
 case 'islammenu':
 buttons = [{buttonId: `${prefix}menu ${q}`,buttonText:{displayText: `MENU`},type:1},{buttonId:`${prefix}owner ${q}`,buttonText:{displayText:'ORANG TAMVAN'},type:1}]
               imageMsg = (await Katashi.prepareMessageMedia(fs.readFileSync(`./media/Katashi2.jpg`), 'imageMessage', {thumbnail: fs.readFileSync(`./media/Katashi2.jpg`)})).imageMessage
-              buttonsMessage = {footerText:'*• ${prefix}kisahnabi*\n*• ${prefix}randomquran*\nKatashi 𝐶ℎ𝑎𝑛𝑒𝑙᭄𓅂', imageMessage: imageMsg,
+              buttonsMessage = {footerText:'*• !kisahnabi*\n*• !randomquran*\nKatashi 𝐶ℎ𝑎𝑛𝑒𝑙᭄𓅂', imageMessage: imageMsg,
               contentText:`Silahkan Pilih Menu Yg Akan Di Gunakan kak`,buttons,headerType:4}
               prep = await Katashi.prepareMessageFromContent(from,{buttonsMessage},{quoted: mek})
               Katashi.relayWAMessage(prep)
@@ -1587,7 +1589,7 @@ buttons = [{buttonId: `${prefix}menu ${q}`,buttonText:{displayText: `MENU`},type
 case 'ceritamenu':
  buttons = [{buttonId: `${prefix}menu ${q}`,buttonText:{displayText: `MENU`},type:1},{buttonId:`${prefix}owner ${q}`,buttonText:{displayText:'ORANG TAMVAN'},type:1}]
               imageMsg = (await Katashi.prepareMessageMedia(fs.readFileSync(`./media/Katashi2.jpg`), 'imageMessage', {thumbnail: fs.readFileSync(`./media/Katashi2.jpg`)})).imageMessage
-              buttonsMessage = {footerText:'*• ${prefix}randomcerpen*\n*• ${prefix}cerpen*\n*• ${prefix}cersex*\n*• ${prefix}ceritahoror*\n*• ${prefix}ceritacinta*\nKatashi 𝐶ℎ𝑎𝑛𝑒𝑙᭄𓅂', imageMessage: imageMsg,
+              buttonsMessage = {footerText:'*• !randomcerpen*\n*• !cerpen*\n*• !cersex*\n*• !ceritahoror*\n*• !ceritacinta*\nKatashi 𝐶ℎ𝑎𝑛𝑒𝑙᭄𓅂', imageMessage: imageMsg,
               contentText:`Silahkan Pilih Menu Yg Akan Di Gunakan kak`,buttons,headerType:4}
               prep = await Katashi.prepareMessageFromContent(from,{buttonsMessage},{quoted: mek})
               Katashi.relayWAMessage(prep)
@@ -1595,7 +1597,7 @@ case 'ceritamenu':
 case 'katamenu':
  buttons = [{buttonId: `${prefix}menu ${q}`,buttonText:{displayText: `MENU`},type:1},{buttonId:`${prefix}owner ${q}`,buttonText:{displayText:'ORANG TAMVAN'},type:1}]
               imageMsg = (await Katashi.prepareMessageMedia(fs.readFileSync(`./media/Katashi2.jpg`), 'imageMessage', {thumbnail: fs.readFileSync(`./media/Katashi2.jpg`)})).imageMessage
-              buttonsMessage = {footerText:'*• ${prefix}quotesislam*\n*• ${prefix}tongue*\n*• ${prefix}infounik*\n*• ${prefix}fake*\n*• ${prefix}quot*\n*• ${prefix}katacinta*\n*• ${prefix}renungan*\n*• ${prefix}katailham*\n*• ${prefix}kuadrat*\n*• ${prefix}kubik*\n*• ${prefix}gabut*\n*• ${prefix}translate*\n*• ${prefix}katajago*\nKatashi 𝐶ℎ𝑎𝑛𝑒𝑙᭄𓅂', imageMessage: imageMsg,
+              buttonsMessage = {footerText:'*• !quotesislam*\n*• !tongue*\n*• !infounik*\n*• !fake*\n*• !quot*\n*• !katacinta*\n*• !renungan*\n*• !katailham*\n*• !kuadrat*\n*• !kubik*\n*• !gabut*\n*• !translate*\n*• !katajago*\nKatashi 𝐶ℎ𝑎𝑛𝑒𝑙᭄𓅂', imageMessage: imageMsg,
               contentText:`Silahkan Pilih Menu Yg Akan Di Gunakan kak`,buttons,headerType:4}
               prep = await Katashi.prepareMessageFromContent(from,{buttonsMessage},{quoted: mek})
               Katashi.relayWAMessage(prep)
@@ -1603,7 +1605,7 @@ case 'katamenu':
 case 'dewasamenu':
 buttons = [{buttonId: `${prefix}menu ${q}`,buttonText:{displayText: `MENU`},type:1},{buttonId:`${prefix}owner ${q}`,buttonText:{displayText:'ORANG TAMVAN'},type:1}]
               imageMsg = (await Katashi.prepareMessageMedia(fs.readFileSync(`./media/Katashi2.jpg`), 'imageMessage', {thumbnail: fs.readFileSync(`./media/Katashi2.jpg`)})).imageMessage
-              buttonsMessage = {footerText:'*• ${prefix}xnxx* _Link_\n*• ${prefix}xnxxsearch _Apa yang mau di cari?_\n*• ${prefix}xvideos* _Link_\n*• ${prefix}xvideossearch _Apa yang mau di cari?_\n*• ${prefix}nhentai* _Kode_\n*• ${prefix}bokep* \n*• ${prefix}hentaivid *\n*• ${prefix}gore*\n*• ${prefix}ambiyah*\n*• ${prefix}randombokep3*\n*• ${prefix}randombokep2*\n\nKatashi 𝐶ℎ𝑎𝑛𝑒𝑙᭄𓅂', imageMessage: imageMsg,
+              buttonsMessage = {footerText:'*• !xnxx* _Link_\n*• !xnxxsearch _Apa yang mau di cari?_\n*• !xvideos* _Link_\n*• !xvideossearch _Apa yang mau di cari?_\n*• !nhentai* _Kode_\n*• !bokep* \n*• !hentaivid *\n*• !gore*\n*• !ambiyah*\n*• !randombokep3*\n*• !randombokep2*\n\nKatashi 𝐶ℎ𝑎𝑛𝑒𝑙᭄𓅂', imageMessage: imageMsg,
               contentText:`Silahkan Pilih Menu Yg Akan Di Gunakan kak`,buttons,headerType:4}
               prep = await Katashi.prepareMessageFromContent(from,{buttonsMessage},{quoted: mek})
               Katashi.relayWAMessage(prep)
@@ -1643,7 +1645,7 @@ case 'toolsmenu':
 case 'buttongame':
 buttons = [{buttonId: `${prefix}menu ${q}`,buttonText:{displayText: `MENU`},type:1},{buttonId:`${prefix}owner ${q}`,buttonText:{displayText:'ORANG TAMVAN'},type:1}]
               imageMsg = (await Katashi.prepareMessageMedia(fs.readFileSync(`./media/Katashi2.jpg`), 'imageMessage', {thumbnail: fs.readFileSync(`./media/Katashi2.jpg`)})).imageMessage
-              buttonsMessage = {footerText:'*• ${prefix}limitgame*\n*• ${prefix}slot*\n*• ${prefix}gelud* _@tag_\n*• ${prefix}tictactoe* _@tag_\n*• ${prefix}caklontong*\n*• ${prefix}tebakgambar*\n*• ${prefix}suit* _batu/kertas/gunting_\nKatashi 𝐶ℎ𝑎𝑛𝑒𝑙᭄𓅂', imageMessage: imageMsg,
+              buttonsMessage = {footerText:'*• !limitgame*\n*• !slot*\n*• !gelud* _@tag_\n*• !tictactoe* _@tag_\n*• !caklontong*\n*• !tebakgambar*\n*• !suit* _batu/kertas/gunting_\nKatashi 𝐶ℎ𝑎𝑛𝑒𝑙᭄𓅂', imageMessage: imageMsg,
               contentText:`Silahkan Pilih Menu Yg Akan Di Gunakan kak`,buttons,headerType:4}
               prep = await Katashi.prepareMessageFromContent(from,{buttonsMessage},{quoted: mek})
               Katashi.relayWAMessage(prep)
@@ -1651,7 +1653,7 @@ buttons = [{buttonId: `${prefix}menu ${q}`,buttonText:{displayText: `MENU`},type
 case 'buttongc':
 buttons = [{buttonId: `${prefix}menu ${q}`,buttonText:{displayText: `MENU`},type:1},{buttonId:`${prefix}owner ${q}`,buttonText:{displayText:'ORANG TAMVAN'},type:1}]
               imageMsg = (await Katashi.prepareMessageMedia(fs.readFileSync(`./media/Katashi2.jpg`), 'imageMessage', {thumbnail: fs.readFileSync(`./media/Katashi2.jpg`)})).imageMessage
-              buttonsMessage = {footerText:'*• ${prefix}groupsetting*\n*• ${prefix}getbio* _reply_\n*• ${prefix}afk* _alasan_\n*• ${prefix}kontak* _nomor|nama_\n*• ${prefix}ceksewa*\n*• ${prefix}kickall*\n*• ${prefix}infogrup*\n*• ${prefix}promote*\n*• ${prefix}promoteall*\n*• ${prefix}demote*\n*• ${prefix}demoteall*\n*• ${prefix}listonline*\n*• ${prefix}tagall* _teks_\n*• ${prefix}leave*\n*• ${prefix}kick* _reply_\n*• ${prefix}add* _628xxx_\n*• ${prefix}setnamegc*\n*• ${prefix}setppgc*\n*• ${prefix}getpp*\n*• ${prefix}setdeskgc*\n*• ${prefix}sider* _reply chat bot_\n*• ${prefix}hidetag* _teks/reply teks_\n*• ${prefix}linkgc*\n*• ${prefix}getdeskgc*\n*• ${prefix}reminder* _text/waktu\n\nKatashi 𝐶ℎ𝑎𝑛𝑒𝑙᭄𓅂', imageMessage: imageMsg,
+              buttonsMessage = {footerText:'*• !groupsetting*\n*• !getbio* _reply_\n*• !afk* _alasan_\n*• !kontak* _nomor|nama_\n*• !ceksewa*\n*• !kickall*\n*• !infogrup*\n*• !promote*\n*• !promoteall*\n*• !demote*\n*• !demoteall*\n*• !listonline*\n*• !tagall* _teks_\n*• !leave*\n*• !kick* _reply_\n*• !add* _628xxx_\n*• !setnamegc*\n*• !setppgc*\n*• !getpp*\n*• !setdeskgc*\n*• !sider* _reply chat bot_\n*• !hidetag* _teks/reply teks_\n*• !linkgc*\n*• !getdeskgc*\n*• !reminder* _text/waktu\n\nKatashi 𝐶ℎ𝑎𝑛𝑒𝑙᭄𓅂', imageMessage: imageMsg,
               contentText:`Silahkan Pilih Menu Yg Akan Di Gunakan kak`,buttons,headerType:4}
               prep = await Katashi.prepareMessageFromContent(from,{buttonsMessage},{quoted: mek})
               Katashi.relayWAMessage(prep)
@@ -1659,7 +1661,7 @@ buttons = [{buttonId: `${prefix}menu ${q}`,buttonText:{displayText: `MENU`},type
 case 'buttonwibu':
 buttons = [{buttonId: `${prefix}menu ${q}`,buttonText:{displayText: `MENU`},type:1},{buttonId:`${prefix}owner ${q}`,buttonText:{displayText:'ORANG TAMVAN'},type:1}]
               imageMsg = (await Katashi.prepareMessageMedia(fs.readFileSync(`./media/Katashi2.jpg`), 'imageMessage', {thumbnail: fs.readFileSync(`./media/Katashi2.jpg`)})).imageMessage
-              buttonsMessage = {footerText:'*• ${prefix}loli*\n*• ${prefix}manga*\n*• ${prefix}anime*\n*• ${prefix}lolivideo*\n*• ${prefix}husbu*\n*• ${prefix}waifu*\n*• ${prefix}milf*\n*• ${prefix}neko*\n*• ${prefix}kanna*\n*• ${prefix}sagiri*\n*• ${prefix}hentai*\n*• ${prefix}cosplay*\n*• ${prefix}wallnime*\n*• ${prefix}kusonime*\n*• ${prefix}megumin*\n*• ${prefix}kusonime*\n*• ${prefix}megumin*\n*• ${prefix}otakudesu*\n*• ${prefix}otakuongoing*\n*• ${prefix}neko*\n*• ${prefix}gura*\n*• ${prefix}kaneki*\n*• ${prefix}lolim*\n*• ${prefix}remm*\n*• ${prefix}vanpire*\n*• ${prefix}cosplay2* \n*• ${prefix}waifu*\n*• ${prefix}anoboys* _Cari Apa?_\n*• ${prefix}dewabatch* _Cari Apa?_\nKatashi 𝐶ℎ𝑎𝑛𝑒𝑙᭄𓅂', imageMessage: imageMsg,
+              buttonsMessage = {footerText:'*• !loli*\n*• !manga*\n*• !anime*\n*• !lolivideo*\n*• !husbu*\n*• !waifu*\n*• !milf*\n*• !neko*\n*• !kanna*\n*• !sagiri*\n*• !hentai*\n*• !cosplay*\n*• !wallnime*\n*• !kusonime*\n*• !megumin*\n*• !kusonime*\n*• !megumin*\n*• !otakudesu*\n*• !otakuongoing*\n*• !neko*\n*• !gura*\n*• !kaneki*\n*• !lolim*\n*• !remm*\n*• !vanpire*\n*• !cosplay2* \n*• !waifu*\n*• !anoboys* _Cari Apa?_\n*• !dewabatch* _Cari Apa?_\nKatashi 𝐶ℎ𝑎𝑛𝑒𝑙᭄𓅂', imageMessage: imageMsg,
               contentText:`Silahkan Pilih Menu Yg Akan Di Gunakan kak`,buttons,headerType:4}
               prep = await Katashi.prepareMessageFromContent(from,{buttonsMessage},{quoted: mek})
               Katashi.relayWAMessage(prep)
@@ -1667,7 +1669,7 @@ buttons = [{buttonId: `${prefix}menu ${q}`,buttonText:{displayText: `MENU`},type
 case 'buttonown':
 buttons = [{buttonId: `${prefix}menu ${q}`,buttonText:{displayText: `MENU`},type:1},{buttonId:`${prefix}owner ${q}`,buttonText:{displayText:'ORANG TAMVAN'},type:1}]
               imageMsg = (await Katashi.prepareMessageMedia(fs.readFileSync(`./media/Katashi2.jpg`), 'imageMessage', {thumbnail: fs.readFileSync(`./media/Katashi2.jpg`)})).imageMessage
-              buttonsMessage = {footerText:'*• ${prefix}bc* _teks_\n*• ${prefix}tobc* _audio_\n*• ${prefix}term*\n*• ${prefix}eval*\n*• ${prefix}clearall*\n*• ${prefix}leaveall*\n*• ${prefix}join* _teks_\n*• ${prefix}shutdown*\n*• ${prefix}getquoted*\n*• ${prefix}addupdate* _fiturnya_\n*• ${prefix}exif* _nama|author_\n*• ${prefix}sewa add/del* _waktunya_\n*• ${prefix}premium add* _@tag|nomor_\n*• ${prefix}premium del* _@tag|nomor_\n*• ${prefix}setpp*\n*• ${prefix}setbio*\n*• ${prefix}setname*\n*• ${prefix}getpp*\n*• ${prefix}sharelock*\n*• ${prefix}chat* _nomor|teks_\n*• ${prefix}delchat*\n*• ${prefix}unarchiveall*\n*• ${prefix}readall*\n*• ${prefix}unreadall*\n*• ${prefix}archive*\n*• ${prefix}unpin*\nKatashi 𝐶ℎ𝑎𝑛𝑒𝑙᭄𓅂', imageMessage: imageMsg,
+              buttonsMessage = {footerText:'*• !bc* _teks_\n*• !tobc* _audio_\n*• !term*\n*• !eval*\n*• !clearall*\n*• !leaveall*\n*• !join* _teks_\n*• !shutdown*\n*• !getquoted*\n*• !addupdate* _fiturnya_\n*• !exif* _nama|author_\n*• !sewa add/del* _waktunya_\n*• !premium add* _@tag|nomor_\n*• !premium del* _@tag|nomor_\n*• !setpp*\n*• !setbio*\n*• !setname*\n*• !getpp*\n*• !sharelock*\n*• !chat* _nomor|teks_\n*• !delchat*\n*• !unarchiveall*\n*• !readall*\n*• !unreadall*\n*• !archive*\n*• !unpin*\nKatashi 𝐶ℎ𝑎𝑛𝑒𝑙᭄𓅂', imageMessage: imageMsg,
               contentText:`Silahkan Pilih Menu Yg Akan Di Gunakan kak`,buttons,headerType:4}
               prep = await Katashi.prepareMessageFromContent(from,{buttonsMessage},{quoted: mek})
               Katashi.relayWAMessage(prep)
@@ -2883,8 +2885,11 @@ case 'Xs2':
 if (!isPremium) return reply(`Only Prem`)
 if (args.length == 0) return reply(`Example: ${prefix + command} query`)
                     c = args[0]
-pepex = await fetchJson(`https://kocakz.herokuapp.com/api/media/xnxx/search?query=${c}`)
-sticWait(from)
+pepex = await fetchJson(`https://kocakz.herokuapp.com/api/media/xnxx/search?query=${c}`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
 pepex = pepex.result
 ini_txt = ""
 for (var x of pepex) {
@@ -3784,7 +3789,11 @@ break
               break
 case 'jamdunia':
 					        if (!isGroup) return reply(mess.only.group);
-                    get_result = await fetchJson(`https://myselfff.herokuapp.com/docs/information/jamdunia`)
+                    get_result = await fetchJson(`https://myselfff.herokuapp.com/docs/information/jamdunia`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
                     get_result = get_result.result
                     teks = `*JAM DUNIA*\n\n➸ Wib : ${get_result.wib}\n➸ Wita : ${get_result.wita}\n➸ Wit : ${get_result.wit}\n➸ Matahari : ${get_result.matahari}\n➸ Tanggal : ${get_result.tanggal}\n➸ Detail : ${get_result.detail}\n`
               Katashi.sendMessage(from, teks, text, {quoted: ftoko})
@@ -3792,7 +3801,11 @@ case 'jamdunia':
 break
        case 'cekmati':
               if (!q) return reply(mess.wrongFormat)
-              predea = await axios.get(`https://api.agify.io/?name=${q}`)
+              predea = await axios.get(`https://api.agify.io/?name=${q}`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
               reply(`Nama : ${predea.data.name}\n*Mati Pada Umur :* ${predea.data.age} Tahun.\n\n_Cepet Cepet Tobat Bro Soalnya Mati ga ada yang tau_`)
               break
        case 'toxic':
@@ -4045,7 +4058,11 @@ case 'apikey':
 					        if (!isGroup) return reply(mess.only.group);
                     if (args.length == 0) return reply(`Example: ${prefix + command} apikeynya`)
                     query = args.join(" ")
-                    get_result = await fetchJson(`https://viko-api.herokuapp.com/api/cekapikey?apikey=${query}`)
+                    get_result = await fetchJson(`https://viko-api.herokuapp.com/api/cekapikey?apikey=${query}`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
                     sticWait(from)
                     ini_txt = `Status : ${get_result.status}\n`
                     ini_txt += `Creator : ${get_result.creator}\n`
@@ -4056,13 +4073,21 @@ case 'apikey':
 break
 case 'cekapikey':
               if (!isOwner) return reply('*Only Admin bot*')
-              anu = await fetchJson(`https://leyscoders-api.herokuapp.com/api/cekapikey?apikey=MIMINGANZ`)
+              anu = await fetchJson(`https://leyscoders-api.herokuapp.com/api/cekapikey?apikey=MIMINGANZ`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
               teks = `*YOUR APIKEY*\n\n➸ Ussername= ${anu.result.apikey}\n➸ Request= ${anu.result.hit}\n`
               Katashi.sendMessage(from, teks, text, {quoted: troli})
               break
 case 'cekapikey2':
               if (!isOwner) return reply('*Only Admin bot*')
-              anu = await fetchJson(`https://leyscoders-api.herokuapp.com/api/cekapikey?apikey=dappakntlll`)
+              anu = await fetchJson(`https://leyscoders-api.herokuapp.com/api/cekapikey?apikey=dappakntlll`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
               teks = `*YOUR APIKEY*\n\n➸ Ussername= ${anu.result.apikey}\n➸ Request= ${anu.result.hit}\n`
               Katashi.sendMessage(from, teks, text, {quoted: troli})
               break
@@ -4158,7 +4183,11 @@ case 'surahaudio':
 					        if (!isGroup) return reply(mess.only.group);
 if (args.length == 0) return reply(`Surah Ke?`)
                     query = args.join(" ")	
-x = await getBuffer(`https://zenzapi.xyz/api/quran/audio/${query}?apikey=Katashi`)
+x = await getBuffer(`https://zenzapi.xyz/api/quran/audio/${query}?apikey=Katashi`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
 sticWait(from)
 Katashi.sendMessage(from, x, audio, {mimetype: 'audio/mp4', ptt:true, quoted: mek})
 reply("Success")
@@ -4170,7 +4199,11 @@ case 'Ayataudio':
 					makell = args.join(" ")
 					r1 = makell.split("|")[0];
 					r2 = makell.split("|")[1];
-u = await fetchJson(`https://zenzapi.xyz/api/quran/audio/${r1}/${r2}?apikey=Katashi`)
+u = await fetchJson(`https://zenzapi.xyz/api/quran/audio/${r1}/${r2}?apikey=Katashi`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
 sticWait(from)
 ookk = await getBuffer(u.result.audio)
 Katashi.sendMessage(from, ookk, audio, {mimetype: 'audio/mp4', ptt:true, quoted: mek})
@@ -4182,7 +4215,11 @@ case 'Kisahnabi':
 					        if (!isGroup) return reply(mess.only.group);
                     if (args.length == 0) return reply(`Example: ${prefix + command} Muhammad`)
                     query = args.join(" ")
-                    get_result = await fetchJson(`https://viko-api.herokuapp.com/api/muslim/kisahnabi?nabi=${query}&apikey=katashi`)
+                    get_result = await fetchJson(`https://viko-api.herokuapp.com/api/muslim/kisahnabi?nabi=${query}&apikey=katashi`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
                     get_result = get_result.result
                     sticWait(from)
                     ini_txt = `Name : ${get_result.name}\n`
@@ -4200,14 +4237,22 @@ break
 case 'randomcerpen':
 case 'Randomcerpen':	
 					        if (!isGroup) return reply(mess.only.group);
-					data = await fetchJson(`https://viko-api.herokuapp.com/api/cerpen/random?apikey=katashi`)
+					data = await fetchJson(`https://viko-api.herokuapp.com/api/cerpen/random?apikey=katashi`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
 					reply(data.result)
 					reply("Success")
 break
 case 'cerpen':
                 case 'Cerpen':
 					        if (!isGroup) return reply(mess.only.group);
-                    get_result = await fetchJson(`https://docs-jojo.herokuapp.com/api/cerpen`)
+                    get_result = await fetchJson(`https://docs-jojo.herokuapp.com/api/cerpen`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
                     get_result = get_result.result
                     ini_txt = `Title : ${get_result.title}\n`
                     ini_txt += `Creator : ${get_result.pengarang}\n`
@@ -4219,7 +4264,11 @@ break
 case 'cersex':
                 case 'Cersex':
 					        if (!isGroup) return reply(mess.only.group);
-                    get_result = await fetchJson(`https://docs-jojo.herokuapp.com/api/cersex`)
+                    get_result = await fetchJson(`https://docs-jojo.herokuapp.com/api/cersex`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
                     get_result = get_result.result
                     ini_txt = `Title : ${get_result.judul}\n`
                     ini_txt += `Img : ${get_result.img}\n`
@@ -4231,7 +4280,11 @@ break
 case 'cerpencinta':
 case 'ceritacinta':	
 					        if (!isGroup) return reply(mess.only.group);
-					data = await fetchJson(`https://viko-api.herokuapp.com/api/cerpen/cinta?apikey=katashi`)
+					data = await fetchJson(`https://viko-api.herokuapp.com/api/cerpen/cinta?apikey=katashi`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
 					reply(data.result)
 					reply(mess.success)
 					reply("Success")
@@ -4239,7 +4292,11 @@ break
                      case 'cerpenhoror':
                 case 'ceritahoror':
 					        if (!isGroup) return reply(mess.only.group);
-                    get_result = await fetchJson(`https://leyscoders-api.herokuapp.com/api/cerita-horor?apikey=dappakntlll`)
+                    get_result = await fetchJson(`https://leyscoders-api.herokuapp.com/api/cerita-horor?apikey=dappakntlll`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
                     get_result = get_result.result
                     teks = `*CERPEN HOROR*\n\n➸ Title : ${get_result.title}\n➸ Story : ${get_result.desc}\n`
               Katashi.sendMessage(from, teks, text, {quoted: ftoko})
@@ -4250,7 +4307,11 @@ break
 case 'quotesislam':
 case 'Quotesislam':
 					        if (!isGroup) return reply(mess.only.group);
-					data = await fetchJson(`https://viko-api.herokuapp.com/api/random/quotes/muslim?apikey=katashi`)
+					data = await fetchJson(`https://viko-api.herokuapp.com/api/random/quotes/muslim?apikey=katashi`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
 					reply(data.result.text_id)
 					reply("Success")
 break
@@ -4258,14 +4319,22 @@ case 'katacinta':
 case 'Katacinta':
 					        if (!isGroup) return reply(mess.only.group);
 					gatauda = body.slice(8)
-					anu = await fetchJson(`https://docs-jojo.herokuapp.com/api/katacinta`, {method: 'get'})
+					anu = await fetchJson(`https://docs-jojo.herokuapp.com/api/katacinta`, {method: 'get'}).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
 					reply(anu.result)
 					reply("Success")
 break  
 case 'faktaunik':
 case 'fakta':
 					        if (!isGroup) return reply(mess.only.group);
-x = await fetchJson(`https://docs-jojo.herokuapp.com/api/fakta-unik`)
+x = await fetchJson(`https://docs-jojo.herokuapp.com/api/fakta-unik`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
 Katashi.sendMessage(from, `${x.result}`, text)
 reply(mess.success)
 reply("Success")
@@ -4273,7 +4342,11 @@ break
 case 'tongue':  
 case 'Tongue':
   if (!isGroup) return reply(mess.only.group);
-                   anu = await fetchJson(`https://docs-jojo.herokuapp.com/api/tongue_twister`)
+                   anu = await fetchJson(`https://docs-jojo.herokuapp.com/api/tongue_twister`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
                    anu1 = ` *NIHH* : ${anu.result}`
                    reply(anu1)
                    reply("Success")
@@ -4281,7 +4354,11 @@ break
 case 'renungan':  
       case 'Renungan':
   if (!isGroup) return reply(mess.only.group);
-                   anu = await fetchJson(`https://docs-jojo.herokuapp.com/api/renungan`)
+                   anu = await fetchJson(`https://docs-jojo.herokuapp.com/api/renungan`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
                    anu1 = ` *JUDUL* : ${anu.judul}\n`
                    anu1 += ` *PESAN* : ${anu.pesan}\n`
                    anu1 += ` *DESC* : ${anu.Isi}\n`
@@ -4291,7 +4368,11 @@ break
 case 'fake':  
       case 'Fake':  
 					        if (!isGroup) return reply(mess.only.group);
-                   anu = await fetchJson(`https://docs-jojo.herokuapp.com/api/fake_identity`)
+                   anu = await fetchJson(`https://docs-jojo.herokuapp.com/api/fake_identity`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
                    anu1 = ` *NAMA* : ${anu.name}\n`
                    anu1 += ` *GENDER* : ${anu.gender}\n` 
                    anu1 += ` *AGE* : ${anu.age}\n`
@@ -4317,7 +4398,11 @@ case 'fake':
 break
 case 'quot':
 if (!isGroup) return reply(mess.only.group);
-              teks = await fetchJson(`https://gist.githubusercontent.com/natebass/b0a548425a73bdf8ea5c618149fe1fce/raw/f4231cd5961f026264bb6bb3a6c41671b044f1f4/quotes.json`)
+              teks = await fetchJson(`https://gist.githubusercontent.com/natebass/b0a548425a73bdf8ea5c618149fe1fce/raw/f4231cd5961f026264bb6bb3a6c41671b044f1f4/quotes.json`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
               sticWait(from)
               await sleep(1000)
                rjppp = teks[Math.floor(Math.random() * teks.length)];
@@ -4377,7 +4462,11 @@ case 'kubik':
 					        if (!isGroup) return reply(mess.only.group);
 if (args.length == 0) return reply(`Angkanya?`)
                     c = args.join(" ")
-x = await fetchJson(`https://leyscoders-api.herokuapp.com/api/bdr/kubik?q=${c}&apikey=MIMINGANZ`)
+x = await fetchJson(`https://leyscoders-api.herokuapp.com/api/bdr/kubik?q=${c}&apikey=MIMINGANZ`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
 Katashi.sendMessage(from, `${x.result}`, text, {quoted: mek})
 reply("Success")
 break
@@ -4385,7 +4474,11 @@ case 'kuadrat':
 					        if (!isGroup) return reply(mess.only.group);
 if (args.length == 0) return reply(`Angkanya?`)
                     c = args.join(" ")
-x = await fetchJson(`https://leyscoders-api.herokuapp.com/api/bdr/kuadrat?q=${c}&apikey=MIMINGANZ`)
+x = await fetchJson(`https://leyscoders-api.herokuapp.com/api/bdr/kuadrat?q=${c}&apikey=MIMINGANZ`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
 Katashi.sendMessage(from, `${x.result}`, text, {quoted: mek})
 reply("Success")
 break
@@ -4393,27 +4486,15 @@ case 'katajago':
                 if (args.length == 0) return reply(`Example: ${prefix + command} ganteng`)
                     query = args.join(" ")
 					        if (!isGroup) return reply(mess.only.group);
-                    get_result = await fetchJson(`https://myselfff.herokuapp.com/docs/random/katajago?query=${query}`)
+                    get_result = await fetchJson(`https://myselfff.herokuapp.com/docs/random/katajago?query=${query}`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
                     get_result = get_result.result
                     ini_txt = `List : ${get_result.list}\n`
                     reply(ini_txt)
                     reply("Success")
-break
-case 'gabut':
-case 'Gabut':
-					        if (!isGroup) return reply(mess.only.group);
-					data = await fetchJson(`https://katashi-api.herokuapp.com/api/gabut?apikey=Katashibot`)
-					reply(data.result.activity)
-					reply("Success")
-break
-case 'translate':
-case 'Translate':
-					        if (!isGroup) return reply(mess.only.group);
-if (args.length == 0) return reply(`kasih teks lah^_^!!\nJangan lupa , imi translatenya dari eng ke indo`)
-                    query = args.join(" ")	
-					data = await fetchJson(`https://katashi-api.herokuapp.com/api/translate?kata=${query}&apikey=Katashibot`)
-					reply(data.result)
-					reply("Success")
 break
 //------------------< enable/disable>-------------------
 case 'closetime':  
@@ -4799,7 +4880,11 @@ if (!isPremium) return reply(mess.only.premium)
 					        if (!isGroup) return reply(mess.only.group);
                     if (args.length == 0) return reply(`Example: ${prefix + command} https://open.spotify.com/track/0ZEYRVISCaqz5yamWZWzaA`)
                     url = args[0]
-                    get_result = await fetchJson(`https://zenzapi.xyz/api/spotify?url=${url}&apikey=Katashi`)
+                    get_result = await fetchJson(`https://zenzapi.xyz/api/spotify?url=${url}&apikey=Katashi`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
                     get_result = get_result.data
                     ini_txt = `Title : ${get_result.name}\n`
                     ini_txt += `Artists : ${get_result.artists}\n`
@@ -4817,7 +4902,11 @@ case 'fotokeren':
 if (args.length == 0) return reply(`Example: ${prefix + command} Genshin`)
                     query = args.join(" ")
 					        if (!isGroup) return reply(mess.only.group);
-x = await getBuffer(`https://tyz-api.herokuapp.com/search/Katashicoders?query=${query}`)
+x = await getBuffer(`https://tyz-api.herokuapp.com/search/alphacoders?query=${query}`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
 Katashi.sendMessage(from, x, image, {quoted: mek})
 reply("Success")
 break
@@ -4832,7 +4921,11 @@ case 'Putra':
 					        if (!isGroup) return reply(mess.only.group);
 if (args.length == 0) return reply(`kamu ganteng`)
                     c = args.join(" ")
-x = await fetchJson(`https://api.simsimi.net/v2/?text=${c}&lc=id`)
+x = await fetchJson(`https://api.simsimi.net/v2/?text=${c}&lc=id`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
 Katashi.sendMessage(from, `${x.success}`, text, {quoted: mek})
 reply("Success")
 break
@@ -4852,7 +4945,11 @@ case 'Pastebin':
 					        if (!isGroup) return reply(mess.only.group);
 if (args.length == 0) return reply(`Example: ${prefix + command} katashi hana`)
                     query = args.join(" ")
-anu = await fetchJson(`https://api-anoncybfakeplayer.herokuapp.com/pastebin?text=${query}`, {method: 'get'})
+anu = await fetchJson(`https://api-anoncybfakeplayer.herokuapp.com/pastebin?text=${query}`, {method: 'get'}).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
                    Katashi.sendMessage(from, `${anu.result}`, text, {quoted: mek
 
 })
@@ -4883,7 +4980,11 @@ break
                     if (args.length == 0) return reply(`Example: ${prefix + command} Doraemon`)
                     query = args.join(" ")
                         sticWait(from)
-                        res = await axios.get(`https://api.zeks.me/api/film?apikey=CpGSLymOQy9KfTKgQZr9eDSYqqR&q=${query}`)
+                        res = await axios.get(`https://api.zeks.me/api/film?apikey=CpGSLymOQy9KfTKgQZr9eDSYqqR&q=${query}`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
                         ttt = res.data.result
                         var teks = `* FILM *\n\n*Hasil Pencarian : ${query}*\n\n`
                         for(let i = 0; i < ttt.length; i++) {
@@ -4897,7 +4998,11 @@ break
 					        if (!isGroup) return reply(mess.only.group);
                     if (args.length == 0) return reply(`Example: ${prefix + command} pubg`)
                     query = args.join(" ")
-                        res = await axios.get(`https://api.zeks.me/api/happymod?apikey=CpGSLymOQy9KfTKgQZr9eDSYqqR&q=${query}`)
+                        res = await axios.get(`https://api.zeks.me/api/happymod?apikey=CpGSLymOQy9KfTKgQZr9eDSYqqR&q=${query}`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
                         ttt = res.data.result
                         var teks = `* HAPPYMOD *\n\n*Hasil Pencarian : ${query}*\n\n`
                         for(let i = 0; i < ttt.length; i++) {
@@ -4911,7 +5016,11 @@ case 'carimasakan':
 					        if (!isGroup) return reply(mess.only.group);
                         if (args.length == 0) return reply(`Example: ${prefix + command} katashi hana`)
                     query = args.join(" ")
-                        res = await fetchJson(`https://mnazria.herokuapp.com/api/resep-search?text=${query}`)
+                        res = await fetchJson(`https://mnazria.herokuapp.com/api/resep-search?text=${query}`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
                         ttt = res.results
                         var tst = `* CARI MASAKAN *\n\n*Hasil Pencarian : ${body}*\n\n`
                         for(let i = 0; i < ttt.length; i++) {
@@ -4926,6 +5035,8 @@ case 'Spamcall':
 if (!isPremium) return reply(`Only Prem`)
                     if (args.length == 0) return reply(`Example: ${prefix + command} 8303030303030`)
                     nomor = args[0]
+                    reply(mess.wait)
+                    await sleep(5000)
                     await axios.get(`https://id.jagreward.com/member/verify-mobile/${nomor}`)
                     await axios.get(`https://id.jagreward.com/member/verify-mobile/${nomor}`)
                     await axios.get(`https://id.jagreward.com/member/verify-mobile/${nomor}`)
@@ -4936,7 +5047,6 @@ if (!isPremium) return reply(`Only Prem`)
                     await axios.get(`https://id.jagreward.com/member/verify-mobile/${nomor}`)
                     await axios.get(`https://id.jagreward.com/member/verify-mobile/${nomor}`)
                     await axios.get(`https://id.jagreward.com/member/verify-mobile/${nomor}`)
-                    reply("Success")
                     reply("Success")
 break        
 case 'genshin':
@@ -5439,7 +5549,9 @@ case 'cekbapak': //
 					case 'searchstiker':
 if (args.length == 0) return reply(`Apanyang Mau Di Cari??`)
                     query = args.join(" ")	
-              aud = await fetchJson(`https://api.zeks.me/api/searchsticker?apikey=Iyungputra&q=${query}`)
+              aud = await fetchJson(`https://api.zeks.me/api/searchsticker?apikey=Iyungputra&q=${query}`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
               yahajaha = aud.sticker
                rjpp = yahajaha[Math.floor(Math.random() * yahajaha.length)];
 sendWebp(from, rjpp)
@@ -5456,7 +5568,9 @@ case 'blocklist':
 					case 'snack':
 				if (args.length < 1) return reply('Urlnya mana gan?')
 					if (!isUrl(args[0]) && !args[0].includes('sck')) return reply(mess.error.Iv)
-                anu = await fetchJson(`https://api-anoncybfakeplayer.herokuapp.com/sckdown?url=${args[0]}`, {method: 'get'})
+                anu = await fetchJson(`https://api-anoncybfakeplayer.herokuapp.com/sckdown?url=${args[0]}`, {method: 'get'}).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
                if (anu.error) return reply(anu.error)
                  sck = `「 *SNACK VIDEO DOWNLOADER* 」\n\n*• Format:* ${anu.format}\n*• Size:* ${anu.size}\n\n*TUNGGU SEBENTAR LAGI DIKIRIM MOHON JANGAN SPAM*`
                 bufferddd = await getBuffer('https://raw.githubusercontent.com/FarhanXCode7/termux-bot-wa/main/src/glitchtext.png')
@@ -5517,14 +5631,18 @@ case "randombokep2":
 					        if (!isGroup) return reply(mess.only.group);
 if (!isPremium) return reply(`Only Prem`)
         teks = '*「 _Anda Sangean_  」*'
-        res = await fetchJson(`https://server-api-rey.herokuapp.com/api/asupan/bokep2?apikey=apirey`)
+        res = await fetchJson(`https://server-api-rey.herokuapp.com/api/asupan/bokep2?apikey=apirey`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
         teks += `*➸ Title:* ${res.title}\n*➸ Link:* ${res.url}\n*➸ Image : ${res.thumb}\n*➸ View : ${res.views}\n\n`
           reply(teks)
         break
         case "randombokep3":
 					        if (!isGroup) return reply(mess.only.group);
 if (!isPremium) return reply(`Only Prem`)
-        x = await getBuffer(`https://yog-apikey.herokuapp.com/api/bokep?apikey=YogGanz`)
+        x = await getBuffer(`https://yog-apikey.herokuapp.com/api/bokep?apikey=YogGanz`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
 Katashi.sendMessage(from, x, video, {quoted:mek})
         break
         case 'wait':
@@ -5555,7 +5673,9 @@ break
 					        if (!isGroup) return reply(mess.only.group);
                         if (args.length == 0) return reply(`Example: ${prefix + command} katashi hana`)
                     query = args.join(" ")
-                        res = await axios.get(`https://myhuman.cf/api/google?query=${query}`)
+                        res = await axios.get(`https://myhuman.cf/api/google?query=${query}`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
                         ttt = res.data.result
                         var eks = `* GOGGLE SEARCH *\n\n*Hasil Pencarian : ${body}*\n\n`
                         for(let i = 0; i < ttt.length; i++) {
@@ -5566,7 +5686,9 @@ break
 case 'randomquran':
 case 'Randomquran':
 					        if (!isGroup) return reply(mess.only.group);
-            res = await fetchJson(`https://myhuman.cf/api/quranaudio`)
+            res = await fetchJson(`https://myhuman.cf/api/quranaudio`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
             teks = `*Surah* : ${res.nama}\n*Arti* : ${res.arti}\n*Ayat* : ${res.ayat}\n*Keterangan* : ${res.keterangan}`
             reply(teks)
             Katashi.sendFileFromUrl(from, res.audio, 'quran.mp3', {quoted: mek})
@@ -5576,7 +5698,9 @@ case 'url2': //By katashi
 					        if (!isGroup) return reply(mess.only.group);
                          if (args.length == 0) return reply(`Example: ${prefix + command} katashi hana`)
                     query = args.join(" ")
-anu = await fetchJson(`https://docs-jojo.herokuapp.com/api/cuttly?url=${query}`)
+anu = await fetchJson(`https://docs-jojo.herokuapp.com/api/cuttly?url=${query}`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
 teks = `${anu.result.link}`
 Katashi.sendMessage(from, teks, text, {quoted: mek})
 break
@@ -5584,7 +5708,9 @@ case 'jadwalsholat':
 					        if (!isGroup) return reply(mess.only.group);
                     if (args.length == 0) return reply(`Example: ${prefix + command} bekasi`)
                     query = args.join(" ")
-                    x = await fetchJson(`https://docs-jojo.herokuapp.com/api/jadwalshalat?daerah=${query}`)
+                    x = await fetchJson(`https://docs-jojo.herokuapp.com/api/jadwalshalat?daerah=${query}`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
                     ini_txt += "Jadwal Sholat"
                         ini_txt += `Imsyak : ${x.Imsyak}\n`
                         ini_txt += `Subuh : ${x.Subuh}\n`
@@ -5599,7 +5725,11 @@ case 'randomambiyah':
 case 'ambiyah':	
 if (!isOwner) return reply(mess.only.ownerB)
 					        if (!isGroup) return reply(mess.only.group);
-x = await getBuffer(`https://server-api-rey.herokuapp.com/api/asupan/lifana?apikey=apirey`)
+x = await getBuffer(`https://server-api-rey.herokuapp.com/api/asupan/lifana?apikey=apirey`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+              reply(mess.wait)
+               await sleep(5000)
 Katashi.sendMessage(from, x, image, {quoted:mek})
 reply("Success")
 break
@@ -5609,8 +5739,10 @@ case 'snapchat':
 if (args.length == 0) return reply(`Example: ${prefix + command} Link snapchat`)
                     query = args.join(" ")
                     x = await fetchJson(`https://myhuman.cf/api/snapchat?url=${query}`).catch(e => {
-return reply('_Error Link Tidak Ditemukan_') 
-}) 
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web Snapchat_')
+})
+              reply(mess.wait)
+               await sleep(5000)
 vid = `${x.hd}`
                     sendMediaURL(from, vid);
 reply("Success")
@@ -5646,6 +5778,8 @@ if (args.length == 0) return reply(`Example: ${prefix + command} Link Zippyshare
                o = await fetchJson(`https://tyz-api.herokuapp.com/downloader/zippyShare?link=${query}`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web Zippyshare_')
 })
+              reply(mess.wait)
+               await sleep(5000)
                console.log(o)
                ot = '*「 ZIPPYSHARE VIDEO 」*'
                ot += `\n\n*Judul :* ${o.name}\n*Upload Date :* ${o.upload_date}\n*url :* ${o.url}`
@@ -5662,6 +5796,8 @@ if (args.length == 0) return reply(`Example: ${prefix + command} Link Zippyshare
                o = await fetchJson(`https://tyz-api.herokuapp.com/downloader/zippyShare?link=${query}`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web Zippyshare_')
 })
+              reply(mess.wait)
+               await sleep(5000)
                console.log(o)
                ot = '*「 ZIPPYSHARE IMAGE 」*'
                ot += `\n\n*Judul :* ${o.name}\n*Upload Date :* ${o.upload_date}\n*url :* ${o.url}`
@@ -5678,6 +5814,8 @@ if (args.length == 0) return reply(`Example: ${prefix + command} Link Zippyshare
                o = await fetchJson(`https://tyz-api.herokuapp.com/downloader/zippyShare?link=${query}`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web Zippyshare_')
 })
+              reply(mess.wait)
+               await sleep(5000)
                console.log(o)
                ot = '*「 ZIPPYSHARE ZIP 」*'
                ot += `\n\n*Judul :* ${o.name}\n*Upload Date :* ${o.upload_date}\n*url :* ${o.url}`
@@ -5797,6 +5935,9 @@ case 'spotifysearch':
                     if (args.length == 0) return reply(`Example: ${prefix + command} starboy`)
                     query = args[0]
                     i = await fetchJson(`https://api.zeks.me/api/spotify?apikey=Iyungputra&q=${query}`, {method: 'get'})
+                    console.log(i)
+                    reply(mess.wait)
+                    await sleep(5000)
                     for (let i of i.data) {
                     ini_txt = `Lagu : ${i.title}\n`
                     ini_txt += `Album : ${i.album}\n`
@@ -5812,6 +5953,9 @@ case 'brainly':
                     if (args.length == 0) return reply(`Example: ${prefix + command} starboy`)
                     query = args[0]
                     i = await fetchJson(`https://api.zeks.me/api/brainly?apikey=Iyungputra&q=${query}&count=5`, {method: 'get'})
+                    reply(mess.wait)
+                    await sleep(5000)
+                    console.log(i)
                     for (let i of i.data) {
                     ini_txt = `Pertanyaan : ${i.question}\n`
                     ini_txt += `Jawaban : ${i.answer.text}\n`
@@ -5953,6 +6097,28 @@ if (!q) return reply('Linknya?')
                Katashi.sendMessage(from, buff, image, {quoted: mek, caption: ot})
                Katashi.sendMessage(from, videee, video, {quoted: mek})
                break
+               case "fb":
+        case "facebook":
+case "fbdownload":
+					        if (!isGroup) return reply(mess.only.group);
+if (args.length < 1) return reply("Nyari apa?");
+        query = args.join(" ");
+        teks = '*「 _FACEBOOK_  」*'
+        fbdl.getInfo(`${query}`).then((res) => {
+        	console.log(res);
+        });
+        break;
+        case "spamwa":
+        case "waspam":
+case "spamwhatsapp":
+					        if (!isGroup) return reply(mess.only.group);
+if (args.length < 1) return reply("Nyari apa?");
+        query = args.join(" ");
+        teks = '*「 _FACEBOOK_  」*'
+        spamwa.Spam(`${query}`).then((res) => {
+        	console.log(res);
+        });
+        break;
 default:
 
 if (fs.existsSync(`./media/${from}.json`)) {
