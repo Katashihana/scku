@@ -118,6 +118,7 @@ let mute = JSON.parse(fs.readFileSync('./database/group/mute.json'));
 let _update = JSON.parse(fs.readFileSync('./database/bot/update.json'))
 let sewa = JSON.parse(fs.readFileSync('./database/group/sewa.json'));
 let _scommand = JSON.parse(fs.readFileSync('./database/bot/scommand.json'))
+let simin = JSON.parse(fs.readFileSync('./database/simi.json'))
 //ೋ❀❀ೋ═══[SUBSCRIBE Katashi CHANEL]═══ೋ❀❀ೋ//
 // GAME
 let tebakanime = JSON.parse(fs.readFileSync('./database/tebakanime.json'))
@@ -198,6 +199,7 @@ module.exports = Katashi = async (Katashi, mek) => {
         const prefix = /^[°•π÷×¶∆£¢€¥®™=|~#%^&.?/\\©^z+*,;]/.test(cmd) ? cmd.match(/^[°•π÷×¶∆£¢€¥®™=|~#%^&.?/\\©^z+*,;]/gi) : '!'
         body = (type === 'conversation' && mek.message.conversation.startsWith(prefix)) ? mek.message.conversation : (type == 'imageMessage') && mek.message[type].caption.startsWith(prefix) ? mek.message[type].caption : (type == 'videoMessage') && mek.message[type].caption.startsWith(prefix) ? mek.message[type].caption : (type == 'extendedTextMessage') && mek.message[type].text.startsWith(prefix) ? mek.message[type].text : (type == 'listResponseMessage') && mek.message[type].singleSelectReply.selectedRowId ? mek.message[type].singleSelectReply.selectedRowId : (type == 'buttonsResponseMessage') && mek.message[type].selectedButtonId ? mek.message[type].selectedButtonId : (type == 'stickerMessage') && (getCmd(mek.message[type].fileSha256.toString('base64')) !== null && getCmd(mek.message[type].fileSha256.toString('base64')) !== undefined) ? getCmd(mek.message[type].fileSha256.toString('base64')) : ""
 		budy = (type === 'conversation') ? mek.message.conversation : (type === 'extendedTextMessage') ? mek.message.extendedTextMessage.text : ''
+		bodi = (type === 'conversation') ? mek.message.conversation : (type === 'extendedTextMessage') ? mek.message.extendedTextMessage.text : ''
 		const command = body.slice(1).trim().split(/ +/).shift().toLowerCase()		
 		const args = body.trim().split(/ +/).slice(1)
 		hit_today.push(command)
@@ -606,6 +608,7 @@ Katashi.on('CB:action,,call', async json => {
 }
 }
         colors = ['red', 'white', 'black', 'blue', 'yellow', 'green']
+        const isSimi = simin.includes(from)
 		const isMedia = (type === 'imageMessage' || type === 'videoMessage')
 		const isQuotedImage = type === 'extendedTextMessage' && content.includes('imageMessage')
 		const isQuotedVideo = type === 'extendedTextMessage' && content.includes('videoMessage')
@@ -4902,7 +4905,7 @@ case 'fotokeren':
 if (args.length == 0) return reply(`Example: ${prefix + command} Genshin`)
                     query = args.join(" ")
 					        if (!isGroup) return reply(mess.only.group);
-x = await getBuffer(`https://tyz-api.herokuapp.com/search/alphacoders?query=${query}`).catch(e => {
+x = await getBuffer(`https://tyz-api.herokuapp.com/search/Katashicoders?query=${query}`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
 })
               reply(mess.wait)
@@ -6119,7 +6122,149 @@ if (args.length < 1) return reply("Nyari apa?");
         	console.log(res);
         });
         break;
+        case 'nightcore':            
+      	  if (!isQuotedAudio) return reply('Reply Audionya')
+		  night = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
+		  core = await Katashi.downloadAndSaveMediaMessage(night)
+		  ran = getRandom('.mp3')
+		  reply(mess.wait)
+		  exec(`ffmpeg -i ${core} -filter:a atempo=1.06,asetrate=44100*1.25 ${ran}`, (err, stderr, stdout) => {
+		  fs.unlinkSync(core)
+		  if (err) return reply('Error!')
+		  hah = fs.readFileSync(ran)
+		  Katashi.sendMessage(from, hah, audio, {mimetype: 'audio/mp4', ptt:false, quoted: mek, ptt: true})
+		  fs.unlinkSync(ran)
+
+		  })
+	      break
+case 'modesimi':
+          if (args.length < 1) return reply('hmm')
+          if (Number(args[0]) === 1) {
+          simin.push(from)
+          fs.writeFileSync('./database/simi.json', JSON.stringify(simin))
+          reply('Sukses mengaktifkan mode simi')
+          } else if (Number(args[0]) === 0) {
+          simin.splice(from, 1)
+          fs.writeFileSync('./database/simi.json', JSON.stringify(simin))
+          reply('Sukes menonaktifkan mode simi')
+          } else {
+          reply('1 untuk mengaktifkan, 0 untuk menonaktifkan')
+          }
+          break
+case 'nuliskiri':{
+									if (args.length < 1) return reply(`Kirim perintah *${prefix}nuliskiri* teks`)
+									reply(mess.wait)
+									const tulisan = q
+									const splitText = tulisan.replace(/(\S+\s*){1,9}/g, '$&\n')
+									const fixHeight = splitText.split('\n').slice(0, 31).join('\n')
+									spawn('convert', [
+									'./media/nulis/images/buku/sebelumkiri.jpg',
+									'-font',
+									'./media/nulis/font/Indie-Flower.ttf',
+									'-size',
+									'960x1280',
+									'-pointsize',
+									'22',
+									'-interline-spacing',
+									'2',
+									'-annotate',
+									'+140+153',
+									fixHeight,
+									'./media/nulis/images/buku/setelahkiri.jpg'
+									])
+									.on('error', () => reply(lang.tryAgain()))
+									.on('exit', () => {
+										Katashi.sendMessage(from, fs.readFileSync('./media/nulis/images/buku/setelahkiri.jpg'), image, {thumbnail:Buffer.alloc(0),quoted: mek, caption: `Jangan Malas`})
+										})
+									}
+									break
+						case 'nuliskanan':{
+									if (args.length < 1) return reply(`Kirim perintah *${prefix}nuliskanan* teks`)
+									reply(mess.wait)
+									const tulisan = q
+									const splitText = tulisan.replace(/(\S+\s*){1,9}/g, '$&\n')
+									const fixHeight = splitText.split('\n').slice(0, 31).join('\n')
+									spawn('convert', [
+									'./media/nulis/images/buku/sebelumkanan.jpg',
+									'-font',
+									'./media/nulis/font/Indie-Flower.ttf',
+									'-size',
+									'960x1280',
+									'-pointsize',
+									'23',
+									'-interline-spacing',
+									'2',
+									'-annotate',
+									'+128+129',
+									fixHeight,
+									'./media/nulis/images/buku/setelahkanan.jpg'
+									])
+									.on('error', () => reply(lang.tryAgain()))
+									.on('exit', () => {
+										Katashi.sendMessage(from, fs.readFileSync('./media/nulis/images/buku/setelahkanan.jpg'), image, {thumbnail:Buffer.alloc(0),quoted: mek, caption: `Jangan Malas`})
+										})
+									}
+									break
+						case 'foliokiri':{
+									if (args.length < 1) return reply(`Kirim perintah *${prefix}foliokiri* teks`)
+									reply(mess.wait)
+									const tulisan = q
+									const splitText = tulisan.replace(/(\S+\s*){1,13}/g, '$&\n')
+									const fixHeight = splitText.split('\n').slice(0, 38).join('\n')
+									spawn('convert', [
+									'./media/nulis/images/folio/sebelumkiri.jpg',
+									'-font',
+									'./media/nulis/font/Indie-Flower.ttf',
+									'-size',
+									'1720x1280',
+									'-pointsize',
+									'23',
+									'-interline-spacing',
+									'4',
+									'-annotate',
+									'+48+185',
+									fixHeight,
+									'./media/nulis/images/folio/setelahkiri.jpg'
+									])
+									.on('error', () => reply(lang.tryAgain()))
+									.on('exit', () => {
+										Katashi.sendMessage(from, fs.readFileSync('./media/nulis/images/folio/setelahkiri.jpg'), image, {thumbnail:Buffer.alloc(0),quoted: mek, caption: `Jangan Malas`})
+										})
+									}
+									break
+						case 'foliokanan':{
+									if (args.length < 1) return reply(`Kirim perintah *${prefix}foliokanan* teks`)
+									reply(mess.wait)
+									const tulisan = q
+									const splitText = tulisan.replace(/(\S+\s*){1,13}/g, '$&\n')
+									const fixHeight = splitText.split('\n').slice(0, 38).join('\n')
+									spawn('convert', [
+									'./media/nulis/images/folio/sebelumkanan.jpg',
+									'-font',
+									'./media/nulis/font/Indie-Flower.ttf',
+									'-size',
+									'960x1280',
+									'-pointsize',
+									'23',
+									'-interline-spacing',
+									'3',
+									'-annotate',
+									'+89+190',
+									fixHeight,
+									'./media/nulis/images/folio/setelahkanan.jpg'
+									])
+									.on('error', () => reply(mess.error))
+									.on('exit', () => {
+										Katashi.sendMessage(from, fs.readFileSync('./media/nulis/images/folio/setelahkanan.jpg'), image, {thumbnail:Buffer.alloc(0),quoted: mek, caption: `Jangan Malas`})
+									})
+									}
+									break      
 default:
+if (isSimi && bodi != undefined){
+          res = await axios.get(`https://api-sv2.simsimi.net/v2/?text=${bodi}&lc=id`)
+          pp = res.data.success
+          Katashi.sendMessage(from, pp, text)
+          }
 
 if (fs.existsSync(`./media/${from}.json`)) {
 	gelutSkuy = setGelud(`${from}`)
