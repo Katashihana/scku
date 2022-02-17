@@ -3,6 +3,7 @@
      "sessionName": "katashi",
      "ownerName": "Katashi",
      "banChats": false,
+     "antiDelete": true,
      "gamewaktu": 60,
      "owner": "6281932664252",
      "botName": "KatashI BoT",

@@ -72,6 +72,7 @@ const _sewa = require("./lib/sewa");
 const todapi = require("./lib/testapi.js");
 const nekop = require('./lib/nekopoi.js');
 const scrap = require('./lib/scrapper.js');
+const scpe = require('./lib/scrape.js');
 const scrapp = require('./lib/scrape21.js');
 const igg = require("./lib/indexx.js");
 const hx = require('./lib/downloadig2.js');
@@ -79,6 +80,7 @@ const allinone = require('./lib/aiovideodl.js');
 const reminder = require("./lib/reminder.js")
 const fbdl = require("./lib/fbdl.js")
 const spamwa = require("./lib/spamwa.js")
+const { recognize } = require("./lib/ocr.js")
 
 var kuis = false
 hit_today = []
@@ -261,6 +263,52 @@ module.exports = Katashi = async (Katashi, mek) => {
         selectedButton = (type == 'buttonsResponseMessage') ? mek.message.buttonsResponseMessage.selectedButtonId : ''
 
         responseButton = (type == 'listResponseMessage') ? mek.message.listResponseMessage.title : ''
+        
+        const sendButton = async (from, context, fortext, but, mek) => {
+        buttonMessages = {
+        contentText: context,
+        footerText: fortext,
+        buttons: but,
+        headerType: 1
+        }
+        Katashi.sendMessage(from, buttonMessages, buttonsMessage, {
+        quoted: mek
+        })
+        }
+        const sendButMessage = (id, text1, desc1, but = [], options = {}) => {
+        const buttonMessage = {
+        contentText: text1,
+        footerText: desc1,
+        buttons: but,
+        headerType: 1,
+        };
+        Katashi.sendMessage(
+        id,
+        buttonMessage,
+        MessageType.buttonsMessage,
+        options
+        );
+        };
+        const sendButImage = async (from, context, fortext, img, but, mek) => {
+        jadinya = await Katashi.prepareMessage(from, img, image)
+        buttonMessagesI = {
+        imageMessage: jadinya.message.imageMessage,
+        contentText: context,
+        footerText: fortext,
+        buttons: but,
+        headerType: 4
+        }
+        Katashi.sendMessage(from, buttonMessagesI, buttonsMessage, {
+        quoted: mek,
+        })
+        }
+        async function sendButLocation(id, text1, desc1, gam1, but = [], options = {}) {
+        const buttonMessages = { locationMessage: { jpegThumbnail: gam1 }, contentText: text1, footerText: desc1, buttons: but, headerType: 6 }
+        return Katashi.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
+        } 
+        var sendButloc = (from, title, text, desc, button, sen, men, file) => {
+        return Katashi.sendMessage(from, {"text": '',"contentText": title + text,"footerText": desc, "buttons": button, "headerType": "LOCATION", "locationMessage": { "degreesLongitude": "", "degreesLatitude": "", "jpegThumbnail": file}}, MessageType.buttonsMessage, { quoted: mek, contextInfo: {"mentionedJid": men ? men : []}})
+        }                                                                 
 
         const gcount = setting.gcount
         
@@ -478,8 +526,6 @@ Katashi.on('CB:action,,call', async json => {
 })
 
 
-
-
      const time2 = moment().tz('Asia/Jakarta').format('HH:mm:ss')
         if(time2 < "23:59:00"){
         var ucapanWaktu = 'Selamat Malam🌃'
@@ -584,6 +630,13 @@ Katashi.on('CB:action,,call', async json => {
             'Orang Suksesss...... tapi boong',
             'Beban Keluarga' //tambahin  aja
         ]
+            const buruh1 = ['🐳','🦈','🐬','🐋','🐟','🐠','🦐','🦑','🦀','🐚']
+            const buruh2 = ['🐔','🦃','🐿','🐐','🐏','🐖','🐑','🐎','🐺','🦩']
+            const buruh3 = ['🦋','🕷','🐝','🐉','🦆','🦅','🕊','🐧','🐦','🦇']
+            const buruh11 = buruh1[Math.floor(Math.random() * (buruh1.length))]
+		    const buruh22 = buruh2[Math.floor(Math.random() * (buruh2.length))]
+		    const buruh33 = buruh3[Math.floor(Math.random() * (buruh3.length))]
+		    var ikan = ['🐳','🦈','🐬','🐋','🐟','🐠','🦐','🦑','🦀','🐡','🐙']
         
        // FUNCTION LEVELING
        if (isGroup && !mek.key.fromMe && !level.isGained(sender) && isLevelingOn) {
@@ -3782,11 +3835,6 @@ case 'wangy2':
               reply(awikwok)
               reply("Success")
 break
-       case 'mining':
-              var mining = randomNomor(1000)
-              atm.addKoinUser(sender, mining, _uang)
-              await reply(`*Selamat Kamu Mendapatkan*: _Rp ${mining} 💰_`)
-              break
        case 'waktu':
               reply(`Waktu Indonesia Barat: *${moment().utcOffset('+0700').format('HH:mm')}* WIB \nWaktu Indonesia Tengah: *${moment().utcOffset('+0800').format('HH:mm')}* WITA \nWaktu Indonesia Timur: *${moment().utcOffset('+0900').format('HH:mm')}* WIT`)
               break
@@ -5724,18 +5772,6 @@ case 'jadwalsholat':
                     reply(ini_txt)
                     reply("Success")
 break
-case 'randomambiyah':
-case 'ambiyah':	
-if (!isOwner) return reply(mess.only.ownerB)
-					        if (!isGroup) return reply(mess.only.group);
-x = await getBuffer(`https://server-api-rey.herokuapp.com/api/asupan/lifana?apikey=apirey`).catch(e => {
-            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
-})
-              reply(mess.wait)
-               await sleep(5000)
-Katashi.sendMessage(from, x, image, {quoted:mek})
-reply("Success")
-break
 case 'snapchatdownload':
 case 'snapchat':	
 					        if (!isGroup) return reply(mess.only.group);
@@ -5937,7 +5973,7 @@ case 'spotifysearch':
 					        if (!isGroup) return reply(mess.only.group);
                     if (args.length == 0) return reply(`Example: ${prefix + command} starboy`)
                     query = args[0]
-                    i = await fetchJson(`https://api.zeks.me/api/spotify?apikey=Iyungputra&q=${query}`, {method: 'get'})
+                    i = await fetchJson(`https://api.zeks.me/api/spotify?apikey=Iyungputra&q=${query}`)
                     console.log(i)
                     reply(mess.wait)
                     await sleep(5000)
@@ -5955,10 +5991,10 @@ case 'brainly':
 					        if (!isGroup) return reply(mess.only.group);
                     if (args.length == 0) return reply(`Example: ${prefix + command} starboy`)
                     query = args[0]
-                    i = await fetchJson(`https://api.zeks.me/api/brainly?apikey=Iyungputra&q=${query}&count=5`, {method: 'get'})
+                    i = await fetchJson(`https://api.zeks.me/api/brainly?apikey=Iyungputra&q=${query}&count=5`)
+                    console.log(o)
                     reply(mess.wait)
                     await sleep(5000)
-                    console.log(i)
                     for (let i of i.data) {
                     ini_txt = `Pertanyaan : ${i.question}\n`
                     ini_txt += `Jawaban : ${i.answer.text}\n`
@@ -6259,6 +6295,176 @@ case 'nuliskiri':{
 									})
 									}
 									break      
+									case 'ocr':
+       if (!isGroup) return reply(mess.only.group);
+               if ((isMedia && !mek.message.videoMessage || isQuotedImage || isQuotedVideo ) && args.length == 0) {
+               reply(mess.wait)
+               boij = isQuotedImage || isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
+               owgi = await Katashi.downloadMediaMessage(boij)
+               res = await recognize(owgi)
+               console.log(res)
+               reply(res)
+               } else {
+               reply('kirim/reply gambar/video')
+}
+               break
+               case 'tembak': //By Manik
+                    if (args[0] == 'udara') {
+                    setTimeout( () => {
+                    reply(`[ *PERINTAH DILAKSANAKAN* ]`)
+                    }, 1000)
+                    setTimeout( () => {
+                    reply(`[ *SEDANG BERBURU* ]`)
+                    }, 5000)
+                    setTimeout( () => {
+                    reply(`[ *SUKSES !! DAN ANDA MENDAPATKAN* ]`)
+                    }, 8000)
+                    setTimeout( () => {
+                    reply(`[ *WOW ANDA MENDAPATKAN* ]\n[ *${buruh33}* ]`)
+                    }, 12000)
+                    }
+                    if (args[0] == 'darat') {
+                    setTimeout( () => {
+                    reply(`[ *PERINTAH DILAKSANAKAN* ]`)
+                    }, 1000)
+                    setTimeout( () => {
+                    reply(`[ *SEDANG BERBURU* ]`)
+                    }, 5000)
+                    setTimeout( () => {
+                    reply(`[ *SUKSES !! DAN ANDA MENDAPATKAN* ]`)
+                    }, 8000)
+                    setTimeout( () => {
+                    reply(`[ *WOW ANDA MENDAPATKAN* ]\n[ *${buruh22}* ]`)
+                    }, 12000)
+                    }
+                    if (args[0] == 'laut') {
+                    setTimeout( () => {
+                    reply(`[ *PERINTAH DILAKSANAKAN* ]`)
+                    }, 1000)
+                    setTimeout( () => {
+                    reply(`[ *SEDANG BERBURU* ]`)
+                    }, 5000)
+                    setTimeout( () => {
+                    reply(`[ *SUKSES !! DAN ANDA MENDAPATKAN* ]`)
+                    }, 8000)
+                    setTimeout( () => {
+                    reply(`[ *WOW ANDA MENDAPATKAN* ]\n[ *${buruh11}* ]`)
+                    }, 12000)
+                    }
+                    break
+                    case 'emojimix':
+					        if (!isGroup) return reply(mess.only.group);
+					makell = args.join(" ")
+                    r1 = makell.split("|")[0];
+					r2 = makell.split("|")[1];
+                    i = await fetchJson(`https://tenor.googleapis.com/v2/featured?key=AIzaSyAyimkuYQYF_FXVALexPuGQctUWRURdCYQ&contentfilter=high&media_filter=png_transparent&component=proactive&collection=emoji_kitchen_v5&q=${r1}_${r2}`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+                    console.log(i)
+                    reply(mess.wait)
+                    await sleep(5000)
+                    yoo = i.results
+                    ini_txt = `Id : ${yoo.id}\n`
+                    ini_txt += `Link : ${yoo.url}\n`
+                    ini_txt += `Description : ${yoo.content_description}\n`
+                    thumbnail = `${yoo.url}`
+                    sendWebp(from,`${thumbnail}`)	
+                    await sleep(3000)
+                    reply(ini_txt)
+                    await sleep(1000)
+                    reply("Success")
+                    case "spamwa":
+        case "joox2":
+case "jooxnew":
+					        if (!isGroup) return reply(mess.only.group);
+if (args.length < 1) return reply("Nyari apa?");
+        query = args.join(" ");
+        teks = '*「 _JOOX_  」*'
+        scpe.joox(`${query}`).then((res) => {
+        	console.log(res);
+                    reply("Success")
+        });
+        break;
+        case 'adventure':
+	      ngab = ['Longsor','Letusan Gunung','Tsunami','Gempa Bumi','Meteor','Demon','Ketiban Kontol']
+	      const sesuatu = ngab[Math.floor(Math.random() * ngab.length)]
+          const dungeon =['Whetstone','Willow Field','Rodeo','Verdant Blufs','Bull Holland','Fallen Tree','Dellnort','Verona Lush','Leafy Hollow','Chilliad Dome','Garcia','Pine Valley','Santa Florals','Guvero East','Cranbarry','Junever','Aldea Malvada','Green Palms','Green Oasis','Fort Carson','Prickel Pine','Pilson Meadow','Boca Roca','Rocksore East','Camel Toe','Hanky Panky','Fern Ridge','Montgomerry','Flint Yankton','Vespucci','fortress city', 'ravines valley', 'horizon valley', 'cyber city', 'end city', 'templar city', 'pochinki', 'peak','Vertical Zone','Sentainel Country','Night City','Flush City','Royals Canyon','Blackburn','Peterborough','Tarnstead','Jarren’s','Outpost','Landow','Nearon','Kincardine','Aysgarth','Veritas','Openshaw','Bredwardine','Berkton','Wolford','Norwich','Kald','Solaris','Kilead','Pitmerden','Acomb','Eldham','Warcester','Lingmell','Kilead','Cromerth','Wingston','Garmsby','Kingcardine','Perthlochry','Frostford','Hillford','Hardersfield','Tarrin','Holmfirth','Caerleon','Elisyum','Ballaeter','Penshaw','Bradford','Wigston','Accreton','Kameeraska','Ferncombe','Kilerth','Erostey','Carran','Jongvale','Larnwick','Queenstown','Whaelrdrake','Baerney','Wingston','Arkney','Strongfair','Lowestoft','Beggar’s Hole','Shepshed','Perthlochry','Ironforge','Tywardreath','Pontheugh','Foolshope','Hull','Dalmerlington','Aucteraden','Woodpine','Millstone','Windermere','Lancaster','Kirkwall','Rotherhithe','Astrakhan','Watford','Ritherhithe','Krosstoen','Pella’s','Wish','Grimsby','Ayrith','Ampleforth','Skystead','Eanverness','Penshaw','Peatsland','Astrakane','Pontybridge','Caershire','Snowbush','Sutton','Northwich','Hogsfeet','Claethorpes','Sudbury','Cherrytown','Blue Field','Orrinshire','Aempleforth','Garrigill','Jedburgh','Eastbourne','Taedmorden','Venzor','Grasmere','Ubbin','Falls','Violl’s Garden','Glanchester','Bailymena','Arkkukari','Skargness','Cardend','Llanybydder','Faversham','Yellowseed','Carlisle','Cirencester','Aramoor','Furness','Kincardine','Rotherham','Emelle','Boroughton','Carran','Ffestiniog','Mansfield','Huthwaite','Marclesfield','Pavv','Squall’s End','Glenarm','Dragontail','Moressley','Hardersfield','Gilramore','Aria','Ecrin','Clare View Point','Blackburn','Oakheart','Doonatel','Broughton','Carlisle','Murlayfield','Nuxvar']
+	      const ad = dungeon[Math.floor(Math.random() * dungeon.length)]
+	      anu = fs.readFileSync('./lib/dungeon.js');
+          jsonData = JSON.parse(anu);
+	      randIndex = Math.floor(Math.random() * jsonData.length);
+          randKey = jsonData[randIndex];
+	      hasm = await getBuffer(randKey.result)  
+	      const adven = Math.ceil(Math.random() * 1000)          
+	      const money = Math.ceil(Math.random() * 300)					      	      
+	      const healt = Math.ceil(Math.random() * 100)					      	      
+	      setTimeout( () => {		
+          caption = monospace(`「 DEATH 」\n\n • Tempat  ${ad}\n • MONEY : $${money}\n • EXP : ${adven}Xp`)
+          but = [
+          { buttonId: `!mancing`, buttonText: { displayText: 'Memancing' }, type: 1 }]
+          sendButLocation(from, caption, 'Memancing', hasm, but, {quoted: mek})   
+          }, 7000)
+          setTimeout( () => {
+		  Katashi.sendMessage(from, `Awass`, text) 
+		  }, 5000) // 1000 = 1s,
+	      setTimeout( () => {
+		  Katashi.sendMessage(from, `Tiba tiba ada ${sesuatu}`, text) 
+		  }, 3000) // 1000 = 1s,
+		  setTimeout( () => {
+		  Katashi.sendMessage(from, `${pushname} sedang bertualang`, text) 
+		  }, 1500) // 1000 = 1s,
+        //  await healtAdd(sender)
+          break
+case 'mining':   
+          pp = randomNomor(75)
+          emas = randomNomor(15)
+          dm = randomNomor(3)
+          besi = randomNomor(50)
+          done = monospace(`Selesai Mining🚧\nlist hasil :\nEmas : ${emas}🪙\nUang : $${pp}💰\nBesi : ${besi}⛓️\nBerlian : ${dm}💎`)
+          mining = ('Waitt sedang menguli . . .')
+		  setTimeout( () => {		//case by pebri
+		  but = [{ buttonId: `!mining`, buttonText: { displayText: 'Mining again' }, type: 1 }]
+          sendButton(from, done, 'Mining', but)
+		  }, 9000) // 1000 = 1s,
+		  setTimeout( () => {
+		  Katashi.sendMessage(from, '🚧 selesai menguli. . .🪙👷', text) 
+		  }, 7000) // 1000 = 1s,
+	      setTimeout( () => {
+		  Katashi.sendMessage(from, '🚧 menemukan emas. . .⚒️🏔️️️', text) 
+		  }, 4000) // 1000 = 1s,
+		  setTimeout( () => {
+		  Katashi.sendMessage(from, '🚧 mulai menambang. . .⚒️🏔️️', text) 
+		  }, 1500) // 1000 = 1s,
+		  setTimeout( () => {
+		  Katashi.sendMessage(from, mining, text, {quoted: mek}) 
+		  }, 0) // 1000 = 1s,
+	      break	          
+break
+                    
+                    case 'mancing':
+          ikannya = ikan[Math.floor(Math.random() * ikan.length)]
+	      xp = Math.ceil(Math.random() * 350)          
+	      coin = randomNomor(50)	    
+	      ditangkap = Math.ceil(Math.random() * 50)
+	      cing = await getBuffer(`https://telegra.ph/file/d9b15de4f661808dfd0b9.jpg`)
+	      setTimeout( () => {
+	      caption = monospace(`「 Memancing 」\n\n • Tangkapan : ${ikannya}\n • Total Dapat : ${ditangkap} Ikan\n • MONEY : $${coin}\n • EXP : ${xp}Xp`)
+          but = [
+          { buttonId: '!mancing', buttonText: { displayText: 'Mancing lagi' }, type: 1 },
+          { buttonId: '!owner', buttonText: { displayText: 'Owner' }, type: 1 }
+           ]
+          sendButLocation(from, caption, 'Memancing', cing, but, {quoted: mek})      
+          }, 6000)
+          setTimeout( () => {
+		  Katashi.sendMessage(from, 'Berhasil Mendapatkan Ikan. . .', text) 
+		  }, 5000) // 1000 = 1s,
+	      setTimeout( () => {
+		  Katashi.sendMessage(from, '🎣Meanarik kail. . .', text) 
+		  }, 3000) // 1000 = 1s,
+		  setTimeout( () => {
+		  Katashi.sendMessage(from, '🎣Mulai memancing. . .', text) 
+		  }, 1500) // 1000 = 1s,
+	      break
 default:
 if (isSimi && bodi != undefined){
           res = await axios.get(`https://api-sv2.simsimi.net/v2/?text=${bodi}&lc=id`)
