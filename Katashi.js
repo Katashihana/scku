@@ -6367,7 +6367,7 @@ case 'nuliskiri':{
                     ini_txt = `Id : ${yoo.id}\n`
                     ini_txt += `Link : ${yoo.url}\n`
                     ini_txt += `Description : ${yoo.content_description}\n`
-                    thumbnail = `${yoo.url}`
+                    thumbnail = `https://tyz-api.herokuapp.com/converter/towebp?url=${yoo.url}`
                     sendWebp(from,`${thumbnail}`)	
                     await sleep(3000)
                     reply(ini_txt)
