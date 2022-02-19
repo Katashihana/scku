@@ -39,6 +39,7 @@ const traceClient = new Client();
 const got = require("got");
 const qrcodes = require('qrcode');
 const imgbb = require('imgbb-uploader');
+const tesseract = require('node-tesseract-ocr');
 const os = require('os');
 const { virtex, vipi } = require('./lib/virtex.js')
 const Mfake = fs.readFileSync ('./media/Katashi2.jpg')
@@ -80,7 +81,7 @@ const allinone = require('./lib/aiovideodl.js');
 const reminder = require("./lib/reminder.js")
 const fbdl = require("./lib/fbdl.js")
 const spamwa = require("./lib/spamwa.js")
-const { recognize } = require("./lib/ocr.js")
+
 
 var kuis = false
 hit_today = []
@@ -2235,7 +2236,7 @@ a += `\`\`\`• Title : ${i.title}\`\`\`
                var imgbb = require('imgbb-uploader')
                var encmedia  = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
                var media = await  Katashi.downloadAndSaveMediaMessage(encmedia)       
-               imgbb('39d895963468b814fad0514bd28787e2', media)
+               imgbb('cedeb44b8d204947a6833ca1412ca77d', media)
               .then(data => {
                var caps = `*_IMAGE TO URL_*\n\n*~>  ID :* ${data.id}\n*~>  MimeType :* ${data.image.mime}\n*~>  Extension :* ${data.image.extension}\n*~>  URL :* ${data.display_url}`
                ibb = fs.readFileSync(media)
@@ -6301,7 +6302,13 @@ case 'nuliskiri':{
                reply(mess.wait)
                boij = isQuotedImage || isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
                owgi = await Katashi.downloadMediaMessage(boij)
-               res = await recognize(owgi)
+               const conpig = {
+    lang: 'id',
+    oem: 1,
+    psm: 3,
+}
+              ess = await uploadImages(owgi)
+               res = await tesseract.recognize(ess, conpig)
                console.log(res)
                reply(res)
                } else {
