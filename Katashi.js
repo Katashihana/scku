@@ -6020,13 +6020,10 @@ case 'spotifysearch':
                     reply("Success")
 break
 case "brainly":
-if (isBanned) return reply('Lu udh kena ban')
-					        if (!isRegistered) return sendButRegis(from, daftar1, daftar2, daftar3, { quoted: mek})
 					        if (!isGroup) return reply(mess.only.group);
-if (!isPremium) return reply(`Only Prem`)
         if (args.length < 1) return reply("Pertanyaan apa");
         brien = args.join(" ");
-        teks = '*「 _BRAINLY NOT WORK_ 」*'
+        teks = '*「 _BRAINLY_ 」*'
         brainly(`${brien}`).then((res) => {
           for (let i = 0; i < res.length; i++) {
             teks += `\n\n*➸ Pertanyaan:* ${res.data[i].pertanyaan}\n*➸ Jawaban:* ${res.data[i].jawaban[0].text}\n\n`;
