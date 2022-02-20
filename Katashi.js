@@ -6019,21 +6019,24 @@ case 'spotifysearch':
                     Katashi.sendMessage(from, gambar, image, {quoted: mek, caption: ini_txt})
                     reply("Success")
 break
-case 'brainly':
+case "brainly":
+if (isBanned) return reply('Lu udh kena ban')
+					        if (!isRegistered) return sendButRegis(from, daftar1, daftar2, daftar3, { quoted: mek})
 					        if (!isGroup) return reply(mess.only.group);
-                    if (args.length == 0) return reply(`Example: ${prefix + command} starboy`)
-                    query = args[0]
-                    i = await fetchJson(`https://api.zeks.me/api/brainly?apikey=Iyungputra&q=${query}&count=5`)
-                    console.log(o)
-                    reply(mess.wait)
-                    await sleep(5000)
-                    for (let i of i.data) {
-                    ini_txt = `Pertanyaan : ${i.question}\n`
-                    ini_txt += `Jawaban : ${i.answer.text}\n`
-                    }
-                    Katashi.sendMessage(from, ini_txt, text, {quoted: mek})
-                    reply("Success")
-break
+if (!isPremium) return reply(`Only Prem`)
+        if (args.length < 1) return reply("Pertanyaan apa");
+        brien = args.join(" ");
+        teks = '*「 _BRAINLY NOT WORK_ 」*'
+        brainly(`${brien}`).then((res) => {
+          for (let i = 0; i < res.length; i++) {
+            teks += `\n\n*➸ Pertanyaan:* ${res.data[i].pertanyaan}\n*➸ Jawaban:* ${res.data[i].jawaban[0].text}\n\n`;
+          }
+          Katashi.sendMessage(from, teks, text, {
+            quoted: mek,
+            detectLinks: false,
+          });
+        });
+        break;
         case "ytmp4":
         case "ytdownload":
         case "ytmp3":
@@ -6777,7 +6780,7 @@ o = await fetchJson(`http://api-1cak.herokuapp.com/random#`)
         menu =`*➸ Id:* ${o.id}\n*➸ Title:* *${o.title}*\n\n*➸ Nsfw:* ${o.nsfw}\n*➸ Url:* ${o.url}\n*➸ Vote:* ${o.votes}`
         buff = await getBuffer(`https://hadi-api.herokuapp.com/api/ssweb2?url=${o.url}`)
 but = [{buttonId: `${prefix}hpss ${o.url}`,buttonText:{displayText: 'Small Size'},type:1},{buttonId: `${prefix}tabletss ${o.url}`,buttonText:{displayText: 'Medium size'},type:1}]
-          sendButLocation(from, menu, 'hashtag', buff, but, {quoted: mek})   
+          sendButLocation(from, menu, 'wancak', buff, but, {quoted: mek})   
 }
 
 if (!isGroup && isCmd && !mek.key.fromMe){
