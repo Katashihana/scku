@@ -41,6 +41,10 @@ const qrcodes = require('qrcode');
 const imgbb = require('imgbb-uploader');
 const tesseract = require('node-tesseract-ocr');
 const os = require('os');
+const instag = require('scraper-instagram');
+const instagClient = new instag();
+const porny = require('porny');
+const cakone = require('1cak');
 const { virtex, vipi } = require('./lib/virtex.js')
 const Mfake = fs.readFileSync ('./media/Katashi2.jpg')
 const Mthumb = fs.readFileSync('./media/Katashi2.jpg')
@@ -290,19 +294,19 @@ module.exports = Katashi = async (Katashi, mek) => {
         options
         );
         };
-        const sendButImage = async (from, context, fortext, img, but, mek) => {
-        jadinya = await Katashi.prepareMessage(from, img, image)
-        buttonMessagesI = {
-        imageMessage: jadinya.message.imageMessage,
-        contentText: context,
-        footerText: fortext,
-        buttons: but,
-        headerType: 4
-        }
-        Katashi.sendMessage(from, buttonMessagesI, buttonsMessage, {
-        quoted: mek,
-        })
-        }
+        ///Button Image
+const sendButImage = async(id, text1, desc1, gam1, but = [], options = {}) => {
+kma = gam1
+mhan = await Katashi.prepareMessage(from, kma, image)
+const buttonMessages = {
+imageMessage: mhan.message.imageMessage,
+contentText: text1,
+footerText: desc1,
+buttons: but,
+headerType: 4
+}
+Katashi.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
+}
         async function sendButLocation(id, text1, desc1, gam1, but = [], options = {}) {
         const buttonMessages = { locationMessage: { jpegThumbnail: gam1 }, contentText: text1, footerText: desc1, buttons: but, headerType: 6 }
         return Katashi.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
@@ -671,6 +675,33 @@ Katashi.on('CB:action,,call', async json => {
         const troli =  {key: { fromMe: false,remoteJid: "status@broadcast", participant: '0@s.whatsapp.net'}, message: {orderMessage: {itemCount: 300, status: 200, thumbnail: fakeimage, surface: 200, message: fake, orderTitle: 'Katashi', sellerJid: '0@s.whatsapp.net'} } }
         const ftext = {key: {fromMe: false,participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "16505434800@s.whatsapp.net" } : {})},message: { "extendedTextMessage": {"text": `*Hai ${pushname}👋*\n  ${moment().utcOffset('+0700').format('HH:mm:ss')} ${moment.tz('Asia/Jakarta').format('DD/MM/YYYY')}`,"title": `Hmm`,'jpegThumbnail': fs.readFileSync('./media/Katashi3.jpg')}}}
         const ftoko = {key: {fromMe: false,participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "16505434800@s.whatsapp.net" } : {})},message: {"productMessage": {"product": {"productImage":{"mimetype": "image/jpeg","jpegThumbnail": fs.readFileSync(`./media/Katashi3.jpg`)},"title": `© Katashi Hana`,"description": "ℭ𝔯𝔢𝔞𝔱𝔬𝔯 Katashi Hana", "currencyCode": "IDR","priceAmount1000": "999999","retailerId": "Katashi Hana","productImageCount": 1},"businessOwnerJid": `0@s.whatsapp.net`}}}
+        const fakestatus = (teks) => {
+            Katashi.sendMessage(from, teks, text, {
+            quoted: {
+            key: {
+            fromMe: false,
+            participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "status@broadcast" } : {})
+            },
+            message: {
+            "imageMessage": {
+            "url": "https://mmg.whatsapp.net/d/f/At0x7ZdIvuicfjlf9oWS6A3AR9XPh0P-hZIVPLsI70nM.enc",
+            "mimetype": "image/jpeg",
+            "caption": fake,
+            "fileSha256": "+Ia+Dwib70Y1CWRMAP9QLJKjIJt54fKycOfB2OEZbTU=",
+            "fileLength": "28777",
+            "height": 1080,
+            "width": 1079,
+            "mediaKey": "vXmRR7ZUeDWjXy5iQk17TrowBzuwRya0errAFnXxbGc=",
+            "fileEncSha256": "sR9D2RS5JSifw49HeBADguI23fWDz1aZu4faWG/CyRY=",
+            "directPath": "/v/t62.7118-24/21427642_840952686474581_572788076332761430_n.enc?oh=3f57c1ba2fcab95f2c0bb475d72720ba&oe=602F3D69",
+            "mediaKeyTimestamp": "1610993486",
+            "jpegThumbnail": fs.readFileSync('./image/thumb.jpeg'),
+            "scansSidecar": "1W0XhfaAcDwc7xh1R8lca6Qg/1bB4naFCSngM2LKO2NoP5RI7K+zLw=="
+            }
+            }
+            }
+            })
+        }
 
       // Anti link
         if (isGroup && isAntiLink && !isOwner && !isGroupAdmins && isBotGroupAdmins){
@@ -1041,7 +1072,7 @@ _____🚋_🚗__🚕______
 ╚╝╔╝║║║║║║╚╝╔╝║╚╝╔╝║
 ╔═╝╔╝║║║║║╔═╝╔╝╔═╝╔╝
 ║║╚═╗║╚═╝║║║╚═╗║║╚═╗
-🎉🎊🥳🎊🎉🥳🎊🎉🥳🎊🎉🥳`
+🎉🎊🥳🎊🎉🥳??🎉🥳🎊🎉🥳`
                buttons = [{buttonId: `${prefix}menu`,buttonText:{displayText: 'Back Menu😼'},type:1}]
 
                imageMsg = (await Katashi.prepareMessageMedia(fs.readFileSync(`./media/Katashi4.jpg`), 'imageMessage', {thumbnail: fs.readFileSync(`./media/Katashi3.jpg`)})).imageMessage
@@ -6359,24 +6390,40 @@ case 'nuliskiri':{
                     }, 12000)
                     }
                     break
-                    case 'emojimix':
-					        if (!isGroup) return reply(mess.only.group);
-					makell = args.join(" ")
-                    r1 = makell.split("|")[0];
-					r2 = makell.split("|")[1];
-                    i = await fetchJson(`https://tenor.googleapis.com/v2/featured?key=AIzaSyAyimkuYQYF_FXVALexPuGQctUWRURdCYQ&contentfilter=high&media_filter=png_transparent&component=proactive&collection=emoji_kitchen_v5&q=${r1}_${r2}`, {method: 'get'})
-                    console.log(i)
-                    reply(mess.wait)
-                    await sleep(5000)
-                    ini_txt = `Id : ${i.results.id}\n`
-                    ini_txt += `Link : ${i.results.url}\n`
-                    ini_txt += `Description : ${i.results.content_description}\n`
-                    
-                    await sleep(3000)
-                    reply(ini_txt)
-                    await sleep(1000)
-                    reply("Success")
-                    case "spamwa":
+case 'hpss':
+if (args.length < 1) return reply("Linknya?");
+        query = args.join(" ")
+        uuu = await getBuffer(`https://hadi-api.herokuapp.com/api/ssweb?url=${query}&device=phone&full=on`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+        kontol =`*➸ Type:* Handphone\n*➸ Full:* *On*\n`
+Katashi.sendMessage(from, uuu, image, {quoted: mek, caption: kontol})
+                break
+case 'tabletss':
+if (args.length < 1) return reply("Linknya?");
+        query = args.join(" ")
+        otong = await getBuffer(`https://hadi-api.herokuapp.com/api/ssweb?url=${query}&device=tablet&full=on`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+        menyu =`*➸ Type:* Tablet\n*➸ Full:* *On*\n`
+Katashi.sendMessage(from, otong, image, {quoted: mek, caption: menyu})
+                break
+case "Instagramhastag":
+        case "ighastag":
+case "hashtag":
+if (!isGroup) return reply(mess.only.group)
+if (args.length < 1) return reply("Nyari apa?")
+        query = args.join(" ")
+        o = await instagClient.getHashtag(`${query}`)
+        	console.log(o)
+        ot = `*「 INSTAGRAM HASHTAG 」*\n\n*➸ Post:* *${o.posts}*\n*➸ Url:* *${o.link}*`
+        for (let i = 0; i < o.featuredPosts.length; i++) {
+        ot += `\n\n*➸ Caption:* ${o.featuredPosts[i].caption}\n*➸ Comments:* ${o.featuredPosts[i].comments}\n*➸ Like:* ${o.featuredPosts[i].likes}\n*➸ Timestamp:* ${o.featuredPosts[i].timestamp}\n\n\n*➸ Thumb:* ${o.featuredPosts[i].thumbnail}`
+        }
+        buff = await getBuffer(o.featuredPosts[0].thumbnail)
+        but = [{buttonId: `${prefix}allmenu ${o.url}`,buttonText:{displayText: 'Menu'},type:1},{buttonId: `${prefix}owner ${o.url}`,buttonText:{displayText: 'Owner'},type:1}]
+          sendButLocation(from, ot, 'hashtag', buff, but, {quoted: mek})   
+        break
         case "joox2":
 case "jooxnew":
 					        if (!isGroup) return reply(mess.only.group);
@@ -6441,8 +6488,7 @@ case 'mining':
 		  setTimeout( () => {
 		  Katashi.sendMessage(from, mining, text, {quoted: mek}) 
 		  }, 0) // 1000 = 1s,
-	      break	          
-break
+	      break	         
                     
                     case 'mancing':
           ikannya = ikan[Math.floor(Math.random() * ikan.length)]
@@ -6478,6 +6524,20 @@ break
 					await Katashi.updateProfilePicture(botNumber, mediau)
 					reply('Sukses')
 break
+case 'get':
+            if(!q) return reply('linknya?')
+            fetch(`${args[0]}`).then(res => res.text())  
+            .then(bu =>{
+            fakestatus(bu)
+            })   
+            break
+        case 'get3':
+            if(!q) return reply('linknya?')
+            fetch(`${args[0]}`).then(res => res.text())  
+            .then(bu =>{
+            console.log(bu)
+            })   
+            break
 default:
 if (isSimi && bodi != undefined){
           res = await axios.get(`https://api-sv2.simsimi.net/v2/?text=${bodi}&lc=id`)
@@ -6710,6 +6770,15 @@ reply('_' + err + '_\n\n' + js)
                   if (budy.includes(`6281932664252`)) {
                   reply(`Jangan Tag Owner>:V`)
                   }
+                  
+                  if(budy.includes('1cak')){
+o = await fetchJson(`http://api-1cak.herokuapp.com/random#`)
+        console.log(o)
+        menu =`*➸ Id:* ${o.id}\n*➸ Title:* *${o.title}*\n\n*➸ Nsfw:* ${o.nsfw}\n*➸ Url:* ${o.url}\n*➸ Vote:* ${o.votes}`
+        buff = await getBuffer(`https://hadi-api.herokuapp.com/api/ssweb2?url=${o.url}`)
+but = [{buttonId: `${prefix}hpss ${o.url}`,buttonText:{displayText: 'Small Size'},type:1},{buttonId: `${prefix}tabletss ${o.url}`,buttonText:{displayText: 'Medium size'},type:1}]
+          sendButLocation(from, menu, 'hashtag', buff, but, {quoted: mek})   
+}
 
 if (!isGroup && isCmd && !mek.key.fromMe){
 teks = `Maaf @${senderr.split('@')[0]}, command ${prefix + command} tidak ada dalam menu`
