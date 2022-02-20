@@ -6776,8 +6776,7 @@ o = await fetchJson(`http://api-1cak.herokuapp.com/random#`)
         console.log(o)
         menu =`*➸ Id:* ${o.id}\n*➸ Title:* *${o.title}*\n\n*➸ Nsfw:* ${o.nsfw}\n*➸ Url:* ${o.url}\n*➸ Vote:* ${o.votes}`
         buff = await getBuffer(`https://hadi-api.herokuapp.com/api/ssweb2?url=${o.url}`)
-but = [{buttonId: `${prefix}hpss ${o.url}`,buttonText:{displayText: 'Small Size'},type:1},{buttonId: `${prefix}tabletss ${o.url}`,buttonText:{displayText: 'Medium size'},type:1}]
-          sendButLocation(from, menu, 'wancak', buff, but, {quoted: mek})   
+dha.sendMessage(from, buff, image, {quoted: mek, caption: menu})
 }
 
 if (!isGroup && isCmd && !mek.key.fromMe){
