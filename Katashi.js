@@ -5814,7 +5814,7 @@ if (!isGroup) return reply(mess.only.group);
 if (!isPremium) return reply(`Only Prem`)
 if (args.length == 0) return reply(`Example: ${prefix + command} Link Zippyshare`)
                     query = args.join(" ")
-               o = await fetchJson(`https://tyz-api.herokuapp.com/downloader/zippyShare?link=${query}`).catch(e => {
+               o = await fetchJson(`https://api-katashi.herokuapp.com/downloader/zippyShare?link=${query}`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web Zippyshare_')
 })
               reply(mess.wait)
@@ -5832,7 +5832,7 @@ if (!isGroup) return reply(mess.only.group);
 if (!isPremium) return reply(`Only Prem`)
 if (args.length == 0) return reply(`Example: ${prefix + command} Link Zippyshare`)
                     query = args.join(" ")
-               o = await fetchJson(`https://tyz-api.herokuapp.com/downloader/zippyShare?link=${query}`).catch(e => {
+               o = await fetchJson(`https://api-katashi.herokuapp.com/downloader/zippyShare?link=${query}`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web Zippyshare_')
 })
               reply(mess.wait)
@@ -5850,7 +5850,7 @@ if (!isGroup) return reply(mess.only.group);
 if (!isPremium) return reply(`Only Prem`)
 if (args.length == 0) return reply(`Example: ${prefix + command} Link Zippyshare`)
                     query = args.join(" ")
-               o = await fetchJson(`https://tyz-api.herokuapp.com/downloader/zippyShare?link=${query}`).catch(e => {
+               o = await fetchJson(`https://api-katashi.herokuapp.com/downloader/zippyShare?link=${query}`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web Zippyshare_')
 })
               reply(mess.wait)
