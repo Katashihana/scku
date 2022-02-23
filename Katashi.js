@@ -41,7 +41,7 @@ const qrcodes = require('qrcode');
 const imgbb = require('imgbb-uploader');
 const tesseract = require('node-tesseract-ocr');
 const os = require('os');
-const instag = require('scraper-instagram');
+const instag = require('scrape-insta');
 const instagClient = new instag();
 const porny = require('porny');
 const cakone = require('1cak');
@@ -84,7 +84,7 @@ const hx = require('./lib/downloadig2.js');
 const allinone = require('./lib/aiovideodl.js');
 const reminder = require("./lib/reminder.js")
 const fbdl = require("./lib/fbdl.js")
-const spamwa = require("./lib/spamwa.js")
+const myanime = require("./lib/mynime.js")
 
 
 var kuis = false
@@ -126,6 +126,8 @@ let _update = JSON.parse(fs.readFileSync('./database/bot/update.json'))
 let sewa = JSON.parse(fs.readFileSync('./database/group/sewa.json'));
 let _scommand = JSON.parse(fs.readFileSync('./database/bot/scommand.json'))
 let simin = JSON.parse(fs.readFileSync('./database/simi.json'))
+const nsfww = JSON.parse(fs.readFileSync('./database/nsfww.json'))
+const downup = JSON.parse(fs.readFileSync('./database/downup.json'))
 //ೋ❀❀ೋ═══[SUBSCRIBE Katashi CHANEL]═══ೋ❀❀ೋ//
 // GAME
 let tebakanime = JSON.parse(fs.readFileSync('./database/tebakanime.json'))
@@ -263,6 +265,8 @@ module.exports = Katashi = async (Katashi, mek) => {
         const isMuted = isGroup ? mute.includes(from) : false
         const isAntiLink = isGroup ? antilink.includes(from) : false
         const isWelkom = isGroup ? welkom.includes(from) : false
+        const isNsfw = isGroup ? nsfww.includes(from) : false
+        const isdowmload = isGroup ? downup.includes(from) : false
         
         // here button function
         selectedButton = (type == 'buttonsResponseMessage') ? mek.message.buttonsResponseMessage.selectedButtonId : ''
@@ -685,7 +689,7 @@ Katashi.on('CB:action,,call', async json => {
             message: {
             "imageMessage": {
             "url": "https://mmg.whatsapp.net/d/f/At0x7ZdIvuicfjlf9oWS6A3AR9XPh0P-hZIVPLsI70nM.enc",
-            "mimetype": "image/jpeg",
+            "mimetype": "media/Katashi3.jpg",
             "caption": fake,
             "fileSha256": "+Ia+Dwib70Y1CWRMAP9QLJKjIJt54fKycOfB2OEZbTU=",
             "fileLength": "28777",
@@ -695,7 +699,7 @@ Katashi.on('CB:action,,call', async json => {
             "fileEncSha256": "sR9D2RS5JSifw49HeBADguI23fWDz1aZu4faWG/CyRY=",
             "directPath": "/v/t62.7118-24/21427642_840952686474581_572788076332761430_n.enc?oh=3f57c1ba2fcab95f2c0bb475d72720ba&oe=602F3D69",
             "mediaKeyTimestamp": "1610993486",
-            "jpegThumbnail": fs.readFileSync('./image/thumb.jpeg'),
+            "jpegThumbnail": fs.readFileSync('./media/Katashi3.jpg'),
             "scansSidecar": "1W0XhfaAcDwc7xh1R8lca6Qg/1bB4naFCSngM2LKO2NoP5RI7K+zLw=="
             }
             }
@@ -1991,6 +1995,7 @@ break
 }
                break
         case 'otakuongoing':              
+        if (!isGroup) return reply(mess.only.group);
                o = await onGoing()
                console.log(o)
                ot = '*「 Ongoing Otakudesu 」*'
@@ -1999,6 +2004,14 @@ break
 }
                buff = await getBuffer(o[0].thumb)
                Katashi.sendMessage(from, buff, image, {quoted: mek, caption: ot})
+               break
+case 'otakudesu':              
+if (!isGroup) return reply(mess.only.group);
+if (args.length < 1) return reply('Apa Yang Mau Dicari?')
+teks = args.join(' ')
+               o = await hx.otakudesu(`${teks}`)
+               console.log(o)
+               ot = '*「 Ongoing Otakudesu 」*'
                break
             case 'waifu':
             if (!isGroup) return reply(mess.only.group);
@@ -2761,6 +2774,7 @@ break
                break      
 //------------------<18+ Menu>-----------------------   
 case 'nhentai':
+if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
                     if (args.length == 0) return reply(`Example: ${prefix + command} 344253`)
                     henid = args[0]
                     get_result = await fetchJson(`https://tyz-api.herokuapp.com/nsfw/nHentai?code=${henid}`)
@@ -2818,77 +2832,10 @@ Katashi.sendMessage(from, qute, image, { quoted: mek, caption: 'NIH LINKNYA: htt
 qute = fs.readFileSync('./media/ganteng.jpg') 
 Katashi.sendMessage(from, qute, image, { quoted: mek, caption: 'NIH LINKNYA: https://www49.zippyshare.com/d/bdwYjaXS/605790/%5bNekoPoi%5d_Akebi_no_Hana___Maho_-_01_%5b360P%5d_%5bnekopoi.pro%5d.mp4\n\nNOTE SIAPKAN TISU'})
                   break
-case "nekopoi":
-        if (args.length == 0) return reply(`${prefix + command} Link Nekopoi\nPASTIKAN ITU LINK NEKOPOI, JIKA BUKAN LINK NEKOPOI MAKA TIDAK AKAN WORK`)
-        nekop.getVideo(args[0]).then((i) => {
-          console.log(i);
-          teks = `*Title* : ${i.title}
-          \n*Link* : ${i.links}\n*Genre* `
-          reply(teks)
-        });
-        
-reply("Success")
-break;
-case "nekopoilatest":
-					        if (!isGroup) return reply(mess.only.group);
-if (!isPremium) return reply(`Only Prem`)
-        neko.latest().then((ne) => {
-        	teks = '*「 _NEKOPOI_ 」*'
-          for (let i = 0; i < ne.result.length; i++) {
-            teks += `\n\n*➸ Title:* ${ne.result[i].title}\n*➸ Link:* ${ne.result[i].link}\n\n`;
-          }
-          Katashi.sendMessage(from, teks, text, {
-            quoted: mek,
-            detectLinks: false,
-          });
-        });
-        break;
-        case "nekopoisearch":
-        case "nekopois":
-        if (!isPremium) return reply(`Only Prem`)
-        if (args.length < 1) return reply("Nyari apa?");
-        query = args.join(" ");
-        neko.search(`${query}`).then((ne) => {
-        	teks = '*「 _NEKOPOI_ 」*'
-          for (let i = 0; i < ne.result.length; i++) {
-            teks += `\n\n*➸ Title:* ${ne.result[i].title}\n*➸ Link:* ${ne.result[i].link}\n*➸ Img:* ${ne.result[i].img}\n\n`;
-          }
-          Katashi.sendMessage(from, teks, text, {
-            quoted: mek,
-            detectLinks: false,
-          });
-        });
-        break;
-        case "nekopoirandom":
-        case "nekopoir":
-					        if (!isGroup) return reply(mess.only.group);
-if (!isPremium) return reply(`Only Prem`)
-        neko.random().then((ne) => {
-        	teks = '*「 _NEKOPOI_ 」*'
-          for (let i = 0; i < ne.result.length; i++) {
-            teks += `\n\n*➸ Title:* ${ne.result[i].title}\n*➸ Link:* ${ne.result[i].link}\n*➸ Image:* ${ne.result[i].img}\n*➸ Synopsis:* ${ne.result[i].synopsis}\n*➸ Score:* ${ne.result[i].score}\n*➸ Duration:* ${ne.result[i].duration}\n*➸ Genre:* ${ne.result[i].genre}\n\n`;
-          }
-          Katashi.sendMessage(from, teks, text, {
-            quoted: mek,
-            detectLinks: false,
-          });
-        });
-        break;
-case "nekopoi":
-        if (args.length == 0) return reply(`${prefix + command} Link Nekopoi\nPASTIKAN ITU LINK NEKOPOI, JIKA BUKAN LINK NEKOPOI MAKA TIDAK AKAN WORK`)
-        nekop.getVideo(args[0]).then((i) => {
-          console.log(i);
-          teks = `*Title* : ${i.title}
-          \n*Link* : ${i.links}\n*Genre* `
-          reply(teks)
-        });
-        
-await limitAdd(sender)
-break;
 case 'randomporn':
               case 'randomporn':
               case 'randomporn':
-              if (!isPremium) return reply(`Only Prem`)
+              if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
 					        if (!isGroup) return reply(mess.only.group);
               teks = await fetchJson(`https://raw.githubusercontent.com/Katashihana/RANDOM-BY-KATASHI/master/random.json`)
               await sleep(1000)
@@ -2899,7 +2846,7 @@ case 'randomporn':
 sendMediaURL(from, wokwik);;
 break
        case 'randombokep':
-       if (!isPremium) return reply(`Only Prem`)
+       if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
               bokep = body.slice(1)
               const bo =['https://www.mediafire.com/download/8hnhjcf3pseubgy','https://www.mediafire.com/download/cty9phda3d1s62u','https://www.mediafire.com/download/8hnhjcf3pseubgy']
               const kep = bo[Math.floor(Math.random() * bo.length)]
@@ -2908,7 +2855,7 @@ break
                 case 'xs':
 case 'Xs':
 					        if (!isGroup) return reply(mess.only.group);
-if (!isPremium) return reply(`Only Prem`)
+if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
 					        if (!isGroup) return reply(mess.only.group);
 if (args.length == 0) return reply(`Example: ${prefix + command} Blowjob`)
                     query = args.join(" ")
@@ -2928,7 +2875,7 @@ reply("Success")
 break
 case 'xvideos':
 					        if (!isGroup) return reply(mess.only.group);
-if (!isPremium) return reply(`Only Prem`)
+if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
                     if (args.length == 0) return reply(`Example: ${prefix + command} https://www.xnxx.com/video-uy5a73b/mom_is_horny_-_brooklyn`)
                     query = args.join(" ")
                     get_result = await fetchJson(`https://kocakz.herokuapp.com/api/media/xvideo/detail?url=${query}`)
@@ -2947,7 +2894,7 @@ if (!isPremium) return reply(`Only Prem`)
 break
 case 'xnxx':
 					        if (!isGroup) return reply(mess.only.group);
-if (!isPremium) return reply(`Only Prem`)
+if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
                     if (args.length == 0) return reply(`Example: ${prefix + command} https://www.xnxx.com/video-uy5a73b/mom_is_horny_-_brooklyn`)
                     query = args.join(" ")
                     get_result = await fetchJson(`https://kocakz.herokuapp.com/api/media/xnxx/detail?url=${query}`)
@@ -2969,8 +2916,8 @@ case 'xnxxsearch':
 case 'xn':
  case 'Xnxxsearch':
 case 'Xs2':
+if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
 					        if (!isGroup) return reply(mess.only.group);
-if (!isPremium) return reply(`Only Prem`)
 if (args.length == 0) return reply(`Example: ${prefix + command} query`)
                     c = args[0]
 pepex = await fetchJson(`https://kocakz.herokuapp.com/api/media/xnxx/search?query=${c}`).catch(e => {
@@ -2990,7 +2937,62 @@ anu = `${ini_txt}\n\n  *DOWNLOAD*
 Katashi.sendMessage(from, anu, text, {quoted: mek})
 reply("Success")
 break
+case "hentaivid":
+case "hentaivideo":
+if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
+					        if (!isGroup) return reply(mess.only.group);
+        teks = '*「 _HENTAI VIDEO_  」*'
+        scrap.hentaivid().then((res) => {
+        	console.log(res);
+        teks += `*➸ Title:* ${res.hasil.title}\n*➸ Link:* ${res.hasil.link}\n*➸ Kategori : ${res.hasil.category}\n*➸ Share : ${res.hasil.share_count}\n*➸ View : ${res.hasil.views_count}\n*➸ Type : ${res.hasil.type}\n\n`
+                    vid1 = `${res.hasil.video_1}`
+                    vid2 = `${res.hasil.video_2}`
+                    sendMediaURL(from, vid1);
+                    sendMediaURL(from, vid2);
+          Katashi.sendMessage(from, teks, text, {
+            quoted: mek,
+            detectLinks: false,
+          });
+        });
+        break;
+        
+        case "gore":
+case "randomgore":
+if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
+					        if (!isGroup) return reply(mess.only.group);
+        teks = '*「 _RAMDOM GORE_  」*'
+        scrap.randomgore().then((res) => {
+        	console.log(res);
+        teks += `*➸ Title:* ${res.data.judul}\n*➸ Link:* ${res.data.link}\n*➸ Comment : ${res.data.comment}\n*➸ View : ${res.data.views}\n\n`
+                    vid1 = `${res.data.link}`
+                    sendMediaURL(from, vid1);
+          Katashi.sendMessage(from, teks, text, {
+            quoted: mek,
+            detectLinks: false,
+          });
+        });
+        break;
+case "randombokep2":
+if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
+					        if (!isGroup) return reply(mess.only.group);
+        teks = '*「 _Anda Sangean_  」*'
+        res = await fetchJson(`https://server-api-rey.herokuapp.com/api/asupan/bokep2?apikey=apirey`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+        teks += `*➸ Title:* ${res.title}\n*➸ Link:* ${res.url}\n*➸ Image : ${res.thumb}\n*➸ View : ${res.views}\n\n`
+          reply(teks)
+        break
+        case "randombokep3":
+        if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
+					        if (!isGroup) return reply(mess.only.group);
+if (!isPremium) return reply(`Only Prem`)
+        x = await getBuffer(`https://yog-apikey.herokuapp.com/api/bokep?apikey=YogGanz`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
+})
+Katashi.sendMessage(from, x, video, {quoted:mek})
+        break
 case 'asupan1':
+if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
 			Katashi.updatePresence(from, Presence.composing) 
 				reply(mess.wait)
 				data = fs.readFileSync('./lib/asupan.js');
@@ -3001,6 +3003,7 @@ case 'asupan1':
 				Katashi.sendMessage(from, asupan, video, {quoted: mek, caption: '```ASUPAN NIH:V```'})
 				break        
 case 'asupan2':
+if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
 			Katashi.updatePresence(from, Presence.composing) 
 				reply(mess.wait)
 				data = fs.readFileSync('./lib/asupan2.js');
@@ -4939,7 +4942,48 @@ break;
 						reply(`*BERHASIL MENUTUP GROUP*`)
 						Katashi.groupSettingChange(from, GroupSettingChange.messageSend, true)
 					}
-					break                            
+					break   
+case 'nsfw':
+case 'Nsfw':
+	        if (!isGroup) return reply(mess.only.group)
+			if (!isOwner) return reply(mess.only.admin)
+					if (args.length < 1) return reply(`untuk mengaktifkan ketik : ${prefix}nsfw 1`)
+					if (Number(args[0]) === 1) {
+						if (isNsfw) return reply('Sudah Aktif Kak')
+						nsfww.push(from)
+						fs.writeFileSync('./database/nsfww.json', JSON.stringify(nsfww))
+						reply('Sukses mengaktifkan fitur nsfw')
+						Katashi.sendMessage(from, `Bebas Nyari Hentai 🗿`, text)
+					} else if (Number(args[0]) === 0) {
+						if (!isNsfw) return reply('Sudah Mati Kak')
+						var ini = nsfww.indexOf(from)
+						nsfww.splice(ini, 1)
+						fs.writeFileSync('./database/nsfww.json', JSON.stringify(nsfww))
+						reply('Sukses menonaktifkan fitur nsfw')
+					} else {
+						reply('1 untuk mengaktifkan, 0 untuk mematikan')
+					}
+					break
+case 'download':
+	        if (!isGroup) return reply(mess.only.group)
+			if (!isOwner) return reply(mess.only.admin)
+					if (args.length < 1) return reply(`untuk mengaktifkan ketik : ${prefix}nsfw 1`)
+					if (Number(args[0]) === 1) {
+						if (isdowmload) return reply('Sudah Aktif Kak')
+						downup.push(from)
+						fs.writeFileSync('./database/downup.json', JSON.stringify(downup))
+						reply('Sukses mengaktifkan fitur nsfw')
+						Katashi.sendMessage(from, `Bebas Nyari Hentai 🗿`, text)
+					} else if (Number(args[0]) === 0) {
+						if (!isNsfw) return reply('Sudah Mati Kak')
+						var ini = downup.indexOf(from)
+						downup.splice(ini, 1)
+						fs.writeFileSync('./database/downup.json', JSON.stringify(downup))
+						reply('Sukses menonaktifkan fitur nsfw')
+					} else {
+						reply('1 untuk mengaktifkan, 0 untuk mematikan')
+					}
+					break                         
 //------------------< Menunya Bang:v >-------------------
       case 'dana':
              reply(`DANA : 089626029135`)
@@ -5285,24 +5329,6 @@ case 'Vaksin':
                     reply(ini_txt)
                     reply("Success")
 break
-case "hentaivid":
-case "hentaivideo":
-					        if (!isGroup) return reply(mess.only.group);
-if (!isPremium) return reply(`Only Prem`)
-        teks = '*「 _HENTAI VIDEO_  」*'
-        scrap.hentaivid().then((res) => {
-        	console.log(res);
-        teks += `*➸ Title:* ${res.hasil.title}\n*➸ Link:* ${res.hasil.link}\n*➸ Kategori : ${res.hasil.category}\n*➸ Share : ${res.hasil.share_count}\n*➸ View : ${res.hasil.views_count}\n*➸ Type : ${res.hasil.type}\n\n`
-                    vid1 = `${res.hasil.video_1}`
-                    vid2 = `${res.hasil.video_2}`
-                    sendMediaURL(from, vid1);
-                    sendMediaURL(from, vid2);
-          Katashi.sendMessage(from, teks, text, {
-            quoted: mek,
-            detectLinks: false,
-          });
-        });
-        break;
         case "anoboys":
         if (!isGroup) return reply(mess.only.group);
         if (args.length < 1) return reply("Cari apa?");
@@ -5359,30 +5385,6 @@ case 'amazon':
               teks = `*AMAZON SEARCH*\n\n➸ Item : ${get_result.item}\n➸ Review : ${get_result.review}\n➸ Rating : ${get_result.rating}\n➸ Score : ${get_result.score}\n➸ Price : ${get_result.price}\n➸ Sponsor : ${get_result.sponsor}\n`
               Katashi.sendMessage(from, teks, text, {quoted: ftoko})
               break
-case 'bokep':
-try{
-  if (!isPremium) return reply(`Only Prem`)
-					        if (!isGroup) return reply(mess.only.group);
-boks = Date.now();
-bok = await scrap.pornvid()
-bokt = `BOKEP
-
-┬╗ Judul    : ${bok.hasil.title}
-┬╗ Upload   : ${bok.hasil.upload}
-┬╗ Views    : ${bok.hasil.views}
-┬╗ Like     : ${bok.hasil.like}
-┬╗ Dislike  : ${bok.hasil.dislike}
-┬╗ Favorite : ${bok.hasil.favorite}
-┬╗ Tag      : ${bok.hasil.tags}
-┬╗ Source   : ${bok.hasil.source}`
-
-sendMediaURL(from, "https://tikporntok.com/"+bok.hasil.thumb, bokt)
-sendMediaURL(from, "https://tikporntok.com/"+bok.hasil.video, monospace(`Process ${((Date.now()-boks)/1000).toFixed(1)} Seconds`))
-} catch (e){
-console.log(e)
-reply(e)
-}
-break
         case "wattpad":
 					        if (!isGroup) return reply(mess.only.group);
 if (args.length < 1) return reply("Nyari apa?");
@@ -5393,22 +5395,6 @@ if (args.length < 1) return reply("Nyari apa?");
           for (let i = 0; i < ne.length; i++) {
             teks += `\n\n*➸ Title:* ${ne[i].judul}\n*➸ Link:* ${ne[i].link}\n*➸ Image:* ${ne[i].thumb}\n*➸ Be Read:* ${ne[i].dibaca}\n*➸ Vote:* ${ne[i].divote}\n\n`;
           }
-          Katashi.sendMessage(from, teks, text, {
-            quoted: mek,
-            detectLinks: false,
-          });
-        });
-        break;
-        case "gore":
-case "randomgore":
-					        if (!isGroup) return reply(mess.only.group);
-if (!isPremium) return reply(`Only Prem`)
-        teks = '*「 _RAMDOM GORE_  」*'
-        scrap.randomgore().then((res) => {
-        	console.log(res);
-        teks += `*➸ Title:* ${res.data.judul}\n*➸ Link:* ${res.data.link}\n*➸ Comment : ${res.data.comment}\n*➸ View : ${res.data.views}\n\n`
-                    vid1 = `${res.data.link}`
-                    sendMediaURL(from, vid1);
           Katashi.sendMessage(from, teks, text, {
             quoted: mek,
             detectLinks: false,
@@ -5710,24 +5696,6 @@ case 'listadmin':
 					}
 					mentions(teks, groupAdmins, true)
 					break
-case "randombokep2":
-					        if (!isGroup) return reply(mess.only.group);
-if (!isPremium) return reply(`Only Prem`)
-        teks = '*「 _Anda Sangean_  」*'
-        res = await fetchJson(`https://server-api-rey.herokuapp.com/api/asupan/bokep2?apikey=apirey`).catch(e => {
-            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
-})
-        teks += `*➸ Title:* ${res.title}\n*➸ Link:* ${res.url}\n*➸ Image : ${res.thumb}\n*➸ View : ${res.views}\n\n`
-          reply(teks)
-        break
-        case "randombokep3":
-					        if (!isGroup) return reply(mess.only.group);
-if (!isPremium) return reply(`Only Prem`)
-        x = await getBuffer(`https://yog-apikey.herokuapp.com/api/bokep?apikey=YogGanz`).catch(e => {
-            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
-})
-Katashi.sendMessage(from, x, video, {quoted:mek})
-        break
         case 'wait':
 case 'wait':
 	var imgbb = require('imgbb-uploader')
@@ -6390,40 +6358,6 @@ case 'nuliskiri':{
                     }, 12000)
                     }
                     break
-case 'hpss':
-if (args.length < 1) return reply("Linknya?");
-        query = args.join(" ")
-        uuu = await getBuffer(`https://hadi-api.herokuapp.com/api/ssweb?url=${query}&device=phone&full=on`).catch(e => {
-            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
-})
-        kontol =`*➸ Type:* Handphone\n*➸ Full:* *On*\n`
-Katashi.sendMessage(from, uuu, image, {quoted: mek, caption: kontol})
-                break
-case 'tabletss':
-if (args.length < 1) return reply("Linknya?");
-        query = args.join(" ")
-        otong = await getBuffer(`https://hadi-api.herokuapp.com/api/ssweb?url=${query}&device=tablet&full=on`).catch(e => {
-            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
-})
-        menyu =`*➸ Type:* Tablet\n*➸ Full:* *On*\n`
-Katashi.sendMessage(from, otong, image, {quoted: mek, caption: menyu})
-                break
-case "Instagramhastag":
-        case "ighastag":
-case "hashtag":
-if (!isGroup) return reply(mess.only.group)
-if (args.length < 1) return reply("Nyari apa?")
-        query = args.join(" ")
-        o = await instagClient.getHashtag(`${query}`)
-        	console.log(o)
-        ot = `*「 INSTAGRAM HASHTAG 」*\n\n*➸ Post:* *${o.posts}*\n*➸ Url:* *${o.link}*`
-        for (let i = 0; i < o.featuredPosts.length; i++) {
-        ot += `\n\n*➸ Caption:* ${o.featuredPosts[i].caption}\n*➸ Comments:* ${o.featuredPosts[i].comments}\n*➸ Like:* ${o.featuredPosts[i].likes}\n*➸ Timestamp:* ${o.featuredPosts[i].timestamp}\n\n\n*➸ Thumb:* ${o.featuredPosts[i].thumbnail}`
-        }
-        buff = await getBuffer(o.featuredPosts[0].thumbnail)
-        but = [{buttonId: `${prefix}allmenu ${o.url}`,buttonText:{displayText: 'Menu'},type:1},{buttonId: `${prefix}owner ${o.url}`,buttonText:{displayText: 'Owner'},type:1}]
-          sendButLocation(from, ot, 'hashtag', buff, but, {quoted: mek})   
-        break
         case "joox2":
 case "jooxnew":
 					        if (!isGroup) return reply(mess.only.group);
@@ -6538,6 +6472,17 @@ case 'get':
             console.log(bu)
             })   
             break
+case "moddroid":
+					        if (!isGroup) return reply(mess.only.group);
+if (args.length < 1) return reply("Nyari apa?");
+        query = args.join(" ");
+        teks = '*「 _JOOX_  」*'
+        todapi.moddroid(`${query}`).then((res) => {
+        	console.log(res);
+                    reply("Success")
+        });
+        break;
+      
 default:
 if (isSimi && bodi != undefined){
           res = await axios.get(`https://api-sv2.simsimi.net/v2/?text=${bodi}&lc=id`)
@@ -6776,7 +6721,12 @@ o = await fetchJson(`http://api-1cak.herokuapp.com/random#`)
         console.log(o)
         menu =`*➸ Id:* ${o.id}\n*➸ Title:* *${o.title}*\n\n*➸ Nsfw:* ${o.nsfw}\n*➸ Url:* ${o.url}\n*➸ Vote:* ${o.votes}`
         buff = await getBuffer(`https://hadi-api.herokuapp.com/api/ssweb2?url=${o.url}`)
-dha.sendMessage(from, buff, image, {quoted: mek, caption: menu})
+        buttons = [{buttonId: `${prefix + command}`,buttonText:{displayText: `➡️Next`},type:1}]
+              imageMsg = (await Katashi.prepareMessageMedia(buff, "imageMessage", { thumbnail: buff, })).imageMessage
+              buttonsMessage = {footerText:'𝘊𝘳𝘦𝘢𝘵𝘦𝘥 𝘉𝘺 Katashi シ︎', imageMessage: imageMsg,
+              contentText:`${menu}`,buttons,headerType:4}
+              prep = await Katashi.prepareMessageFromContent(from,{buttonsMessage},{quoted: mek})
+              Katashi.relayWAMessage(prep)
 }
 
 if (!isGroup && isCmd && !mek.key.fromMe){
