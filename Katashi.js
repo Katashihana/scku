@@ -45,6 +45,11 @@ const instag = require('scrape-insta');
 const instagClient = new instag();
 const porny = require('porny');
 const cakone = require('1cak');
+const { UploadClient } = require('@uploadcare/upload-client');
+const client = new UploadClient({ publicKey: 'd11896206fec6a5bed52' })
+const anonfile = require('anonfile-lib');
+const malScraper = require('mal-scraper') 
+/// Base D
 const { virtex, vipi } = require('./lib/virtex.js')
 const Mfake = fs.readFileSync ('./media/Katashi2.jpg')
 const Mthumb = fs.readFileSync('./media/Katashi2.jpg')
@@ -58,7 +63,7 @@ const { downloadMenu, infoMenu, gameMenu, groupMenu, funMenu, wibuMenu, ownerMen
 const { getBuffer, getGroupAdmins, getRandom, runtime, sleep } = require('./lib/myfunc')
 const { fetchJson, getBase64, kyun, createExif } = require('./lib/fetch')
 const { color, bgcolor } = require('./lib/color')
-const { mess } = require('./message/mess')
+const { mess, daftar } = require('./message/mess')
 const { Toxic } = require('./lib/Toxic.js')
 const { cmdadd } = require('./lib/totalcmd.js')
 const { uptotele, uploadFile, RESTfulAPI, uploadImages } = require('./lib/uploadimage')
@@ -82,9 +87,15 @@ const scrapp = require('./lib/scrape21.js');
 const igg = require("./lib/indexx.js");
 const hx = require('./lib/downloadig2.js');
 const allinone = require('./lib/aiovideodl.js');
-const reminder = require("./lib/reminder.js")
-const fbdl = require("./lib/fbdl.js")
+const reminder = require("./lib/reminder.js");
+const fbdl = require("./lib/fbdl.js");
+const { getVideoUrl } = require('./lib/getVideoUrl.js');
+const { fbdownlod } = require('./lib/findUid.js');
 const myanime = require("./lib/mynime.js")
+const { top4top } = require('./lib/top4top.js')
+const { imgurl,
+	         imgfile,
+	         imgfile2 } = require('./lib/imgbb.js');
 
 
 var kuis = false
@@ -127,7 +138,9 @@ let sewa = JSON.parse(fs.readFileSync('./database/group/sewa.json'));
 let _scommand = JSON.parse(fs.readFileSync('./database/bot/scommand.json'))
 let simin = JSON.parse(fs.readFileSync('./database/simi.json'))
 const nsfww = JSON.parse(fs.readFileSync('./database/nsfww.json'))
-const downup = JSON.parse(fs.readFileSync('./database/downup.json'))
+const _registered = JSON.parse(fs.readFileSync('./database/registered.json'))
+const _limit = JSON.parse(fs.readFileSync('./database/limit.json'))
+const { getRegisterNo, getRegisterName, getRegisterSerial, getRegisterAge, getRegisterTime, getRegisteredRandomId, addRegisteredUser, createSerial, checkRegisteredUser } = require('./database/register.js')
 //ೋ❀❀ೋ═══[SUBSCRIBE Katashi CHANEL]═══ೋ❀❀ೋ//
 // GAME
 let tebakanime = JSON.parse(fs.readFileSync('./database/tebakanime.json'))
@@ -266,51 +279,105 @@ module.exports = Katashi = async (Katashi, mek) => {
         const isAntiLink = isGroup ? antilink.includes(from) : false
         const isWelkom = isGroup ? welkom.includes(from) : false
         const isNsfw = isGroup ? nsfww.includes(from) : false
-        const isdowmload = isGroup ? downup.includes(from) : false
+        const isRegis = checkRegisteredUser(sender)
+        
+        ///Limit 
+        const checkLimit = (sender) => {
+				let found = false
+				for (let lmt of _limit) {
+					if (lmt.id === sender) {
+						let limitCounts = limitawal - lmt.limit
+						if (limitCounts <= 0) return Katashi.sendMessage(from,`Limit kamu sudah habis`, text,{ quoted: mek})
+						Katashi.sendMessage(from, lang.limitcount(isPremium, limitCounts), text, { quoted : mek})
+						found = true
+					}
+				}
+					if (found === false) {
+						let obj = { id: sender, limit: 1 }
+						_limit.push(obj)
+						fs.writeFileSync('./database/limit.json', JSON.stringify(_limit))
+						Katashi.sendMessage(from, lang.limitcount(isPremium, limitCounts), text, { quoted : mek})
+						}
+					}
+			const isLimit = (sender) =>{ 
+				let position = false
+				for (let i of _limit) {
+					if (i.id === sender) {
+						let limits = i.limit
+						if (limits >= limitawal ) {
+							position = true
+							Katashi.sendMessage(from, lang.limitend(pushname), text, {quoted: mek})
+							return true
+						} else {
+							_limit
+							position = true
+						return false
+						}
+					}
+				}
+				if (position === false) {
+					const obj = { id: sender, limit: 0 }
+					_limit.push(obj)
+					fs.writeFileSync('./database/limit.json',JSON.stringify(_limit))
+					return false
+					}
+				}
+				
+				const limitAdd = (sender) => {
+					if (isOwner && isPremium) {return false;}
+					let position = false
+					Object.keys(_limit).forEach((i) => {
+						if (_limit[i].id == sender) {
+							position = i
+							}
+						})
+				if (position !== false) {
+					_limit[position].limit += 1
+					fs.writeFileSync('./database/limit.json', JSON.stringify(_limit))
+					}
+				}
         
         // here button function
         selectedButton = (type == 'buttonsResponseMessage') ? mek.message.buttonsResponseMessage.selectedButtonId : ''
 
         responseButton = (type == 'listResponseMessage') ? mek.message.listResponseMessage.title : ''
         
-        const sendButton = async (from, context, fortext, but, mek) => {
-        buttonMessages = {
-        contentText: context,
-        footerText: fortext,
-        buttons: but,
-        headerType: 1
-        }
-        Katashi.sendMessage(from, buttonMessages, buttonsMessage, {
-        quoted: mek
-        })
-        }
         const sendButMessage = (id, text1, desc1, but = [], options = {}) => {
-        const buttonMessage = {
-        contentText: text1,
-        footerText: desc1,
-        buttons: but,
-        headerType: 1,
-        };
-        Katashi.sendMessage(
-        id,
-        buttonMessage,
-        MessageType.buttonsMessage,
-        options
-        );
-        };
-        ///Button Image
-const sendButImage = async(id, text1, desc1, gam1, but = [], options = {}) => {
-kma = gam1
-mhan = await Katashi.prepareMessage(from, kma, image)
-const buttonMessages = {
-imageMessage: mhan.message.imageMessage,
-contentText: text1,
-footerText: desc1,
-buttons: but,
-headerType: 4
-}
-Katashi.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
-}
+					const buttonMessage = {
+						contentText: text1,
+						footerText: desc1,
+						buttons: but,
+						headerType: 1,
+						};
+						Katashi.sendMessage(id, buttonMessage, MessageType.buttonsMessage, options);
+					};
+				const sendButVideo = async(id, text1, desc1, vid1, but = [], options = {}) => {
+					them = vid1
+					mediaxxaa = await Katashi.prepareMessage(id, them, MessageType.video)
+					vimhan = mediaxxaa.message["ephemeralMessage"] ? mediaxxaa.message.ephemeralMessage : mediaxxaa
+					const buttonMessages = {
+						videoMessage: vimhan.message.videoMessage,
+						contentText: text1,
+						footerText: desc1,
+						buttons: but,
+						headerType: 5
+						}
+						Katashi.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
+						}
+				const sendButImage = async(id, text1, desc1, vid1, but = [], options = {}) => {
+					them = vid1
+					mediaxxaa = await Katashi.prepareMessage(id, them, MessageType.image, {thumbnail: Buffer.alloc(0)})
+					imgmhan = mediaxxaa.message["ephemeralMessage"] ? mediaxxaa.message.ephemeralMessage : mediaxxaa
+					const buttonMessages = {
+						imageMessage: imgmhan.message.imageMessage,
+						contentText: text1,
+						footerText: desc1,
+						buttons: but,
+						headerType: 4
+						}
+					Katashi.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
+				}
+        ///Button loc
         async function sendButLocation(id, text1, desc1, gam1, but = [], options = {}) {
         const buttonMessages = { locationMessage: { jpegThumbnail: gam1 }, contentText: text1, footerText: desc1, buttons: but, headerType: 6 }
         return Katashi.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
@@ -516,6 +583,34 @@ Katashi.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
 	   return `./sticker/${name}.exif`	
 })	
 }
+
+///Anti delete
+Katashi.on('message-delete', async (m) => {
+if (m.key.remoteJid == 'status@broadcast') return
+if (!m.key.fromMe && m.key.fromMe) return
+if (antidel === false) return
+m.message = (Object.keys(m.message)[0] === 'ephemeralMessage') ? m.message.ephemeralMessage.message : m.message
+const jam = moment.tz('Asia/Jakarta').format('HH:mm:ss')
+let d = new Date
+let locale = 'id'
+let gmt = new Date(0).getTime() - new Date('1 Januari 2021').getTime()
+let weton = ['Pahing', 'Pon','Wage','Kliwon','Legi'][Math.floor(((d * 1) + gmt) / 84600000) % 5]
+let week = d.toLocaleDateString(locale, { weekday: 'long' })
+let calender = d.toLocaleDateString(locale, {
+day: 'numeric',
+month: 'long',
+year: 'numeric'
+})
+const type = Object.keys(m.message)[0] 
+Katashi.sendMessage(m.key.remoteJid, `*A N T I  - D E L E T E *
+
+Name : @${m.participant.split("@")[0]}
+Day :  ${week} ${calender}
+Time : ${jam}
+Type : ${type}`, MessageType.text, {quoted: m.message, contextInfo: {"mentionedJid": [m.participant]}})
+
+Katashi.copyNForward(m.key.remoteJid, m.message, {quoted: falfaa})
+})
 
 /// Anti
 Katashi.on('CB:Blocklist', json => {
@@ -996,6 +1091,7 @@ Katashi.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
 //ೋ❀❀ೋ═══[SUBSCRIBE Katashi CHANEL]═══ೋ❀❀ೋ//
         case 'menu':
         case 'help':
+        
         const d = new Date(new Date + 3600000)
               
               const locale = 'id'
@@ -1094,6 +1190,7 @@ _____🚋_🚗__🚕______
      
         case 'command':
         case 'allmenu':
+        
                list = []
                listmenu = [`selamat`,`buttongc`,`buttonwibu`,`buttonstik`,`islammenu`,`ceritamenu`,`katamenu`,`dewasamenu`,`buttonown`,`buttongame`,`funmenu`,`buttondl`,`infomenu`,`othermenu`,`toolsmenu`,`infobot`,`owner`]
                listmenuu = [`[🥳]Tahun Baru`,`[🧸]Menu Group`,`[🐥]Wibu Menu`,`[🤡]Sticker Menu`,`[👳]Islam Menu`,`[☂️]Cerita Menu`,`[📦]Kata-Kata Menu`,`[🔞]Dewasa Menu`,`[🛂]Owner Menu`,`[🎮]Game Menu`,`[🎣]Fun Menu`,`[📂]Downloader`,`[📰]Info Menu`,`[🪀]MenuLainnya`,`[🦞]Tools Menu`,`[🤖]Info Bot`,`[🐻]Owner`]
@@ -1771,6 +1868,7 @@ buttons = [{buttonId: `${prefix}menu ${q}`,buttonText:{displayText: `MENU`},type
        case 'addcmd': 
        case 'setcmd':
        if (!isGroup) return reply(mess.only.group);
+
               if (!isPremium) return reply(`Kamu bukan user premium, kirim perintah *${prefix}buypremium* untuk membeli premium`)
               if (isQuotedSticker) {
               if (!q) return reply(`Penggunaan : ${command} cmdnya dan tag stickernya`)
@@ -1783,6 +1881,7 @@ buttons = [{buttonId: `${prefix}menu ${q}`,buttonText:{displayText: `MENU`},type
               break
        case 'delcmd':
        if (!isGroup) return reply(mess.only.group);
+
               if (!isPremium) return reply(`Kamu bukan user premium, kirim perintah *${prefix}buypremium* untuk membeli premium`)
               if (!isQuotedSticker) return reply(`Penggunaan : ${command} tagsticker`)
               var kodenya = mek.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.fileSha256.toString('base64')
@@ -1792,6 +1891,7 @@ buttons = [{buttonId: `${prefix}menu ${q}`,buttonText:{displayText: `MENU`},type
               break
        case 'listcmd':
        if (!isGroup) return reply(mess.only.group);
+
               let teksnyee = `\`\`\`「 LIST STICKER CMD 」\`\`\``
               let cemde = [];
               for (let i of _scommand) {
@@ -1804,6 +1904,7 @@ buttons = [{buttonId: `${prefix}menu ${q}`,buttonText:{displayText: `MENU`},type
 case 'infogempa':
 case 'Infogempa':
 					        if (!isGroup) return reply(mess.only.group);
+
                     ini_result = await fetchJson(`https://docs-jojo.herokuapp.com/api/infogempa`)
                     ini_buffer = await getBuffer(ini_result.map)
                     ini_txt = `Waktu : ${ini_result.waktu}\n`
@@ -1821,6 +1922,7 @@ break
       case "igdl3":
       case "igdl4":
       if (!isGroup) return reply(mess.only.group);
+
         if (!isUrl(args[0]) && !args[0].includes("instagram.com"))
           return reply(mess.Iv);
         if (!q) return fakegroup("Linknya?");
@@ -1845,6 +1947,7 @@ break
 break;
 case 'splay':
 					        if (!isGroup) return reply(mess.only.group);
+
                     if (args.length == 0) return reply(`Example: ${prefix + command} Melukis Senja`)
                     query = args.join(" ")
                     get_result = await fetchJson(`http://hadi-api.herokuapp.com/api/soundcloud/play?query=${query}`)
@@ -1860,6 +1963,7 @@ case 'splay':
 break
        case 'soundcloud':
 					        if (!isGroup) return reply(mess.only.group);
+
                     if (args.length == 0) return reply(`Example: ${prefix + command} Melukis Senja`)
                     query = args.join(" ")
                     get_result = await fetchJson(`https://hadi-api.herokuapp.com/api/soundcloud/download?url=${query}`)
@@ -1876,6 +1980,7 @@ break
        case 'gimage':
        case 'googleimage':
        if (!isGroup) return reply(mess.only.group);
+
               if (args.length < 1) return reply('Apa Yang Mau Dicari?')
               reply(mess.wait)
               teks = args.join(' ')
@@ -1891,6 +1996,7 @@ break
              break
         case 'mediafire':
         if (!isGroup) return reply(mess.only.group);
+
                if (!isPremium) return reply(mess.only.premium)
                if (args.length < 1) return reply('Link Nya Mana? ')
                if(!isUrl(args[0]) && !args[0].includes('mediafire')) return reply(mess.error.Iv)
@@ -1912,6 +2018,7 @@ _*Tunggu Proses Upload Media......*_`
              break
       case 'ssweb':
 					        if (!isGroup) return reply(mess.only.group);
+
 if (args.length == 0) return reply(`Example: ${prefix + command} https://mnazria.herokuapp.com/api/screenshotweb?url=www.google.com`)
                     query = args.join(" ")
                     get_result = await fetchJson(`https://mnazria.herokuapp.com/api/screenshotweb?url=${query}`)
@@ -1922,6 +2029,7 @@ break
       case 'kusonime':  
 case 'Kusonime':  
 					        if (!isGroup) return reply(mess.only.group);
+
                    if (args.length == 0) return reply(`Example: ${prefix + command} loli kawaii`)
                     query = args.join(" ")
                    anu = await fetchJson(`https://docs-jojo.herokuapp.com/api/kuso?q=${query}`)
@@ -1932,6 +2040,7 @@ break
        case 'hentai':
 case 'hentai':
 					        if (!isGroup) return reply(mess.only.group);
+
 x = await fetchJson(`https://akaneko-api.herokuapp.com/api/hentai`)
 im = await getBuffer(x.url)
 Katashi.sendMessage(from, im, image, {quoted: mek})
@@ -1940,6 +2049,7 @@ break
        case 'storyanime':
 case 'storyanime':	
 					        if (!isGroup) return reply(mess.only.group);
+
 x = await getBuffer(`https://tyz-api.herokuapp.com/anime/storyanime`)
 Katashi.sendMessage(from, x, video, {quoted: mek})
 reply("Success")
@@ -1948,6 +2058,7 @@ break
        case '3dnekopoi':
        case '3dnekopoilast':
        if (!isGroup) return reply(mess.only.group);
+
               reply(mess.wait)
               try {
               bsangee = await axios.get(`https://api.vhtear.com/neko3d&apikey=${setting.vhtearkey}`)
@@ -1965,6 +2076,7 @@ break
         case 'nekopoijav':
         case 'javnekopoi':
         if (!isGroup) return reply(mess.only.group);
+
                reply(mess.wait)
                try {
                bsangce = await axios.get(`https://api.vhtear.com/nekojavlist&apikey=${setting.vhtearkey}`)
@@ -1981,6 +2093,7 @@ break
         case 'nekopoicosplay':
         case 'cosplaynekopoi':
         if (!isGroup) return reply(mess.only.group);
+
                try {
                reply(mess.wait)
                bsangbe = await axios.get(`https://api.vhtear.com/nekojavcosplay&apikey=${setting.vhtearkey}`)
@@ -1996,6 +2109,7 @@ break
                break
         case 'otakuongoing':              
         if (!isGroup) return reply(mess.only.group);
+
                o = await onGoing()
                console.log(o)
                ot = '*「 Ongoing Otakudesu 」*'
@@ -2007,6 +2121,7 @@ break
                break
 case 'otakudesu':              
 if (!isGroup) return reply(mess.only.group);
+
 if (args.length < 1) return reply('Apa Yang Mau Dicari?')
 teks = args.join(' ')
                o = await hx.otakudesu(`${teks}`)
@@ -2015,6 +2130,7 @@ teks = args.join(' ')
                break
             case 'waifu':
             if (!isGroup) return reply(mess.only.group);
+
 v = await fetchJson(`https://api.waifu.pics/sfw/waifu`)
 inifile = sendMediaURL(from, v.url, )
 buttons = [{buttonId: `${prefix + command}`,buttonText:{displayText: `➡️Next`},type:1},{buttonId:`${prefix}nhentaibot`,buttonText:{displayText:'NHENTAI BOT'},type:1}]
@@ -2031,6 +2147,7 @@ break
        case 'cosplay':
        case 'wallml':
        if (!isGroup) return reply(mess.only.group);
+
               let wipu = (await axios.get(`https://raw.githubusercontent.com/Arya-was/endak-tau/main/${command}.json`)).data
               let wipi = wipu[Math.floor(Math.random() * (wipu.length))]
               fs.writeFileSync(`./${sender}.jpeg`, await getBuffer(wipi))
@@ -2064,6 +2181,7 @@ case 'ytplay':
         case 'playyy':
 case 'lagu':
 if (!isGroup) return reply(mess.only.group);
+
 if (args.length < 1) return reply('Apa Yang Mau Dicari?')
 teks = args.join(' ')
 reply(mess.wait)
@@ -2115,6 +2233,7 @@ sendFileFromUrl(res[0].link, document, {quoted: mek, mimetype: 'audio/mp3', file
 break
 case 'joox':              
 if (!isGroup) return reply(mess.only.group);
+
 if (args.length < 1) return reply('Apa Yang Mau Dicari?')
 teks = args.join(' ')
 reply(mess.wait)
@@ -2209,6 +2328,7 @@ teks += `\`\`\`• Nama : ${get_data[i].name}\`\`\`
               break
        case 'playstore':
        if (!isGroup) return reply(mess.only.group);
+
               try {
               if (args.length == 0) return reply(`Kirim perintah *${prefix}playstore [ apk ]*\nContoh : ${prefix}playstore pubg`)
               query = args.join(" ")
@@ -2237,6 +2357,7 @@ teks += `\`\`\`• Title : ${get_result[i].title}\`\`\`
        case 'yts':
        case 'ytsearch':
        if (!isGroup) return reply(mess.only.group);
+
               if (!q) return reply(mess.wrongFormat)
               reply(mess.wait)
               try {
@@ -2263,6 +2384,7 @@ a += `\`\`\`• Title : ${i.title}\`\`\`
                break
        case 'tourl':
        if (!isGroup) return reply(mess.only.group);
+
                if ((isMedia && !mek.message.videoMessage || isQuotedImage || isQuotedVideo ) && args.length == 0) {
                reply(mess.wait)
                boij = isQuotedImage || isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
@@ -2276,12 +2398,16 @@ a += `\`\`\`• Title : ${i.title}\`\`\`
        case 'imgtourl':
        case 'img2url':
        if (!isGroup) return reply(mess.only.group);
+
                reply(mess.wait) 
                var imgbb = require('imgbb-uploader')
                var encmedia  = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
                var media = await  Katashi.downloadAndSaveMediaMessage(encmedia)       
-               imgbb('cedeb44b8d204947a6833ca1412ca77d', media)
+               imgurl(media).catch(e => {
+               reply('_[ ! ] Error Gagal Dalam Memasuki Web Imageurl_')
+})
               .then(data => {
+               console.log(data)
                var caps = `*_IMAGE TO URL_*\n\n*~>  ID :* ${data.id}\n*~>  MimeType :* ${data.image.mime}\n*~>  Extension :* ${data.image.extension}\n*~>  URL :* ${data.display_url}`
                ibb = fs.readFileSync(media)
                Katashi.sendMessage(from, ibb, image, { quoted: mek, caption: caps})
@@ -2478,30 +2604,7 @@ break;
 }
 )
               break
-       case 'telesticker': 
-       case 'telestiker':
-              if (!q) return reply(`Example: ${prefix + command} https://t.me/addstickers/LINE_Menhera_chan_ENG`)
-              reply(mess.wait)
-              ini_url = await fetchJson(`https://api.lolhuman.xyz/api/telestick?apikey=${setting.lolkey}&url=${args[0]}`)
-              ini_sticker = ini_url.result.sticker
-              reply('Sending '+ ini_sticker.length +' stickers...')
-              for (sticker_ in ini_sticker) {
-              ini_buffer = await getBuffer(ini_sticker[sticker_])
-              Katashi.sendMessage(from, ini_buffer, sticker, {})
-}
-              break
-       case 'semoji':
-       case 'emoji':
-              if (args.length == 0) return reply(`Example: ${prefix + command} ðŸ˜­`)
-              emoji = args[0]
-              try {
-              emoji = encodeURI(emoji[0])
-              } catch {
-              emoji = encodeURI(emoji)
- }
-              ini_buffer = await getBuffer(`https://api.lolhuman.xyz/api/smoji/${emoji}?apikey=${setting.lolkey}`)
-              await Katashi.sendMessage(from, ini_buffer, sticker, { quoted: mek })
-              break
+     
 case 'ttp':
 if (args.length < 1) return reply(`teksnya mana bruh?\ncontoh ${prefix} ${pushname}`)
 woy = args.join(" ")
@@ -2837,6 +2940,7 @@ case 'randomporn':
               case 'randomporn':
               if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
 					        if (!isGroup) return reply(mess.only.group);
+
               teks = await fetchJson(`https://raw.githubusercontent.com/Katashihana/RANDOM-BY-KATASHI/master/random.json`)
               await sleep(1000)
                rjppp = teks[Math.floor(Math.random() * teks.length)];
@@ -2855,8 +2959,10 @@ break
                 case 'xs':
 case 'Xs':
 					        if (!isGroup) return reply(mess.only.group);
+
 if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
 					        if (!isGroup) return reply(mess.only.group);
+
 if (args.length == 0) return reply(`Example: ${prefix + command} Blowjob`)
                     query = args.join(" ")
 pepex = await fetchJson(`https://kocakz.herokuapp.com/api/media/xvideo/search?query=${query}`)
@@ -2875,6 +2981,7 @@ reply("Success")
 break
 case 'xvideos':
 					        if (!isGroup) return reply(mess.only.group);
+
 if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
                     if (args.length == 0) return reply(`Example: ${prefix + command} https://www.xnxx.com/video-uy5a73b/mom_is_horny_-_brooklyn`)
                     query = args.join(" ")
@@ -2894,6 +3001,7 @@ if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.
 break
 case 'xnxx':
 					        if (!isGroup) return reply(mess.only.group);
+
 if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
                     if (args.length == 0) return reply(`Example: ${prefix + command} https://www.xnxx.com/video-uy5a73b/mom_is_horny_-_brooklyn`)
                     query = args.join(" ")
@@ -2918,6 +3026,7 @@ case 'xn':
 case 'Xs2':
 if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
 					        if (!isGroup) return reply(mess.only.group);
+
 if (args.length == 0) return reply(`Example: ${prefix + command} query`)
                     c = args[0]
 pepex = await fetchJson(`https://kocakz.herokuapp.com/api/media/xnxx/search?query=${c}`).catch(e => {
@@ -2939,42 +3048,45 @@ reply("Success")
 break
 case "hentaivid":
 case "hentaivideo":
+if (!isPremium) return reply(`Only Prem`)
 if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
 					        if (!isGroup) return reply(mess.only.group);
+
         teks = '*「 _HENTAI VIDEO_  」*'
-        scrap.hentaivid().then((res) => {
+        res = await fetchJson(`https://api-katashi.herokuapp.com/docs/hentai_video?apikey=katashi`)
         	console.log(res);
-        teks += `*➸ Title:* ${res.hasil.title}\n*➸ Link:* ${res.hasil.link}\n*➸ Kategori : ${res.hasil.category}\n*➸ Share : ${res.hasil.share_count}\n*➸ View : ${res.hasil.views_count}\n*➸ Type : ${res.hasil.type}\n\n`
-                    vid1 = `${res.hasil.video_1}`
-                    vid2 = `${res.hasil.video_2}`
+        teks += `*➸ Title:* ${res.result.hasil.title}\n*➸ Link:* ${res.result.hasil.link}\n*➸ Kategori : ${res.result.hasil.category}\n*➸ Share : ${res.result.hasil.share_count}\n*➸ View : ${res.result.hasil.views_count}\n*➸ Type : ${res.result.hasil.type}\n\n`
+                    vid1 = `${res.result.hasil.video_1}`
+                    vid2 = `${res.result.hasil.video_2}`
                     sendMediaURL(from, vid1);
                     sendMediaURL(from, vid2);
           Katashi.sendMessage(from, teks, text, {
             quoted: mek,
             detectLinks: false,
           });
-        });
         break;
         
         case "gore":
 case "randomgore":
+if (!isPremium) return reply(`Only Prem`)
 if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
 					        if (!isGroup) return reply(mess.only.group);
+
         teks = '*「 _RAMDOM GORE_  」*'
-        scrap.randomgore().then((res) => {
+        res = await fetchJson(`https://api-katashi.herokuapp.com/docs/random_gore?apikey=katashi`)
         	console.log(res);
-        teks += `*➸ Title:* ${res.data.judul}\n*➸ Link:* ${res.data.link}\n*➸ Comment : ${res.data.comment}\n*➸ View : ${res.data.views}\n\n`
-                    vid1 = `${res.data.link}`
+        teks += `*➸ Title:* ${res.result.data.judul}\n*➸ Link:* ${res.result.udata.link}\n*➸ Comment : ${res.result.data.comment}\n*➸ View : ${res.result.data.views}\n\n`
+                    vid1 = `${res.result.data.link}`
                     sendMediaURL(from, vid1);
           Katashi.sendMessage(from, teks, text, {
             quoted: mek,
             detectLinks: false,
           });
-        });
         break;
 case "randombokep2":
 if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
 					        if (!isGroup) return reply(mess.only.group);
+
         teks = '*「 _Anda Sangean_  」*'
         res = await fetchJson(`https://server-api-rey.herokuapp.com/api/asupan/bokep2?apikey=apirey`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
@@ -2985,6 +3097,7 @@ if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.
         case "randombokep3":
         if (!isNsfw) return reply(`Silahkan Join Ke Group Ini --> https://chat.whatsapp.com/E504hCCiwl52zNSaVJsIL3`)
 					        if (!isGroup) return reply(mess.only.group);
+
 if (!isPremium) return reply(`Only Prem`)
         x = await getBuffer(`https://yog-apikey.herokuapp.com/api/bokep?apikey=YogGanz`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
@@ -3261,6 +3374,7 @@ teks = `\`\`\`BOT STATISTICS\`\`\`
 //-----------add hiburan   
 case 'robot':
 					        if (!isGroup) return reply(mess.only.group);
+
 				
 encmedial = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
 medial = await Katashi.downloadAndSaveMediaMessage(encmedial)
@@ -3276,6 +3390,7 @@ reply("Success")
 break
 case 'gemuk':
 					        if (!isGroup) return reply(mess.only.group);
+
 					encmediaz = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
 					mediaz = await Katashi.downloadAndSaveMediaMessage(encmediaz)
 					ran = getRandom('.mp3')
@@ -3290,6 +3405,7 @@ case 'gemuk':
 break
 case 'balik':
 					        if (!isGroup) return reply(mess.only.group);
+
 	encmediau = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
 	mediau = await Katashi.downloadAndSaveMediaMessage(encmediau)
 	ran = getRandom('.mp3')
@@ -3304,6 +3420,7 @@ reply("Success")
 break
 case 'bass':                 
 					        if (!isGroup) return reply(mess.only.group);
+
 					encmediao = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
 					mediao = await Katashi.downloadAndSaveMediaMessage(encmediao)
 					ran = getRandom('.mp3')
@@ -3318,6 +3435,7 @@ case 'bass':
 break
 case 'tupai':
 					        if (!isGroup) return reply(mess.only.group);
+
 									try {
 										encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
 										media = await Katashi.downloadAndSaveMediaMessage(encmedia)
@@ -3337,6 +3455,7 @@ break
 						case 'vibra': 
 case 'vibrato':
 					        if (!isGroup) return reply(mess.only.group);
+
 									encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
 									media = await Katashi.downloadAndSaveMediaMessage(encmedia)
 									ran = getRandom('.mp3')
@@ -3351,6 +3470,7 @@ case 'vibrato':
 break
 				case "fast":
 					        if (!isGroup) return reply(mess.only.group);
+
         if (!isQuotedVideo) return fakegroup("Reply videonya!");
         fakegroup(mess.wait);
         encmedia = JSON.parse(JSON.stringify(mek).replace("quotedM", "m"))
@@ -3374,6 +3494,7 @@ break
 break;
       case "slow":
 					        if (!isGroup) return reply(mess.only.group);
+
         if (!isQuotedVideo) return fakegroup("Reply videonya!");
         fakegroup(mess.wait);
         encmedia = JSON.parse(JSON.stringify(mek).replace("quotedM", "m"))
@@ -3397,6 +3518,7 @@ break;
 break;
       case "reverse":
 					        if (!isGroup) return reply(mess.only.group);
+
         if (!isQuotedVideo) return fakegroup("Reply videonya!");
         encmedia = JSON.parse(JSON.stringify(mek).replace("quotedM", "m"))
           .message.extendedTextMessage.contextInfo;
@@ -3875,6 +3997,7 @@ break
               break
 case 'jamdunia':
 					        if (!isGroup) return reply(mess.only.group);
+
                     get_result = await fetchJson(`https://myselfff.herokuapp.com/docs/information/jamdunia`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
 })
@@ -4031,6 +4154,7 @@ break
               break
 case 'santet':
 					        if (!isGroup) return reply(mess.only.group);
+
                     if (mek.message.extendedTextMessage === undefined || mek.message.extendedTextMessage === null) return reply('Tag member yang mau disantet\n\nContoh : /santet @tag | kalo berak kaga di siram')
                     if (args.length === 1) return reply(from, 'Masukkan alasan kenapa menyantet dia!!\n\nContoh : /santet @tag | kalo berak kaga di siram', id)
                     const terima1 = santet[Math.floor(Math.random() * (santet.length))]
@@ -4042,6 +4166,7 @@ break
 
                 case 'kutuk':
 					        if (!isGroup) return reply(mess.only.group);
+
                     if (mek.message.extendedTextMessage === undefined || mek.message.extendedTextMessage === null) return reply('Tag member yang mau disantet\n\nContoh : /santet @tag | kalo berak kaga di siram')
                     if (args.length === 1) return Katashi.reply(from, 'Masukkan alasan kenapa menyantet dia!!\n\nContoh : /kutuk @tag | kalo berak kaga di siram', id)
                     const terima2 = kutuk[Math.floor(Math.random() * (kutuk.length))]
@@ -4105,6 +4230,7 @@ break
 case 'get2':
 case 'fetch2':
 					        if (!isGroup) return reply(mess.only.group);
+
             if(!q) return reply('Linknya?')
             fetch(`${args[0]}`).then(res => res.text())  
             .then(bu =>{
@@ -4142,6 +4268,7 @@ case 'caripesan':  //by ANU TEAM
        case 'apikey':
 case 'apikey':
 					        if (!isGroup) return reply(mess.only.group);
+
                     if (args.length == 0) return reply(`Example: ${prefix + command} apikeynya`)
                     query = args.join(" ")
                     get_result = await fetchJson(`https://viko-api.herokuapp.com/api/cekapikey?apikey=${query}`).catch(e => {
@@ -4267,6 +4394,7 @@ break
 //-------------------< islam menu >--------------------
 case 'surahaudio':
 					        if (!isGroup) return reply(mess.only.group);
+
 if (args.length == 0) return reply(`Surah Ke?`)
                     query = args.join(" ")	
 x = await getBuffer(`https://zenzapi.xyz/api/quran/audio/${query}?apikey=Katashi`).catch(e => {
@@ -4281,6 +4409,7 @@ break
 case 'ayataudio':
 case 'Ayataudio':
 					        if (!isGroup) return reply(mess.only.group);
+
         if (args.length < 1) return reply(`Ayat Ke Brp?`)
 					makell = args.join(" ")
 					r1 = makell.split("|")[0];
@@ -4299,6 +4428,7 @@ case 'kisahnabi':
 case 'Kisahnabi':
 					        if (isBanned) return reply('Lu udh kena ban')
 					        if (!isGroup) return reply(mess.only.group);
+
                     if (args.length == 0) return reply(`Example: ${prefix + command} Muhammad`)
                     query = args.join(" ")
                     get_result = await fetchJson(`https://viko-api.herokuapp.com/api/muslim/kisahnabi?nabi=${query}&apikey=katashi`).catch(e => {
@@ -4307,7 +4437,6 @@ case 'Kisahnabi':
               reply(mess.wait)
                await sleep(5000)
                     get_result = get_result.result
-                    sticWait(from)
                     ini_txt = `Name : ${get_result.name}\n`
                     ini_txt += `Lahir : ${get_result.kelahiran}\n`
                     ini_txt += `Wafat : ${get_result.wafat_usia}\n`
@@ -4323,6 +4452,7 @@ break
 case 'randomcerpen':
 case 'Randomcerpen':	
 					        if (!isGroup) return reply(mess.only.group);
+
 					data = await fetchJson(`https://viko-api.herokuapp.com/api/cerpen/random?apikey=katashi`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
 })
@@ -4334,6 +4464,7 @@ break
 case 'cerpen':
                 case 'Cerpen':
 					        if (!isGroup) return reply(mess.only.group);
+
                     get_result = await fetchJson(`https://docs-jojo.herokuapp.com/api/cerpen`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
 })
@@ -4350,6 +4481,7 @@ break
 case 'cersex':
                 case 'Cersex':
 					        if (!isGroup) return reply(mess.only.group);
+
                     get_result = await fetchJson(`https://docs-jojo.herokuapp.com/api/cersex`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
 })
@@ -4366,6 +4498,7 @@ break
 case 'cerpencinta':
 case 'ceritacinta':	
 					        if (!isGroup) return reply(mess.only.group);
+
 					data = await fetchJson(`https://viko-api.herokuapp.com/api/cerpen/cinta?apikey=katashi`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
 })
@@ -4378,6 +4511,7 @@ break
                      case 'cerpenhoror':
                 case 'ceritahoror':
 					        if (!isGroup) return reply(mess.only.group);
+
                     get_result = await fetchJson(`https://leyscoders-api.herokuapp.com/api/cerita-horor?apikey=dappakntlll`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
 })
@@ -4393,6 +4527,7 @@ break
 case 'quotesislam':
 case 'Quotesislam':
 					        if (!isGroup) return reply(mess.only.group);
+
 					data = await fetchJson(`https://viko-api.herokuapp.com/api/random/quotes/muslim?apikey=katashi`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
 })
@@ -4404,6 +4539,7 @@ break
 case 'katacinta':
 case 'Katacinta':
 					        if (!isGroup) return reply(mess.only.group);
+
 					gatauda = body.slice(8)
 					anu = await fetchJson(`https://docs-jojo.herokuapp.com/api/katacinta`, {method: 'get'}).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
@@ -4416,6 +4552,7 @@ break
 case 'faktaunik':
 case 'fakta':
 					        if (!isGroup) return reply(mess.only.group);
+
 x = await fetchJson(`https://docs-jojo.herokuapp.com/api/fakta-unik`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
 })
@@ -4428,6 +4565,7 @@ break
 case 'tongue':  
 case 'Tongue':
   if (!isGroup) return reply(mess.only.group);
+
                    anu = await fetchJson(`https://docs-jojo.herokuapp.com/api/tongue_twister`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
 })
@@ -4440,6 +4578,7 @@ break
 case 'renungan':  
       case 'Renungan':
   if (!isGroup) return reply(mess.only.group);
+
                    anu = await fetchJson(`https://docs-jojo.herokuapp.com/api/renungan`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
 })
@@ -4454,6 +4593,7 @@ break
 case 'fake':  
       case 'Fake':  
 					        if (!isGroup) return reply(mess.only.group);
+
                    anu = await fetchJson(`https://docs-jojo.herokuapp.com/api/fake_identity`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
 })
@@ -4484,6 +4624,7 @@ case 'fake':
 break
 case 'quot':
 if (!isGroup) return reply(mess.only.group);
+
               teks = await fetchJson(`https://gist.githubusercontent.com/natebass/b0a548425a73bdf8ea5c618149fe1fce/raw/f4231cd5961f026264bb6bb3a6c41671b044f1f4/quotes.json`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
 })
@@ -4500,6 +4641,7 @@ Katashi.sendMessage(from, wo, text, {quoted: mek})
 break
      case 'timer':
      if (!isGroup) return reply(mess.only.group);
+
 				if (args[1]=="detik") {var timer = args[0]+"000"
 				} else if (args[1]=="menit") {var timer = args[0]+"0000"
 				} else if (args[1]=="jam") {var timer = args[0]+"00000"
@@ -4511,6 +4653,7 @@ break
 				case 'katailham':  
                         case 'Katailham':  
 					        if (!isGroup) return reply(mess.only.group);
+
                      const kta =['Lebih baik mengerti sedikit daripada salah mengerti.',
 'Hampir semua pria memang mampu bertahan menghadapi kesulitan. Namun, jika Anda ingin menguji karakter sejati pria, beri dia kekuasaan.',
 'Bila tekad seseorang kuat dan teguh, Tuhan akan bergabung dalam usahanya.',
@@ -4546,6 +4689,7 @@ break
 break
 case 'kubik':
 					        if (!isGroup) return reply(mess.only.group);
+
 if (args.length == 0) return reply(`Angkanya?`)
                     c = args.join(" ")
 x = await fetchJson(`https://leyscoders-api.herokuapp.com/api/bdr/kubik?q=${c}&apikey=MIMINGANZ`).catch(e => {
@@ -4558,6 +4702,7 @@ reply("Success")
 break
 case 'kuadrat':
 					        if (!isGroup) return reply(mess.only.group);
+
 if (args.length == 0) return reply(`Angkanya?`)
                     c = args.join(" ")
 x = await fetchJson(`https://leyscoders-api.herokuapp.com/api/bdr/kuadrat?q=${c}&apikey=MIMINGANZ`).catch(e => {
@@ -4572,6 +4717,7 @@ case 'katajago':
                 if (args.length == 0) return reply(`Example: ${prefix + command} ganteng`)
                     query = args.join(" ")
 					        if (!isGroup) return reply(mess.only.group);
+
                     get_result = await fetchJson(`https://myselfff.herokuapp.com/docs/random/katajago?query=${query}`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
 })
@@ -4629,6 +4775,7 @@ break
 break  
 case "reminder": // by Slavyan
 					        if (!isGroup) return reply(mess.only.group);
+
         if (!q)
           return reply(
             `CONTOH PENGGUNANNYA:\n${prefix}reminder text/2s\n\nNOTE: \n*s* - seconds\n*m* - minutes\n*h* - hours\n*d* - days`
@@ -4964,26 +5111,6 @@ case 'Nsfw':
 						reply('1 untuk mengaktifkan, 0 untuk mematikan')
 					}
 					break
-case 'download':
-	        if (!isGroup) return reply(mess.only.group)
-			if (!isOwner) return reply(mess.only.admin)
-					if (args.length < 1) return reply(`untuk mengaktifkan ketik : ${prefix}nsfw 1`)
-					if (Number(args[0]) === 1) {
-						if (isdowmload) return reply('Sudah Aktif Kak')
-						downup.push(from)
-						fs.writeFileSync('./database/downup.json', JSON.stringify(downup))
-						reply('Sukses mengaktifkan fitur nsfw')
-						Katashi.sendMessage(from, `Bebas Nyari Hentai 🗿`, text)
-					} else if (Number(args[0]) === 0) {
-						if (!isNsfw) return reply('Sudah Mati Kak')
-						var ini = downup.indexOf(from)
-						downup.splice(ini, 1)
-						fs.writeFileSync('./database/downup.json', JSON.stringify(downup))
-						reply('Sukses menonaktifkan fitur nsfw')
-					} else {
-						reply('1 untuk mengaktifkan, 0 untuk mematikan')
-					}
-					break                         
 //------------------< Menunya Bang:v >-------------------
       case 'dana':
              reply(`DANA : 089626029135`)
@@ -5005,6 +5132,7 @@ case 'spotify':
 case 'Spotify':
 if (!isPremium) return reply(mess.only.premium)
 					        if (!isGroup) return reply(mess.only.group);
+
                     if (args.length == 0) return reply(`Example: ${prefix + command} https://open.spotify.com/track/0ZEYRVISCaqz5yamWZWzaA`)
                     url = args[0]
                     get_result = await fetchJson(`https://zenzapi.xyz/api/spotify?url=${url}&apikey=Katashi`).catch(e => {
@@ -5024,19 +5152,6 @@ if (!isPremium) return reply(mess.only.premium)
                     await Katashi.sendMessage(from, get_audio, audio, { mimetype: 'audio/mp4', filename: `${get_result.title}.mp3`, quoted: mek })
                     reply("Success")
 break
-case 'foto':
-case 'fotokeren':
-if (args.length == 0) return reply(`Example: ${prefix + command} Genshin`)
-                    query = args.join(" ")
-					        if (!isGroup) return reply(mess.only.group);
-x = await getBuffer(`https://tyz-api.herokuapp.com/search/Katashicoders?query=${query}`).catch(e => {
-            reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
-})
-              reply(mess.wait)
-               await sleep(5000)
-Katashi.sendMessage(from, x, image, {quoted: mek})
-reply("Success")
-break
 case 'simi':
 case 'Simi':
 case 'bot':
@@ -5046,6 +5161,7 @@ case 'Katashi':
 case 'Putra':
 case 'Putra':
 					        if (!isGroup) return reply(mess.only.group);
+
 if (args.length == 0) return reply(`kamu ganteng`)
                     c = args.join(" ")
 x = await fetchJson(`https://api.simsimi.net/v2/?text=${c}&lc=id`).catch(e => {
@@ -5059,6 +5175,7 @@ break
 case 'style':
 case 'Style':
 					        if (!isGroup) return reply(mess.only.group);
+
 				  if (args.length == 0) return reply(`Example: ${prefix + command} katashi hana`)
                     query = args.join(" ")
 			axios.get(`https://kocakz.herokuapp.com/api/random/text/fancytext?text=${query}`).then((res) => {
@@ -5070,6 +5187,7 @@ break
 case 'pastebin':
 case 'Pastebin':
 					        if (!isGroup) return reply(mess.only.group);
+
 if (args.length == 0) return reply(`Example: ${prefix + command} katashi hana`)
                     query = args.join(" ")
 anu = await fetchJson(`https://api-anoncybfakeplayer.herokuapp.com/pastebin?text=${query}`, {method: 'get'}).catch(e => {
@@ -5104,6 +5222,7 @@ break
                         case 'film':
                         case 'Film':
 					        if (!isGroup) return reply(mess.only.group);
+
                     if (args.length == 0) return reply(`Example: ${prefix + command} Doraemon`)
                     query = args.join(" ")
                         sticWait(from)
@@ -5123,6 +5242,7 @@ break
                 case 'happymod':
                 case 'Happymod':
 					        if (!isGroup) return reply(mess.only.group);
+
                     if (args.length == 0) return reply(`Example: ${prefix + command} pubg`)
                     query = args.join(" ")
                         res = await axios.get(`https://api.zeks.me/api/happymod?apikey=CpGSLymOQy9KfTKgQZr9eDSYqqR&q=${query}`).catch(e => {
@@ -5141,6 +5261,7 @@ break
 case 'carimasakan':
                 case 'Carimasakan':
 					        if (!isGroup) return reply(mess.only.group);
+
                         if (args.length == 0) return reply(`Example: ${prefix + command} katashi hana`)
                     query = args.join(" ")
                         res = await fetchJson(`https://mnazria.herokuapp.com/api/resep-search?text=${query}`).catch(e => {
@@ -5159,6 +5280,7 @@ break
 case 'spamcall':
 case 'Spamcall':
 					        if (!isGroup) return reply(mess.only.group);
+
 if (!isPremium) return reply(`Only Prem`)
                     if (args.length == 0) return reply(`Example: ${prefix + command} 8303030303030`)
                     nomor = args[0]
@@ -5193,6 +5315,7 @@ case 'Rumahsakit': // Update By KATASHI
 case 'rskopit': // Update By KATASHI
 case 'Rskopit': // Update By KATASHI
 					        if (!isGroup) return reply(mess.only.group);
+
 					data = await fetchJson(`https://dekontaminasi.com/api/id/covid19/hospitals`, {method: 'get'})
 					teks = 'RS COVID\n'
 					for (let i of data) {
@@ -5207,6 +5330,7 @@ case 'Provinci': // Update By KATASHI
 case 'Provinsi': // Update By KATASHI
 case 'provinsi': // Update By KATASHI
 					        if (!isGroup) return reply(mess.only.group);
+
 					data = await fetchJson(`https://api-pesantren-indonesia.vercel.app/provinsi.json`, {method: 'get'})
 					teks = 'PROVINSI\n'
 					for (let i of data) {
@@ -5221,6 +5345,7 @@ case 'Kab': // Update By KATASHI
 case 'kabupaten': // Update By KATASHI
 case 'Kabupaten': // Update By KATASHI
 					        if (!isGroup) return reply(mess.only.group);
+
 if (args.length == 0) return reply(`Idnya?\nId bisa di lihat di .provinsi`)
                     query = args.join(" ")	
 					data = await fetchJson(`https://api-pesantren-indonesia.vercel.app/kabupaten/${query}.json`, {method: 'get'})
@@ -5235,6 +5360,7 @@ break
 case 'pesantren': // Update By KATASHI
 case 'Pesantren': // Update By KATASHI
 					        if (!isGroup) return reply(mess.only.group);
+
 if (args.length == 0) return reply(`Idnya?\nId bisa di lihat di .kabupaten`)
                     query = args.join(" ")	
 					data = await fetchJson(`https://api-pesantren-indonesia.vercel.app/pesantren/${query}.json`, {method: 'get'})
@@ -5251,6 +5377,7 @@ case 'Ppcp': //By katashi
 case 'ppcouple': //By katashi
 case 'Ppcouple': //By katashi
 					        if (!isGroup) return reply(mess.only.group);
+
 anu = await fetchJson(`https://viko-api.herokuapp.com/api/random/couple?apikey=vinko`, {method: 'get'})
 image1 = await getBuffer(anu.result.ppcwo)
 image2 = await getBuffer(anu.result.ppcwe)
@@ -5260,6 +5387,7 @@ break
 case 'jooxsearch':
 case 'Jooxsearch':
 					        if (!isGroup) return reply(mess.only.group);
+
                     if (args.length == 0) return reply(`Example: ${prefix + command} starboy`)
                     query = args[0]
                     get_result = await fetchJson(`https://viko-api.herokuapp.com/api/music/joox?apikey=katashi&query=${query}`)
@@ -5276,6 +5404,7 @@ break
 case 'narutobanner':
 case 'Narutobanner':
 					        if (!isGroup) return reply(mess.only.group);
+
 if (args.length == 0) return reply(`Teksnya?`)
                     query = args.join(" ")	
 x = await getBuffer(`https://hadi-api.herokuapp.com/api/photoxy/manga-naruto?teks=${query}`)
@@ -5284,6 +5413,7 @@ reply("Success")
 break
 case 'stcmeme':
 					        if (!isGroup) return reply(mess.only.group);
+
   ct = body.slice(9)
               top = ct.split('|')[0]
               bottom = ct.split('|')[1]
@@ -5306,6 +5436,7 @@ break
 case 'infoloker': // Update By KATASHI
 case 'Infoloker': // Update By KATASHI
 					        if (!isGroup) return reply(mess.only.group);
+
 					data = await fetchJson(`https://docs-jojo.herokuapp.com/api/infoloker`, {method: 'get'})
 					teks = 'INFO LOKER\n'
 					for (let x of data.result) {
@@ -5318,6 +5449,7 @@ break
 case 'vaksin':
 case 'Vaksin':
 					        if (!isGroup) return reply(mess.only.group);
+
                     get_result = await fetchJson(`https://vaksincovid19-api.vercel.app/api/vaksin`)
                     ini_txt = `Total Sasaran : ${get_result.totalsasaran}\n`
                     ini_txt += `Sasaran Vaksin Sdmkl : ${get_result.sasaranvaksinsdmk}\n`
@@ -5331,6 +5463,7 @@ case 'Vaksin':
 break
         case "anoboys":
         if (!isGroup) return reply(mess.only.group);
+
         if (args.length < 1) return reply("Cari apa?");
         teks = '*「 _ANOBOYS SEARCH_ 」*'
         scrap.anoboys(args[0]).then((res) => {
@@ -5345,6 +5478,7 @@ break
         break;
 case 'cariresep':
 					        if (!isGroup) return reply(mess.only.group);
+
                         if (args.length < 1) return reply("Nyari apa?");
         query = args.join(" ");
         scrap.cariresep(`${query}`).then((ttt) => {
@@ -5362,6 +5496,7 @@ break
         case 'pixivsearch':
 case 'pixivsearch':
 					        if (!isGroup) return reply(mess.only.group);
+
                     if (args.length == 0) return reply(`Example: ${prefix + command} Hutao`)
                     query = args.join(" ")
                     get_result = await fetchJson(`https://tyz-api.herokuapp.com/search/pixiv?query=${query}`)
@@ -5380,6 +5515,7 @@ case 'amazon':
               if (args.length == 0) return reply(`Example: ${prefix + command} rdp`)
                     query = args.join(" ")
 					        if (!isGroup) return reply(mess.only.group);
+
                     get_result = await fetchJson(`https://myselfff.herokuapp.com/docs/search/amazon?query=${query}`)
                     get_result = get_result.result
               teks = `*AMAZON SEARCH*\n\n➸ Item : ${get_result.item}\n➸ Review : ${get_result.review}\n➸ Rating : ${get_result.rating}\n➸ Score : ${get_result.score}\n➸ Price : ${get_result.price}\n➸ Sponsor : ${get_result.sponsor}\n`
@@ -5387,6 +5523,7 @@ case 'amazon':
               break
         case "wattpad":
 					        if (!isGroup) return reply(mess.only.group);
+
 if (args.length < 1) return reply("Nyari apa?");
         query = args.join(" ");
         scrap.wattpad(`${query}`).then((ne) => {
@@ -5403,6 +5540,7 @@ if (args.length < 1) return reply("Nyari apa?");
         break;
         case "jobs":
 					        if (!isGroup) return reply(mess.only.group);
+
 if (!isPremium) return reply(`Only Prem`)
 if (args.length < 1) return reply("Nyari apa?");
         query = args.join(" ");
@@ -5420,6 +5558,7 @@ if (args.length < 1) return reply("Nyari apa?");
         break;
         case "layarkaca":
 					        if (!isGroup) return reply(mess.only.group);
+
 if (!isPremium) return reply(`Only Prem`)
 if (args.length < 1) return reply("Nyari apa?");
         query = args.join(" ");
@@ -5437,6 +5576,7 @@ if (args.length < 1) return reply("Nyari apa?");
         break;
         case "webtoons":
 					        if (!isGroup) return reply(mess.only.group);
+
 if (args.length < 1) return reply("Nyari apa?");
         query = args.join(" ");
         scrap.webtoons(`${query}`).then((ne) => {
@@ -5453,6 +5593,7 @@ if (args.length < 1) return reply("Nyari apa?");
         break;
         case "drakor":
 					        if (!isGroup) return reply(mess.only.group);
+
 if (args.length < 1) return reply("Nyari apa?");
         query = args.join(" ");
         scrap.drakor(`${query}`).then((ne) => {
@@ -5470,6 +5611,7 @@ if (args.length < 1) return reply("Nyari apa?");
         case "twitter":
       case "Twitter":
       if (!isGroup) return reply(mess.only.group);
+
         if (!isUrl(args[0]) && !args[0].includes("twitter.com"))
           return reply(mess.Iv);
         if (!q) return fakegroup("Linknya?");
@@ -5494,6 +5636,7 @@ break
 case 'randomtiktok':
 case 'randomtt':
 					        if (!isGroup) return reply(mess.only.group);
+
                     get_result = await fetchJson(`https://tyz-api.herokuapp.com/search/randomtiktok`)
                     x = get_result.result.creator
                     download = get_result.result.url_dl
@@ -5510,6 +5653,7 @@ case "tiktok":
 case "tiktokdownload":
 try{
 if (!isGroup) return reply(mess.only.group);
+
 if (args.length < 1) return reply("Nyari apa?");
         query = args.join(" ");
         teks = '*「 _tiktok_  」*'
@@ -5532,6 +5676,7 @@ if (args.length < 1) return reply("Nyari apa?");
 case 'infogempa':
 case 'Infogempa':
 					        if (!isGroup) return reply(mess.only.group);
+
                     ini_result = await fetchJson(`https://docs-jojo.herokuapp.com/api/infogempa`)
                     ini_buffer = await getBuffer(ini_result.map)
                     ini_txt = `Waktu : ${ini_result.waktu}\n`
@@ -5545,6 +5690,7 @@ break
 case 'wiki': 
 case 'wikipedia':
 					        if (!isGroup) return reply(mess.only.group);
+
 if (args.length < 1) return reply(' Yang Mau Di Cari Apa? ')
 teks = args.join(' ')
 res = await wikiSearch(teks).catch(e => {
@@ -5559,6 +5705,7 @@ reply(result)
 break
         case 'pinterest':
 					        if (!isGroup) return reply(mess.only.group);
+
                     if (args.length == 0) return reply(`Example: ${prefix + command} loli kawaii`)
                     query = args.join(" ")
                     ini_url = await fetchJson(`https://viko-api.herokuapp.com/api/pinterest?query=${query}&apikey=katashi`)
@@ -5570,6 +5717,7 @@ break
 case 'memes':
 case 'memes':
 					        if (!isGroup) return reply(mess.only.group);
+
 x = await fetchJson(`https://some-random-api.ml/meme`)
 ini_txt = `Caption : ${x.caption}\n`
 im = await getBuffer(x.image)
@@ -5577,6 +5725,7 @@ Katashi.sendMessage(from, im, image, {quoted: mek, caption: ini_txt})
 break
 case 'meme':
 					        if (!isGroup) return reply(mess.only.group);
+
 x = await fetchJson(`https://candaan-api.vercel.app/api/image/random`)
 x = x.data
 ini_txt = `Source : ${x.source}\n`
@@ -5722,6 +5871,7 @@ break
                 case 'ggs':
                 case 'Ggs':
 					        if (!isGroup) return reply(mess.only.group);
+
                         if (args.length == 0) return reply(`Example: ${prefix + command} katashi hana`)
                     query = args.join(" ")
                         res = await axios.get(`https://myhuman.cf/api/google?query=${query}`).catch(e => {
@@ -5737,6 +5887,7 @@ break
 case 'randomquran':
 case 'Randomquran':
 					        if (!isGroup) return reply(mess.only.group);
+
             res = await fetchJson(`https://myhuman.cf/api/quranaudio`).catch(e => {
             reply('_[ ! ] Error Gagal Dalam Memasuki Web_')
 })
@@ -5747,6 +5898,7 @@ break
 case 'urlshort2': //By katashi
 case 'url2': //By katashi
 					        if (!isGroup) return reply(mess.only.group);
+
                          if (args.length == 0) return reply(`Example: ${prefix + command} katashi hana`)
                     query = args.join(" ")
 anu = await fetchJson(`https://docs-jojo.herokuapp.com/api/cuttly?url=${query}`).catch(e => {
@@ -5757,6 +5909,7 @@ Katashi.sendMessage(from, teks, text, {quoted: mek})
 break
 case 'jadwalsholat':
 					        if (!isGroup) return reply(mess.only.group);
+
                     if (args.length == 0) return reply(`Example: ${prefix + command} bekasi`)
                     query = args.join(" ")
                     x = await fetchJson(`https://docs-jojo.herokuapp.com/api/jadwalshalat?daerah=${query}`).catch(e => {
@@ -5775,6 +5928,7 @@ break
 case 'snapchatdownload':
 case 'snapchat':	
 					        if (!isGroup) return reply(mess.only.group);
+
 if (args.length == 0) return reply(`Example: ${prefix + command} Link snapchat`)
                     query = args.join(" ")
                     x = await fetchJson(`https://myhuman.cf/api/snapchat?url=${query}`).catch(e => {
@@ -5786,82 +5940,6 @@ vid = `${x.hd}`
                     sendMediaURL(from, vid);
 reply("Success")
 break
-case 'zppyshare':
-case 'zippyshare':
-        if (!q) return reply('Linknya?')
-               list = []
-               listmenu = [`zvideo ${q}`,`zimage ${q}`,`zzip ${q}`]
-               listmenuu = [`Video`,`Image`,`Zip`]
-               nombor = 1
-               startnum = 0
-               for (let x of listmenu) {
-               const yy = {title: 'Menu ' + nombor++,
-                    rows: [
-                       {
-                        title: `${listmenuu[startnum++]}`,
-                        description: ``,
-                        rowId: `${prefix}${x}`
-                      }
-                    ]
-                   }
-                        list.push(yy)
-           }
-               listmsg(from, `${ucapanWaktu}`,  `*Hallo Kak* ${pushname}\nSilahkan Pilih Formatnya!\nJangan spam Bot Ya Kasih Jeda 5detik`, list)
-               break
-case "zppysharevideo":
-case "zvideo":
-if (!isGroup) return reply(mess.only.group);
-if (!isPremium) return reply(`Only Prem`)
-if (args.length == 0) return reply(`Example: ${prefix + command} Link Zippyshare`)
-                    query = args.join(" ")
-               o = await fetchJson(`https://api-katashi.herokuapp.com/downloader/zippyShare?link=${query}`).catch(e => {
-            reply('_[ ! ] Error Gagal Dalam Memasuki Web Zippyshare_')
-})
-              reply(mess.wait)
-               await sleep(5000)
-               console.log(o)
-               ot = '*「 ZIPPYSHARE VIDEO 」*'
-               ot += `\n\n*Judul :* ${o.name}\n*Upload Date :* ${o.upload_date}\n*url :* ${o.url}`
-
-               buff = await getBuffer(o.url)
-               Katashi.sendMessage(from, buff, video, {quoted: mek, caption: ot})
-               break
-case "zppyshareimage":
-case "zimage":
-if (!isGroup) return reply(mess.only.group);
-if (!isPremium) return reply(`Only Prem`)
-if (args.length == 0) return reply(`Example: ${prefix + command} Link Zippyshare`)
-                    query = args.join(" ")
-               o = await fetchJson(`https://api-katashi.herokuapp.com/downloader/zippyShare?link=${query}`).catch(e => {
-            reply('_[ ! ] Error Gagal Dalam Memasuki Web Zippyshare_')
-})
-              reply(mess.wait)
-               await sleep(5000)
-               console.log(o)
-               ot = '*「 ZIPPYSHARE IMAGE 」*'
-               ot += `\n\n*Judul :* ${o.name}\n*Upload Date :* ${o.upload_date}\n*url :* ${o.url}`
-
-               buff = await getBuffer(o.url)
-               Katashi.sendMessage(from, buff, image, {quoted: mek, caption: ot})
-               break
-case "zppysharezip":
-case "zzip":
-if (!isGroup) return reply(mess.only.group);
-if (!isPremium) return reply(`Only Prem`)
-if (args.length == 0) return reply(`Example: ${prefix + command} Link Zippyshare`)
-                    query = args.join(" ")
-               o = await fetchJson(`https://api-katashi.herokuapp.com/downloader/zippyShare?link=${query}`).catch(e => {
-            reply('_[ ! ] Error Gagal Dalam Memasuki Web Zippyshare_')
-})
-              reply(mess.wait)
-               await sleep(5000)
-               console.log(o)
-               ot = '*「 ZIPPYSHARE ZIP 」*'
-               ot += `\n\n*Judul :* ${o.name}\n*Upload Date :* ${o.upload_date}\n*url :* ${o.url}`
-
-               buff = await getBuffer(o.url)
-               Katashi.sendMessage(from, buff, document, {mimetype: zip, filename: o.name, quoted: mek})
-               break
 case 'ytrend':
 case 'yttrend':
 case 'yttrending':
@@ -5887,6 +5965,7 @@ case 'youtubetrending':
                break
 case "ytrenddefault":
 if (!isGroup) return reply(mess.only.group);
+
 const parameters = {
     geoLocation: 'ID',
     parseCreatorOnRise: false,
@@ -5908,6 +5987,7 @@ const parameters = {
         break;
         case "ytrendmusik":
 if (!isGroup) return reply(mess.only.group);
+
 const par = {
     geoLocation: 'ID',
     parseCreatorOnRise: false,
@@ -5929,6 +6009,7 @@ const par = {
         break;
         case "ytrendgamers":
 if (!isGroup) return reply(mess.only.group);
+
 const param = {
     geoLocation: 'ID',
     parseCreatorOnRise: false,
@@ -5950,6 +6031,7 @@ const param = {
         break;
         case "ytrendmovies":
 if (!isGroup) return reply(mess.only.group);
+
 const paramete = {
     geoLocation: 'ID',
     parseCreatorOnRise: false,
@@ -5971,6 +6053,7 @@ const paramete = {
         break;
 case 'spotifysearch':
 					        if (!isGroup) return reply(mess.only.group);
+
                     if (args.length == 0) return reply(`Example: ${prefix + command} starboy`)
                     query = args[0]
                     i = await fetchJson(`https://api.zeks.me/api/spotify?apikey=Iyungputra&q=${query}`)
@@ -5989,10 +6072,12 @@ case 'spotifysearch':
 break
 case "brainly":
 					        if (!isGroup) return reply(mess.only.group);
+
         if (args.length < 1) return reply("Pertanyaan apa");
         brien = args.join(" ");
         teks = '*「 _BRAINLY_ 」*'
         brainly(`${brien}`).then((res) => {
+    	console.log(res)
           for (let i = 0; i < res.length; i++) {
             teks += `\n\n*➸ Pertanyaan:* ${res.data[i].pertanyaan}\n*➸ Jawaban:* ${res.data[i].jawaban[0].text}\n\n`;
           }
@@ -6008,6 +6093,8 @@ case "brainly":
         case "ytdl":
         case "ythd":
         if (!q) return reply('Linknya?')
+        if (!isGroup) return reply(mess.only.group);
+
         anu = await allinone.dl(`${q}`)
         console.log(anu)
         menu =`*Judul :* ${anu.title}\n*Link :* ${q}\n*Duration :* ${anu.duration}\n`
@@ -6026,7 +6113,8 @@ case "brainly":
               Katashi.relayWAMessage(prep)
                 break
 case 'ytaudio':
-if (!q) return reply('Linknya?')
+if (!isGroup) return reply(mess.only.group);
+
                list = []
                listmenu = [`ytaudio-1 ${q}`,`ytaudio-2 ${q}`]
                listmenuu = [`YOUTUBE AUDIO [1]`,`YOUTUBE AUDIO [2]`]
@@ -6047,6 +6135,8 @@ if (!q) return reply('Linknya?')
                listmsg(from, `${ucapanWaktu}`,  `*Hallo Kak* ${pushname}\nSilahkan Pilih Formatnya!\nJangan spam Bot Ya Kasih Jeda 5detik`, list)
                break
 case 'ytvideo':
+if (!isGroup) return reply(mess.only.group);
+
                list = []
                listmenu = [`ytvideo-0 ${q}`,`ytvideo-1 ${q}`,`ytvideo-2 ${q}`,`ytvideo-3 ${q}`,`ytvideo-4 ${q}`]
                listmenuu = [`YOUTUBE VIDEO [140]`,`YOUTUBE VIDEO [240]`,`YOUTUBE VIDEO [320]`,`YOUTUBE VIDEO [480]`,`YOUTUBE VIDEO [720]`]
@@ -6068,6 +6158,8 @@ case 'ytvideo':
                break
 case 'ytaudio-1':              
 if (!q) return reply('Linknya?')
+if (!isGroup) return reply(mess.only.group);
+
                o = await allinone.dl(`${q}`)
                ot = '*「 YOUTUBE DOWNLOADER 」*'
                ot += `\n\n*Judul :* ${o.title}\n*Url :* ${q}\n*Quality :* ${o.medias[8].quality}\n*Extension :* ${o.medias[8].extension}\n*Size :* ${o.medias[8].formattedSize}\n*Duration :* ${o.duration}\n*Url Audio :* ${o.medias[8].url}\n`
@@ -6077,6 +6169,8 @@ if (!q) return reply('Linknya?')
                Katashi.sendMessage(from, auuuu, audio, {mimetype: 'audio/mp3', filename: `${o.title}.mp3`, quoted: mek})
                break
 case 'ytaudio-2':              
+if (!isGroup) return reply(mess.only.group);
+
 if (!q) return reply('Linknya?')
                o = await allinone.dl(`${q}`)
                ot = '*「 YOUTUBE DOWNLOADER 」*'
@@ -6087,6 +6181,8 @@ if (!q) return reply('Linknya?')
                Katashi.sendMessage(from, auuuu, audio, {mimetype: 'audio/3gp', filename: `${o.title}.mp3`, quoted: mek})
                break
 case 'ytvideo-0':              
+if (!isGroup) return reply(mess.only.group);
+
 if (!q) return reply('Linknya?')
                o = await allinone.dl(`${q}`)
                ot = '*「 YOUTUBE DOWNLOADER 」*'
@@ -6097,6 +6193,8 @@ if (!q) return reply('Linknya?')
                Katashi.sendMessage(from, videee, video, {quoted: mek})
                break
 case 'ytvideo-1':              
+if (!isGroup) return reply(mess.only.group);
+
 if (!q) return reply('Linknya?')
                o = await allinone.dl(`${q}`)
                ot = '*「 YOUTUBE DOWNLOADER 」*'
@@ -6107,6 +6205,8 @@ if (!q) return reply('Linknya?')
                Katashi.sendMessage(from, videee, video, {quoted: mek})
                break
 case 'ytvideo-2':              
+if (!isGroup) return reply(mess.only.group);
+
 if (!q) return reply('Linknya?')
                o = await allinone.dl(`${q}`)
                ot = '*「 YOUTUBE DOWNLOADER 」*'
@@ -6117,6 +6217,8 @@ if (!q) return reply('Linknya?')
                Katashi.sendMessage(from, videee, video, {quoted: mek})
                break
 case 'ytvideo-3':              
+if (!isGroup) return reply(mess.only.group);
+
 if (!q) return reply('Linknya?')
                o = await allinone.dl(`${q}`)
                ot = '*「 YOUTUBE DOWNLOADER 」*'
@@ -6127,6 +6229,8 @@ if (!q) return reply('Linknya?')
                Katashi.sendMessage(from, videee, video, {quoted: mek})
                break
 case 'ytvideo-4':              
+if (!isGroup) return reply(mess.only.group);
+
 if (!q) return reply('Linknya?')
                o = await allinone.dl(`${q}`)
                ot = '*「 YOUTUBE DOWNLOADER 」*'
@@ -6136,28 +6240,6 @@ if (!q) return reply('Linknya?')
                Katashi.sendMessage(from, buff, image, {quoted: mek, caption: ot})
                Katashi.sendMessage(from, videee, video, {quoted: mek})
                break
-               case "fb":
-        case "facebook":
-case "fbdownload":
-					        if (!isGroup) return reply(mess.only.group);
-if (args.length < 1) return reply("Nyari apa?");
-        query = args.join(" ");
-        teks = '*「 _FACEBOOK_  」*'
-        fbdl.getInfo(`${query}`).then((res) => {
-        	console.log(res);
-        });
-        break;
-        case "spamwa":
-        case "waspam":
-case "spamwhatsapp":
-					        if (!isGroup) return reply(mess.only.group);
-if (args.length < 1) return reply("Nyari apa?");
-        query = args.join(" ");
-        teks = '*「 _FACEBOOK_  」*'
-        spamwa.Spam(`${query}`).then((res) => {
-        	console.log(res);
-        });
-        break;
         case 'nightcore':            
       	  if (!isQuotedAudio) return reply('Reply Audionya')
 		  night = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
@@ -6173,20 +6255,6 @@ if (args.length < 1) return reply("Nyari apa?");
 
 		  })
 	      break
-case 'modesimi':
-          if (args.length < 1) return reply('hmm')
-          if (Number(args[0]) === 1) {
-          simin.push(from)
-          fs.writeFileSync('./database/simi.json', JSON.stringify(simin))
-          reply('Sukses mengaktifkan mode simi')
-          } else if (Number(args[0]) === 0) {
-          simin.splice(from, 1)
-          fs.writeFileSync('./database/simi.json', JSON.stringify(simin))
-          reply('Sukes menonaktifkan mode simi')
-          } else {
-          reply('1 untuk mengaktifkan, 0 untuk menonaktifkan')
-          }
-          break
 case 'nuliskiri':{
 									if (args.length < 1) return reply(`Kirim perintah *${prefix}nuliskiri* teks`)
 									reply(mess.wait)
@@ -6297,12 +6365,13 @@ case 'nuliskiri':{
 									break      
 									case 'ocr':
        if (!isGroup) return reply(mess.only.group);
+
                if ((isMedia && !mek.message.videoMessage || isQuotedImage || isQuotedVideo ) && args.length == 0) {
                reply(mess.wait)
                boij = isQuotedImage || isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
                owgi = await Katashi.downloadMediaMessage(boij)
                const conpig = {
-    lang: 'id',
+    lang: 'en',
     oem: 1,
     psm: 3,
 }
@@ -6361,6 +6430,7 @@ case 'nuliskiri':{
         case "joox2":
 case "jooxnew":
 					        if (!isGroup) return reply(mess.only.group);
+
 if (args.length < 1) return reply("Nyari apa?");
         query = args.join(" ");
         teks = '*「 _JOOX_  」*'
@@ -6425,6 +6495,7 @@ case 'mining':
 	      break	         
                     
                     case 'mancing':
+                    
           ikannya = ikan[Math.floor(Math.random() * ikan.length)]
 	      xp = Math.ceil(Math.random() * 350)          
 	      coin = randomNomor(50)	    
@@ -6472,17 +6543,126 @@ case 'get':
             console.log(bu)
             })   
             break
-case "moddroid":
-					        if (!isGroup) return reply(mess.only.group);
-if (args.length < 1) return reply("Nyari apa?");
-        query = args.join(" ");
-        teks = '*「 _JOOX_  」*'
-        todapi.moddroid(`${query}`).then((res) => {
-        	console.log(res);
-                    reply("Success")
-        });
-        break;
-      
+case 'zppyshare':
+case 'zippyshare':
+
+        if (!q) return reply('Linknya?')
+               list = []
+               listmenu = [`zvideo ${q}`,`zimage ${q}`,`zzip ${q}`]
+               listmenuu = [`Video`,`Image`,`Zip`]
+               nombor = 1
+               startnum = 0
+               for (let x of listmenu) {
+               const yy = {title: 'Menu ' + nombor++,
+                    rows: [
+                       {
+                        title: `${listmenuu[startnum++]}`,
+                        description: ``,
+                        rowId: `${prefix}${x}`
+                      }
+                    ]
+                   }
+                        list.push(yy)
+           }
+               listmsg(from, `${ucapanWaktu}`,  `*Hallo Kak* ${pushname}\nSilahkan Pilih Formatnya!\nJangan spam Bot Ya Kasih Jeda 5detik`, list)
+               break
+case "zppysharevideo":
+case "zvideo":
+if (!isGroup) return reply(mess.only.group);
+
+if (!isPremium) return reply(`Only Prem`)
+if (args.length == 0) return reply(`Example: ${prefix + command} Link Zippyshare`)
+                    query = args.join(" ")
+               o = await fetchJson(`https://api-katashi.herokuapp.com/docs/zippyshare?url=${query}&apikey=katashi`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web Zippyshare_')
+})
+              reply(mess.wait)
+               await sleep(5000)
+               console.log(o)
+               ot = '*「 ZIPPYSHARE VIDEO 」*'
+               ot += `\n\n*Judul :* ${o.name}\n*Upload Date :* ${o.upload_date}\n*url :* ${o.url}`
+
+               buff = await getBuffer(o.url)
+               Katashi.sendMessage(from, buff, video, {quoted: mek, caption: ot})
+               break
+case "zppyshareimage":
+case "zimage":
+if (!isGroup) return reply(mess.only.group);
+
+if (!isPremium) return reply(`Only Prem`)
+if (args.length == 0) return reply(`Example: ${prefix + command} Link Zippyshare`)
+                    query = args.join(" ")
+               o = await fetchJson(`https://api-katashi.herokuapp.com/docs/zippyshare?url=${query}&apikey=katashi`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web Zippyshare_')
+})
+              reply(mess.wait)
+               await sleep(5000)
+               console.log(o)
+               ot = '*「 ZIPPYSHARE IMAGE 」*'
+               ot += `\n\n*Judul :* ${o.name}\n*Upload Date :* ${o.upload_date}\n*url :* ${o.url}`
+
+               buff = await getBuffer(o.url)
+               Katashi.sendMessage(from, buff, image, {quoted: mek, caption: ot})
+               break
+case "zppysharezip":
+case "zzip":
+if (!isGroup) return reply(mess.only.group);
+if (!isPremium) return reply(`Only Prem`)
+if (args.length == 0) return reply(`Example: ${prefix + command} Link Zippyshare`)
+                    query = args.join(" ")
+               o = await fetchJson(`https://api-katashi.herokuapp.com/docs/zippyshare?url=${query}&apikey=katashi`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web Zippyshare_')
+})
+              reply(mess.wait)
+               await sleep(5000)
+               console.log(o)
+               ot = '*「 ZIPPYSHARE ZIP 」*'
+               ot += `\n\n*Judul :* ${o.name}\n*Upload Date :* ${o.upload_date}\n*url :* ${o.url}`
+
+               buff = await getBuffer(o.url)
+               Katashi.sendMessage(from, buff, document, {mimetype: zip, filename: o.name, quoted: mek})
+               break
+               case 'tourl2':
+       if (!isGroup) return reply(mess.only.group);
+               if ((isMedia && !mek.message.videoMessage || isQuotedImage || isQuotedVideo ) && args.length == 0) {
+               reply(mess.wait)
+               boij = isQuotedImage || isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
+               owgi = await Katashi.downloadMediaMessage(boij)
+               res = await client.uploadFile(owgi)
+               console.log(res)
+               reply(res)
+               } else {
+               reply('kirim/reply gambar/video')
+}
+               break
+case 'facebook':
+case 'fb':
+if (!isGroup) return reply(mess.only.group);
+if (args.length == 0) return reply(`Example: ${prefix + command} Link Zippyshare`)
+                    query = args.join(" ")
+               x = await fetchJson(`https://api-katashi.herokuapp.com/docs/all_sosmed_downloader?url=${query}&apikey=katashi`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web Zippyshare_')
+})
+               reply(mess.wait)
+               await sleep(1000)
+               console.log(x)
+               ot = '*「 Facebook downloader 」*'
+               hadeee = '*「 HD Quality 」*'
+               esdeeee = '*「 SD Quality 」*'
+               ot += `\n\n*Judul :* ${x.result.meta.title}\n*Id :* ${x.result.id}\n*Source :* ${x.result.meta.source}\n*Thumb :* ${x.result.thumb}\n*HD Url :* ${x.result.hd.url}\n*SD Url :* ${x.result.sd.url}\n`
+                        buff = await getBuffer(x.result.thumb)
+                        hadee = await getBuffer(x.result.hd.url)
+                        esdee = await getBuffer(x.result.sd.url)
+                        await sleep(5000)
+                        Katashi.sendMessage(from, buff, image, {quoted: mek, caption: ot})
+                        reply(mess.wait)
+                        await sleep(10000)
+                        Katashi.sendMessage(from, hadee, video, {quoted: mek, caption: hadeee})
+                        reply(mess.wait)
+                        await sleep(10000)
+                        Katashi.sendMessage(from, esdee, video, {quoted: mek, caption: esdeeee})
+
+
 default:
 if (isSimi && bodi != undefined){
           res = await axios.get(`https://api-sv2.simsimi.net/v2/?text=${bodi}&lc=id`)
