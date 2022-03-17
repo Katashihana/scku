@@ -6650,19 +6650,15 @@ if (args.length == 0) return reply(`Example: ${prefix + command} Link Zippyshare
                ot = '*「 Facebook downloader 」*'
                hadeee = '*「 HD Quality 」*'
                esdeeee = '*「 SD Quality 」*'
-               ot += `\n\n*Judul :* ${x.result.meta.title}\n*Id :* ${x.result.id}\n*Source :* ${x.result.meta.source}\n*Thumb :* ${x.result.thumb}\n*HD Url :* ${x.result.hd.url}\n*SD Url :* ${x.result.sd.url}\n`
+               ot += `\n\n*Judul :* ${x.result.meta.title}\n*Id :* ${x.result.id}\n*Source :* ${x.result.meta.source}\n*Thumb :* ${x.result.thumb}\n*Url :* ${x.result.url[0].url}\n`
                         buff = await getBuffer(x.result.thumb)
-                        hadee = await getBuffer(x.result.hd.url)
-                        esdee = await getBuffer(x.result.sd.url)
+                        hadee = await getBuffer(x.result.url[0].url)
                         await sleep(5000)
                         Katashi.sendMessage(from, buff, image, {quoted: mek, caption: ot})
                         reply(mess.wait)
                         await sleep(10000)
                         Katashi.sendMessage(from, hadee, video, {quoted: mek, caption: hadeee})
-                        reply(mess.wait)
-                        await sleep(10000)
-                        Katashi.sendMessage(from, esdee, video, {quoted: mek, caption: esdeeee})
-
+                        break
 
 default:
 if (isSimi && bodi != undefined){
