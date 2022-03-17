@@ -6637,6 +6637,7 @@ if (args.length == 0) return reply(`Example: ${prefix + command} Link Zippyshare
                break
 case 'facebook':
 case 'fb':
+if (!isPremium) return reply(`Only Prem`)
 if (!isGroup) return reply(mess.only.group);
 if (args.length == 0) return reply(`Example: ${prefix + command} Link Zippyshare`)
                     query = args.join(" ")
