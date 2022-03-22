@@ -49,6 +49,7 @@ const { UploadClient } = require('@uploadcare/upload-client');
 const client = new UploadClient({ publicKey: 'd11896206fec6a5bed52' })
 const anonfile = require('anonfile-lib');
 const malScraper = require('mal-scraper') 
+const usetube = require('usetube');
 /// Base D
 const { virtex, vipi } = require('./lib/virtex.js')
 const Mfake = fs.readFileSync ('./media/Katashi2.jpg')
@@ -93,9 +94,7 @@ const { getVideoUrl } = require('./lib/getVideoUrl.js');
 const { fbdownlod } = require('./lib/findUid.js');
 const myanime = require("./lib/mynime.js")
 const { top4top } = require('./lib/top4top.js')
-const { imgurl,
-	         imgfile,
-	         imgfile2 } = require('./lib/imgbb.js');
+const { tourl2 } = require('./lib/toUrl.js')
 
 
 var kuis = false
@@ -6427,18 +6426,6 @@ case 'nuliskiri':{
                     }, 12000)
                     }
                     break
-        case "joox2":
-case "jooxnew":
-					        if (!isGroup) return reply(mess.only.group);
-
-if (args.length < 1) return reply("Nyari apa?");
-        query = args.join(" ");
-        teks = '*「 _JOOX_  」*'
-        scpe.joox(`${query}`).then((res) => {
-        	console.log(res);
-                    reply("Success")
-        });
-        break;
         case 'adventure':
 	      ngab = ['Longsor','Letusan Gunung','Tsunami','Gempa Bumi','Meteor','Demon','Ketiban Kontol']
 	      const sesuatu = ngab[Math.floor(Math.random() * ngab.length)]
@@ -6628,9 +6615,8 @@ if (args.length == 0) return reply(`Example: ${prefix + command} Link Zippyshare
                reply(mess.wait)
                boij = isQuotedImage || isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
                owgi = await Katashi.downloadMediaMessage(boij)
-               res = await client.uploadFile(owgi)
+               res = await tourl2(owgi)
                console.log(res)
-               reply(res)
                } else {
                reply('kirim/reply gambar/video')
 }
@@ -6645,20 +6631,173 @@ if (args.length == 0) return reply(`Example: ${prefix + command} Link Zippyshare
             reply('_[ ! ] Error Gagal Dalam Memasuki Web Zippyshare_')
 })
                reply(mess.wait)
-               await sleep(1000)
                console.log(x)
                ot = '*「 Facebook downloader 」*'
                hadeee = '*「 HD Quality 」*'
-               esdeeee = '*「 SD Quality 」*'
                ot += `\n\n*Judul :* ${x.result.meta.title}\n*Id :* ${x.result.id}\n*Source :* ${x.result.meta.source}\n*Thumb :* ${x.result.thumb}\n*Url :* ${x.result.url[0].url}\n`
                         buff = await getBuffer(x.result.thumb)
                         hadee = await getBuffer(x.result.url[0].url)
-                        await sleep(5000)
                         Katashi.sendMessage(from, buff, image, {quoted: mek, caption: ot})
                         reply(mess.wait)
-                        await sleep(10000)
                         Katashi.sendMessage(from, hadee, video, {quoted: mek, caption: hadeee})
                         break
+case 'dosa1':   
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SEMOGA DI BERI HIDAYAH*\nLink Download \n\nhttps://www.mediafire.com/file/h2nygxbyb6n9cyo/VID-20210107-WA1468.mp4/file' })
+break
+case 'dosa2':  
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SEMOGA DI BERI HIDAYAH*\nLink Download \n\nhttps://www.mediafire.com/file/pk8hozohzdc076c/VID-20210107-WA1466.mp4/file' })
+break
+case 'dosa3':	  
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SEMOGA DI BERI HIDAYAH*\nLink Download \n\nhttps://www.mediafire.com/file/112q3u286tnvzjo/VID-20210107-WA1467.3gp/file' }) 
+break
+case 'dosa4':	  
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SEMOGA DI BERI HIDAYAH*\nLink Download \n\nhttps://www.mediafire.com/file/arpphhxsv94ak0r/VID-20210107-WA1462.mp4/file' })
+break
+case 'dosa5':	  
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SEMOGA DI BERI HIDAYAH*\nLink Download \n\nhttps://www.mediafire.com/file/us3f4j62emftbrf/VID-20210107-WA1463.mp4/file' })
+break
+case 'dosa6':	  
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SEMOGA DI BERI HIDAYAH*\nLink Download \n\nhttps://www.mediafire.com/file/v4033tkl16hgf2b/VID-20210107-WA1459.mp4/file' })
+break
+case 'dosa7':  
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SEMOGA DI BERI HIDAYAH*\nLink Download \n\nhttps://www.mediafire.com/file/3scnim6d1x4b8ie/VID-20210107-WA1461.mp4/file' })
+break
+case 'dosa8':	  
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SEMOGA DI BERI HIDAYAH*\nLink Download \n\nhttps://www.mediafire.com/file/dx9tklonu0eq36w/VID-20210107-WA1464.mp4/file' })
+break
+case 'dosa10':	  
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SEMOGA DI BERI HIDAYAH*\nLink Download \n\nhttps://www.mediafire.com/file/snwja297dv4zvtl/VID-20210107-WA0036.mp4/file' })
+break
+case 'dosa11':	  
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SEMOGA DI BERI HIDAYAH*\nLink Download \n\nhttps://www.mediafire.com/file/60dqek0mqhyt6rn/VID-20210107-WA1530.mp4/file' })
+break
+case 'dosa12':	  
+qute = fs.readFileSync('./media/Katashi3.jpg')
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SEMOGA DI BERI HIDAYAH*\nLink Download \n\nhttps://www.mediafire.com/file/ni2mcdknb6zn50t/VID-20210107-WA1532.mp4/file' })  
+break
+case 'dosa13':	  
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SEMOGA DI BERI HIDAYAH*\nLink Download \n\nhttps://www.mediafire.com/file/i9t96lrmd9lm71z/VID-20210107-WA1542.mp4/file' })
+break
+case 'dosa14':	  
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SEMOGA DI BERI HIDAYAH*\nLink Download \n\nhttps://www.mediafire.com/file/tjqdfmp8g08dt4e/VID-20210107-WA1536.mp4/file' })
+break
+case 'dosa15':  
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SEMOGA DI BERI HIDAYAH*\nLink Download \n\nhttps://www.mediafire.com/file/x034q0s16u9vyhy/VID-20210107-WA1537.mp4/file' })
+break
+case 'indo1':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/h2nygxbyb6n9cyo/VID-20210107-WA1468.mp4/file' })
+break
+case 'indo2':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/pk8hozohzdc076c/VID-20210107-WA1466.mp4/file' })
+break
+case 'indo3':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/112q3u286tnvzjo/VID-20210107-WA1467.3gp/file' }) 
+break
+case 'indo4':  
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/arpphhxsv94ak0r/VID-20210107-WA1462.mp4/file' })
+break
+case 'indo5':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/us3f4j62emftbrf/VID-20210107-WA1463.mp4/file' })
+break
+ case 'indo6':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/v4033tkl16hgf2b/VID-20210107-WA1459.mp4/file' })
+break
+ case 'indo7':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/3scnim6d1x4b8ie/VID-20210107-WA1461.mp4/file' })
+break
+  case 'indo8':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/dx9tklonu0eq36w/VID-20210107-WA1464.mp4/file' })
+break
+  case 'indo9':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/aipi6xisyppe751/VID-20210107-WA1465.mp4/file' })
+break
+  case 'indo10':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/snwja297dv4zvtl/VID-20210107-WA0036.mp4/file' })
+break
+  case 'indo11':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/60dqek0mqhyt6rn/VID-20210107-WA1530.mp4/file' })
+break
+  case 'indo12':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/ni2mcdknb6zn50t/VID-20210107-WA1532.mp4/file' })
+break
+case 'indo13':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/i9t96lrmd9lm71z/VID-20210107-WA1542.mp4/file' })
+break
+case 'indo14':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/tjqdfmp8g08dt4e/VID-20210107-WA1536.mp4/file' })
+break
+case 'indo15':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/x034q0s16u9vyhy/VID-20210107-WA1537.mp4/file' })
+break
+case 'indo16':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/mgmynqghjnon2q7/VID-20210107-WA1533.mp4/file' })
+break
+case 'indo17':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/ecly00at6adxs20/VID-20210107-WA1540.mp4/file' })
+break
+ case 'indo18':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/7qkn8nuog22jsco/VID-20210107-WA1534.mp4/file' })
+break
+case 'indo19':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/vza5uaben93dfdr/VID-20210107-WA1527.mp4/file' })
+break
+case 'indo20':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/l7uzd4v9p95wpeb/VID-20210107-WA1541.mp4/file' })
+break
+case 'indo21':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/icpnxsr18j6l2pp/VID-20210107-WA1528.mp4/file' })
+break
+case 'indo22':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/cscj9taoq5s5oj9/VID-20210107-WA1538.mp4/file' })
+break
+case 'indo23':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/saer161lthn4sy3/VID-20210107-WA1525.mp4/file' })
+break
+case 'indo24':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/9jy3nj2b2ljjzxb/VID-20210107-WA1539.mp4/file' })
+break
+case 'indo25':    
+qute = fs.readFileSync('./media/Katashi3.jpg') 
+Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/j3hxseqc3uoc1v7/VID-20210107-WA1526.mp4/file' })
+break 
+
 
 default:
 if (isSimi && bodi != undefined){
