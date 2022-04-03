@@ -50,6 +50,11 @@ const client = new UploadClient({ publicKey: 'd11896206fec6a5bed52' })
 const anonfile = require('anonfile-lib');
 const malScraper = require('mal-scraper') 
 const usetube = require('usetube');
+const oploverz = require('oploverz-scraper');
+const feedid = require('feedid');
+
+
+
 /// Base D
 const { virtex, vipi } = require('./lib/virtex.js')
 const Mfake = fs.readFileSync ('./media/Katashi2.jpg')
@@ -67,7 +72,7 @@ const { color, bgcolor } = require('./lib/color')
 const { mess, daftar } = require('./message/mess')
 const { Toxic } = require('./lib/Toxic.js')
 const { cmdadd } = require('./lib/totalcmd.js')
-const { uptotele, uploadFile, RESTfulAPI, uploadImages } = require('./lib/uploadimage')
+const { uptotele, uploadFile, RESTfulAPI, uploadImages, uploadzippy } = require('./lib/uploadimage')
 const { isGame, gameAdd, givegame, cekGLimit } = require("./lib/limit");
 const { onGoing, dadu, asupan } = require("./lib/otakudesu.js")
 const { mediafireDl } = require('./lib/mediafire.js')
@@ -6520,7 +6525,6 @@ case 'get':
             if(!q) return reply('linknya?')
             fetch(`${args[0]}`).then(res => res.text())  
             .then(bu =>{
-            fakestatus(bu)
             })   
             break
         case 'get3':
@@ -6528,6 +6532,7 @@ case 'get':
             fetch(`${args[0]}`).then(res => res.text())  
             .then(bu =>{
             console.log(bu)
+            reply(bu)
             })   
             break
 case 'zppyshare':
@@ -6609,34 +6614,42 @@ if (args.length == 0) return reply(`Example: ${prefix + command} Link Zippyshare
                buff = await getBuffer(o.url)
                Katashi.sendMessage(from, buff, document, {mimetype: zip, filename: o.name, quoted: mek})
                break
-               case 'tourl2':
-       if (!isGroup) return reply(mess.only.group);
-               if ((isMedia && !mek.message.videoMessage || isQuotedImage || isQuotedVideo ) && args.length == 0) {
-               reply(mess.wait)
-               boij = isQuotedImage || isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
-               owgi = await Katashi.downloadMediaMessage(boij)
-               res = await tourl2(owgi)
-               console.log(res)
-               } else {
-               reply('kirim/reply gambar/video')
-}
-               break
 case 'facebook':
 case 'fb':
 if (!isPremium) return reply(`Only Prem`)
 if (!isGroup) return reply(mess.only.group);
 if (args.length == 0) return reply(`Example: ${prefix + command} Link Zippyshare`)
                     query = args.join(" ")
-               x = await fetchJson(`https://api-katashi.herokuapp.com/docs/all_sosmed_downloader?url=${query}&apikey=katashi`).catch(e => {
-            reply('_[ ! ] Error Gagal Dalam Memasuki Web Zippyshare_')
+               x = await fetchJson(`https://yx-api.herokuapp.com/api/download/fb?url=${query}`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web Facebook_')
 })
                reply(mess.wait)
                console.log(x)
                ot = '*「 Facebook downloader 」*'
                hadeee = '*「 HD Quality 」*'
-               ot += `\n\n*Judul :* ${x.result.meta.title}\n*Id :* ${x.result.id}\n*Source :* ${x.result.meta.source}\n*Thumb :* ${x.result.thumb}\n*Url :* ${x.result.url[0].url}\n`
-                        buff = await getBuffer(x.result.thumb)
-                        hadee = await getBuffer(x.result.url[0].url)
+               ot += `\n\n*Judul :* ${x.message.result.hasil.title}\n*Source :* ${x.message.result.hasil.author}\n*Thumb :* ${x.message.result.hasil.thumb}\n*Url :* ${x.message.result.hasil.link_high}\n`
+                        buff = await getBuffer(x.message.result.hasil.thumb)
+                        hadee = await getBuffer(x.message.result.hasil.link_high)
+                        Katashi.sendMessage(from, buff, image, {quoted: mek, caption: ot})
+                        reply(mess.wait)
+                        Katashi.sendMessage(from, hadee, video, {quoted: mek, caption: hadeee})
+                        break
+case 'facebook2':
+case 'fb2':
+if (!isPremium) return reply(`Only Prem`)
+if (!isGroup) return reply(mess.only.group);
+if (args.length == 0) return reply(`Example: ${prefix + command} Link Zippyshare`)
+                    query = args.join(" ")
+               x = await fetchJson(`https://sekha.tech/api/downloader/facebook?url=${query}&apikey=apirey`).catch(e => {
+            reply('_[ ! ] Error Gagal Dalam Memasuki Web Facebook_')
+})
+               reply(mess.wait)
+               console.log(x)
+               ot = '*「 Facebook downloader 」*'
+               hadeee = '*「 HD Quality 」*'
+               ot += `\n\n*Judul :* ${x.message.result.hasil.title}\n*Source :* ${x.message.result.hasil.author}\n*Thumb :* ${x.message.result.hasil.thumb}\n*Url :* ${x.message.result.hasil.link_high}\n`
+                        buff = await getBuffer(x.message.result.hasil.thumb)
+                        hadee = await getBuffer(x.message.result.hasil.link_high)
                         Katashi.sendMessage(from, buff, image, {quoted: mek, caption: ot})
                         reply(mess.wait)
                         Katashi.sendMessage(from, hadee, video, {quoted: mek, caption: hadeee})
@@ -6797,6 +6810,26 @@ case 'indo25':
 qute = fs.readFileSync('./media/Katashi3.jpg') 
 Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/j3hxseqc3uoc1v7/VID-20210107-WA1526.mp4/file' })
 break 
+case "testnew":
+					        if (!isGroup) return reply(mess.only.group);
+if (args.length < 1) return reply("Nyari apa?");
+        query = args.join(" ");
+        oploverz.Search(`${query}`).then((ne) => {
+        	console.log(ne);
+        });
+        break;
+        case 'tourl2':
+       if (!isGroup) return reply(mess.only.group);
+               if ((isMedia && !mek.message.videoMessage || isQuotedImage || isQuotedVideo ) && args.length == 0) {
+               reply(mess.wait)
+               boij = isQuotedImage || isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
+               owgi = await Katashi.downloadMediaMessage(boij)
+               res = await uploadzippy(owgi)
+               console.log(res)
+               } else {
+               reply('kirim/reply gambar/video')
+}
+               break
 
 
 default:
@@ -6822,7 +6855,7 @@ Diantara @${gelutSkuy.Z} & @${gelutSkuy.Y}
 		fs.unlinkSync("./media/" + from + ".json");
 	} else if (sender == `${gelutSkuy.Y}@s.whatsapp.net` &&  budy.toLowerCase() == 'n') {
 		Katashi.sendMessage(from, `👑 Game Gelud Rejected 🤙🏻
-• @${gelutSkuy.Y} Menolak🤙🏻`, text, {quoted: troli, contextInfo: { mentionedJid: [gelutSkuy.Y + "@s.whatsapp.net"]}})
+• @${gelutSkuy.Y} Menolak??🏻`, text, {quoted: troli, contextInfo: { mentionedJid: [gelutSkuy.Y + "@s.whatsapp.net"]}})
 		fs.unlinkSync("./media/" + from + ".json");
 	}
 }
