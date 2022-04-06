@@ -100,6 +100,7 @@ const { fbdownlod } = require('./lib/findUid.js');
 const myanime = require("./lib/mynime.js")
 const { top4top } = require('./lib/top4top.js')
 const { tourl2 } = require('./lib/toUrl.js')
+const katashiapi = require("./lib/katashiapi.js")
 
 
 var kuis = false
@@ -6811,25 +6812,33 @@ qute = fs.readFileSync('./media/Katashi3.jpg')
 Katashi.sendMessage(from, qute, image, { quoted: mek, caption: '*SANGEAN AOWKWKO*\nDownload Sendiri Banh🗿\n\nhttps://www.mediafire.com/file/j3hxseqc3uoc1v7/VID-20210107-WA1526.mp4/file' })
 break 
 case "testnew":
-					        if (!isGroup) return reply(mess.only.group);
-if (args.length < 1) return reply("Nyari apa?");
-        query = args.join(" ");
-        oploverz.Search(`${query}`).then((ne) => {
-        	console.log(ne);
-        });
-        break;
-        case 'tourl2':
-       if (!isGroup) return reply(mess.only.group);
+if (!isGroup) return reply(mess.only.group);
                if ((isMedia && !mek.message.videoMessage || isQuotedImage || isQuotedVideo ) && args.length == 0) {
                reply(mess.wait)
                boij = isQuotedImage || isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
                owgi = await Katashi.downloadMediaMessage(boij)
-               res = await uploadzippy(owgi)
+               res = await katashiapi.top4top(owgi)
+               console.log(res)
+               data = await katashiapi.photofunimg('https://m.photofunia.com/categories/valentines_day/card-with-flowers', res.result)
+               console.log(data)
+               } else {
+               reply('kirim/reply gambar/video')
+}
+               break
+        case 'tourl3':
+       if (!isGroup) return reply(mess.only.group);
+
+               if ((isMedia && !mek.message.videoMessage || isQuotedImage || isQuotedVideo ) && args.length == 0) {
+               reply(mess.wait)
+               boij = isQuotedImage || isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
+               owgi = await Katashi.downloadMediaMessage(boij)
+               res = await katashiapi.top4top(owgi)
                console.log(res)
                } else {
                reply('kirim/reply gambar/video')
 }
                break
+        
 
 
 default:
