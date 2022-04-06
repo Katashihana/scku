@@ -6834,6 +6834,7 @@ if (!isGroup) return reply(mess.only.group);
                owgi = await Katashi.downloadMediaMessage(boij)
                res = await katashiapi.top4top(owgi)
                console.log(res)
+               reply(res.result)
                } else {
                reply('kirim/reply gambar/video')
 }
